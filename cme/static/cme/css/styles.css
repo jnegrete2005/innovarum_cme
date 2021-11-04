@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
+:root {
+  font-size: 16px;
+  font-family: "Open Sans";
+}
+
+body {
+  background-color: #eeedeb;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  width: 100%;
+  background-color: #253451;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+header img {
+  height: 5rem;
+  margin: 0.5rem 0rem 0.5rem 0rem;
+}
+
+main {
+  margin-top: 3rem;
+}
+
+#honeycomb {
+  display: grid;
+  grid-template-areas: "row-1" "row-2" "row-3";
+  align-items: center;
+  justify-items: center;
+}
+#honeycomb a {
+  text-decoration: none;
+}
+#honeycomb img {
+  width: 14rem;
+  transition: width 200ms ease;
+  transform: rotate(90deg);
+}
+#honeycomb img:hover {
+  width: 16rem;
+}
+
+.hexa-row {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  margin-bottom: 3rem;
+}
+@media only screen and (min-width: 768px) {
+  .hexa-row {
+    flex-direction: row;
+    gap: 0;
+    margin-bottom: 0;
+  }
+}/*# sourceMappingURL=styles.css.map */
