@@ -1,0 +1,43 @@
+{% extends "cme/layout.html" %} {% load static %}
+
+<!-- Title -->
+{% block title %}{{ module_name }}{% endblock title %}
+
+<!-- Main -->
+{% block main %}
+<div class="container">
+	<div id="title">
+		<h1>Escoge tu tipo de empresa</h1>
+		<h2>{{ module_name }}</h2>
+	</div>
+
+	<div class="card-wrapper">
+		<a href="{% url 'cme:survey' module_code 'comercial' %}" class="card">
+			<div class="card-image" style="background-image: url('../../static/cme/comercial.jpg')"></div>
+			<div class="card-text">
+				<h2>Comercial</h2>
+				<p>Para empresas de estilo comercial</p>
+			</div>
+		</a>
+
+		<a href="{% url 'cme:survey' module_code 'industria' %}" class="card">
+			<div class="card-image" style="background-image: url('../../static/cme/industria.jpg')"></div>
+			<div class="card-text">
+				<h2>Industria</h2>
+				<p>Para empresas de estilo industrial</p>
+			</div>
+		</a>
+
+		<a href="{% url 'cme:survey' module_code 'servicios' %}" class="card">
+			<div class="card-image" style="background-image: url('../../static/cme/servicios.jpg')"></div>
+			<div class="card-text">
+				<h2>Servicio</h2>
+				<p>Para empresas que den servicios</p>
+			</div>
+		</a>
+	</div>
+</div>
+{% endblock main %}
+
+<!-- CSS -->
+{% block css %} <link rel="stylesheet" href="{% static 'cme/css/block_2.css' %} " /> {% endblock css %}
