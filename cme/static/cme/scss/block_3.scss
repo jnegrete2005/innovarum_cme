@@ -1,0 +1,21 @@
+@import 'colors';
+@import 'media_queries';
+
+#container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+#title {
+	margin-top: 1rem;
+	text-align: center;
+
+	h1 {
+		margin: 0;
+	}
+
+	h2 {
+		margin: 0;
+	}
+}
