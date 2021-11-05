@@ -1,0 +1,52 @@
+@import 'colors';
+@import 'media_queries';
+
+/* Block 1 */
+#honeycomb {
+	display: grid;
+	gap: 0;
+	margin-top: 1rem;
+
+	grid-template-areas:
+		'row-1'
+		'row-2'
+		'row-3';
+
+	align-items: center;
+	justify-items: center;
+
+	a {
+		text-decoration: none;
+		width: 14rem;
+	}
+
+	img {
+		width: 14rem;
+		transition: 200ms ease;
+
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+}
+
+.hexa-row {
+	position: static;
+
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+	margin-bottom: 3rem;
+
+	@include md() {
+		flex-direction: row;
+		gap: 0;
+		margin-bottom: 0;
+
+		&:first-of-type {
+			margin-top: 0;
+		}
+
+		margin-top: -4.6rem;
+	}
+}

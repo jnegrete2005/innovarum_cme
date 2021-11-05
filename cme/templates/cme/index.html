@@ -1,54 +1,42 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta http-equiv="X-UA-Compatible" content="ie-edge" />
-		<meta name="description" content="Autoevaluación de coeficiente de madurez empresarial, hecho por Innovarum" />
-		<title>Innovarum CME</title>
+{% extends "cme/layout.html" %} {% load static %}
 
-		<link rel="stylesheet" type="text/css" href="{% static 'cme/css/styles.css' %}" />
-	</head>
-	<body>
-		<header>
-			<img src="{% static 'cme/icons/icons/innovarum_dark.jpeg' %}" alt="logo" />
-		</header>
-		<main>
-			<div id="honeycomb">
-				<!-- Row 1 of the honeycomb -->
-				<div id="row-1" class="hexa-row">
-					<a href="#">
-						<img src="{% static 'cme/icons/moo.svg' %}" alt="hexágono" />
-					</a>
-					<a href="#">
-						<img src="{% static 'cme/icons/msc.svg' %}" alt="hexágono" />
-					</a>
-				</div>
+<!-- Main -->
+{% block main %}
+<div id="honeycomb">
+	<!-- Row 1 of the honeycomb -->
+	<div id="row-1" class="hexa-row">
+		<a href="{% url 'cme:picker' 'moo' %}">
+			<img src="{% static 'cme/icons/moo.svg' %}" alt="hexágono" />
+		</a>
+		<a href="{% url 'cme:picker' 'msc' %}">
+			<img src="{% static 'cme/icons/msc.svg' %}" alt="hexágono" />
+		</a>
+	</div>
 
-				<!-- Row 2 of the honeycomb -->
-				<div id="row-2" class="hexa-row">
-					<a href="#">
-						<img src="{% static 'cme/icons/mpc.svg' %}" alt="hexágono" />
-					</a>
-					<a href="#">
-						<img src="{% static 'cme/icons/mve.svg' %}" alt="hexágono" />
-					</a>
-					<a href="#">
-						<img src="{% static 'cme/icons/mfe.svg' %}" alt="hexágono" />
-					</a>
-				</div>
+	<!-- Row 2 of the honeycomb -->
+	<div id="row-2" class="hexa-row">
+		<a href="{% url 'cme:picker' 'mpc' %}">
+			<img src="{% static 'cme/icons/mpc.svg' %}" alt="hexágono" />
+		</a>
+		<a href="{% url 'cme:picker' 'mve' %}">
+			<img src="{% static 'cme/icons/mve.svg' %}" alt="hexágono" />
+		</a>
+		<a href="{% url 'cme:picker' 'mfe' %}">
+			<img src="{% static 'cme/icons/mfe.svg' %}" alt="hexágono" />
+		</a>
+	</div>
 
-				<!-- Row 3 of the honeycomb -->
-				<div id="row-3" class="hexa-row">
-					<a href="#">
-						<img src="{% static 'cme/icons/mcp.svg' %}" alt="hexágono" />
-					</a>
-					<a href="#">
-						<img src="{% static 'cme/icons/moc.svg' %}" alt="hexágono" />
-					</a>
-				</div>
-			</div>
-		</main>
-	</body>
-</html>
+	<!-- Row 3 of the honeycomb -->
+	<div id="row-3" class="hexa-row">
+		<a href="{% url 'cme:picker' 'mcp' %}">
+			<img src="{% static 'cme/icons/mcp.svg' %}" alt="hexágono" />
+		</a>
+		<a href="{% url 'cme:picker' 'moc' %}">
+			<img src="{% static 'cme/icons/moc.svg' %}" alt="hexágono" />
+		</a>
+	</div>
+</div>
+{% endblock main %}
+
+<!-- CSS -->
+{% block css %} <link rel="stylesheet" href="{% static 'cme/css/block_1.css' %}" /> {% endblock css %}
