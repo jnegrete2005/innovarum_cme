@@ -7,33 +7,38 @@
   align-items: center;
   justify-items: center;
 }
-#honeycomb a {
-  text-decoration: none;
-  width: 14rem;
-}
-#honeycomb img {
-  width: 14rem;
-  transition: 200ms ease;
-}
-#honeycomb img:hover {
-  transform: scale(1.1);
-}
-
-.hexa-row {
+#honeycomb .hexa-row {
   position: static;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  margin-bottom: 3rem;
+  -moz-column-gap: 4rem;
+       column-gap: 4rem;
 }
 @media only screen and (min-width: 768px) {
-  .hexa-row {
+  #honeycomb .hexa-row {
     flex-direction: row;
     gap: 0;
     margin-bottom: 0;
-    margin-top: -4.6rem;
+    margin-top: -4rem;
   }
-  .hexa-row:first-of-type {
+  #honeycomb .hexa-row:first-of-type {
     margin-top: 0;
   }
+}
+#honeycomb .hexa-row a {
+  text-decoration: none;
+  width: 14rem;
+}
+@media only screen and (min-width: 768px) {
+  #honeycomb .hexa-row a {
+    margin-right: 0.35rem;
+    margin-left: 0.35rem;
+  }
+}
+#honeycomb .hexa-row a img {
+  width: 14rem;
+  transition: 200ms ease;
+}
+#honeycomb .hexa-row a img:hover {
+  transform: scale(1.1);
 }/*# sourceMappingURL=block_1.css.map */
