@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Module, Type, Survey, Question
+from .models import Module, Type, Survey, Block, Question
 
 # Register your models here.
 @admin.register(Module)
@@ -15,6 +15,10 @@ class TypeAdmin(admin.ModelAdmin):
 class SurveyAdmin(admin.ModelAdmin):
 	list_display = ['id', 'module', 'type']
 
+@admin.register(Block)
+class BlockAdmin(admin.ModelAdmin):
+	list_display = ['id', 'name', 'survey']
+
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-	list_display = ['id', 'survey', 'text', 'score']
+	list_display = ['id', 'text', 'block', 'score']
