@@ -74,5 +74,4 @@ class Question(models.Model):
 		return f'Pregunta: {self.text}\nPuntuación: {self.score}\n{self.survey}'
 
 
-# TODO
-# Create Bussines and BussineScore models 
+# TODO: Create Bussines and BussineScore models
