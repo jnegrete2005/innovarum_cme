@@ -1,11 +1,59 @@
 {% extends 'cme/layout.html' %} {% load static %}
 
 <!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'cme/css/block_3.css' %}" />
+{% endblock css %}
+
+<!-- JS -->
+{% block js %}
+<script src="{% static 'cme/js/score.js' %}"></script>
+{% endblock js %}
 
 <!-- Main -->
 {% block main %}
-<div id="title">
-	<h1>{{ module_name }}</h1>
-	<h2>{{ type }}</h2>
+<div id="container">
+	<!-- Survey -->
+	<form id="survey" action="{% url 'cme:survey' survey.module survey.type %}" method="post">
+		<!-- Title for the survey -->
+		<div id="title">
+			<h1>{{ module_name }}</h1>
+			<h2>Sector {{ type }}</h2>
+		</div>
+
+		<!-- Blocks -->
+		<ol id="blocks">
+			{% for block in survey.blocks.all %}
+			<div class="block-group">
+				<div class="block-header">
+					<li class="block-title">{{ block.name }}</li>
+					<div class="yes-no">
+						<span>&#160;&#160;No</span>
+						<span>&#160;Si</span>
+					</div>
+				</div>
+
+				<ol class="question-group">
+					{% for question in block.questions.all %}
+					<div class="question">
+						<li class="question-text">{{ question }}</li>
+						<div class="yes-no">
+							<input type="radio" name="{{ question.id }}" class="no radio" required />
+							<input type="radio" name="{{ question.id }}" class="si radio" required />
+						</div>
+					</div>
+					{% endfor %}
+
+					<strong>Calificación: <span class="score">0</span> pts.</strong>
+				</ol>
+			</div>
+			{% endfor %}
+		</ol>
+
+		<!-- Submit form -->
+		<div id="submit">
+			<input type="submit" value="Enviar formulario" />
+		</div>
+	</form>
 </div>
 {% endblock main %}
