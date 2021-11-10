@@ -21,4 +21,4 @@ class BlockAdmin(admin.ModelAdmin):
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
-	list_display = ['id', 'text', 'block', 'score']
+	list_display = ['id', 'text', 'block']

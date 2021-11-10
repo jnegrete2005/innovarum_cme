@@ -28,8 +28,7 @@ class Survey(models.Model):
 	"""
 	This model represent a survey.
 	Each survey will have a module and a type to filter each.
-	Each survey will also have questions and answers, with a
-	final score.
+	Each survey will also have questions and answers.
 	"""
 	module = models.ForeignKey(Module, models.PROTECT, related_name='surveys')
 	type = models.ForeignKey(Type, models.PROTECT, related_name='surveys')
@@ -37,16 +36,16 @@ class Survey(models.Model):
 	def __str__(self) -> str:
 		return f'{self.module} - {self.type.type.capitalize()}'
 
-	def get_score(self):
-		"""
-		Will get the final score for the survey, collecting the
-		punctuation from all the `Blocks`
-		"""
-		score = 0
-		for block in self.blocks.all():
-			score += block.get_score()
+	# def get_score(self):
+	# 	"""
+	# 	Will get the final score for the survey, collecting the
+	# 	punctuation from all the `Blocks`
+	# 	"""
+	# 	score = 0
+	# 	for block in self.blocks.all():
+	# 		score += block.get_score()
 
-		return score
+	# 	return score
 
 
 class Block(models.Model):
@@ -54,21 +53,20 @@ class Block(models.Model):
 	This will group 5 questions, and then it will go to `Survey`.
 	It will have a `name`, representing the category for the 5 questions,
 	and the `survey` it belongs to.
-	Get score will get the score of the 5 questions.
 	"""
 	survey = models.ForeignKey(Survey, models.PROTECT, related_name='blocks')
 	name = models.CharField(max_length=300)
 
 	def __str__(self) -> str:
-		return f'{self.name}\n{self.survey}'
+		return f'{self.name}'
 
-	def get_score(self):
-		""" Get the score of the 5 questions. """
-		score = 0
-		for question in self.questions.all():
-			score = question.score
+	# def get_score(self):
+	# 	""" Get the score of the 5 questions. """
+	# 	score = 0
+	# 	for question in self.questions.all():
+	# 		score = question.score
 
-		return score
+	# 	return score
 
 
 class YesOrNo(models.IntegerChoices):
@@ -89,8 +87,8 @@ class Question(models.Model):
 	be equal to 0.
 	"""
 	block = models.ForeignKey(Block, models.PROTECT, related_name='questions')
-	text = models.CharField(max_length=400, unique=True)
-	score = models.SmallIntegerField(default=YesOrNo.UNDEFINED, choices=YesOrNo.choices)
+	text = models.CharField(max_length=400)
+	# score = models.SmallIntegerField(default=YesOrNo.UNDEFINED, choices=YesOrNo.choices)
 
 	def __str__(self) -> str:
 		return f'{self.text}'
