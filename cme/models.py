@@ -1,5 +1,7 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.postgres.fields import ArrayField
 
 # Create your models here.
 class Module(models.Model):
@@ -36,17 +38,6 @@ class Survey(models.Model):
 	def __str__(self) -> str:
 		return f'{self.module} - {self.type.type.capitalize()}'
 
-	# def get_score(self):
-	# 	"""
-	# 	Will get the final score for the survey, collecting the
-	# 	punctuation from all the `Blocks`
-	# 	"""
-	# 	score = 0
-	# 	for block in self.blocks.all():
-	# 		score += block.get_score()
-
-	# 	return score
-
 
 class Block(models.Model):
 	"""
@@ -59,14 +50,6 @@ class Block(models.Model):
 
 	def __str__(self) -> str:
 		return f'{self.name}'
-
-	# def get_score(self):
-	# 	""" Get the score of the 5 questions. """
-	# 	score = 0
-	# 	for question in self.questions.all():
-	# 		score = question.score
-
-	# 	return score
 
 
 class YesOrNo(models.IntegerChoices):
@@ -88,18 +71,75 @@ class Question(models.Model):
 	"""
 	block = models.ForeignKey(Block, models.PROTECT, related_name='questions')
 	text = models.CharField(max_length=400)
-	# score = models.SmallIntegerField(default=YesOrNo.UNDEFINED, choices=YesOrNo.choices)
 
 	def __str__(self) -> str:
 		return f'{self.text}'
 
 
-# class Bussines(AbstractBaseUser, PermissionsMixin):
-# 	"""
-# 	This model is a custom user model that represent a bussiness
-# 	"""
-# 	email = models.EmailField(unique=True)
-# 	first = models.CharField(max_length=150)
-# 	last = models.CharField(max_length=150)
-# 	is_staff = models.BooleanField(default=False)
-# 	is_active = models.BooleanField(default=True) # TODO: make it false.
+# Side B
+class CustomAccountManager(BaseUserManager):
+	def create_user(self, email, first, last, role, password, **other_fields):
+		if not email:
+			raise ValueError('You must provide an email address')
+
+		user: Bussines = self.model(
+			email=self.normalize_email(email),
+			first=first,
+			last=last,
+			role=role,
+			**other_fields
+		)
+		user.set_password(password)
+		user.save(using=self._db)
+
+		return user
+
+	def create_superuser(self, email, first, last, role, password, **other_fields):
+		other_fields.setdefault('is_superuser', True)
+		other_fields.setdefault('is_staff', True)
+		other_fields.setdefault('is_active', True)
+
+		if other_fields.get('is_superuser') is not True:
+			raise ValueError('Superuser must be assigned to is_superuser=True.')
+		if other_fields.get('is_staff') is not True:
+			raise ValueError('Superuser must be assigned to is_staff=True.')
+		if other_fields.get('is_active') is not True:
+			raise ValueError('Superuser must be assigned to is_active=True.')
+
+		return self.create_user(email, first, last, role, password, **other_fields)
+
+
+class Bussines(AbstractBaseUser, PermissionsMixin):
+	"""
+	This model is a custom user model that represent a bussiness
+	"""
+	email = models.EmailField(unique=True)
+	first = models.CharField(max_length=150)
+	last = models.CharField(max_length=150)
+	is_staff = models.BooleanField(default=False)
+	is_active = models.BooleanField(default=True)
+	role = models.CharField(max_length=300)
+
+	USERNAME_FIELD = 'email'
+	REQUIRED_FIELDS = ['first', 'last', 'role']
+
+	objects = CustomAccountManager()
+
+	def __str__(self) -> str:
+		return self.first + ' ' + self.last
+
+
+class Score(models.Model):
+	"""
+	This will represent a score for a user
+	"""
+	score = ArrayField(models.PositiveSmallIntegerField())
+	bussines = models.ForeignKey(Bussines, on_delete=models.CASCADE, related_name='scores')
+	survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='scores')
+	date: datetime = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self) -> str:
+		return str(self.score)
+
+	def get_score(self) -> int:
+		return sum(self.score)

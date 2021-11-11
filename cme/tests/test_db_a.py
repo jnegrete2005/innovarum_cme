@@ -1,43 +1,47 @@
 from django.test import TestCase
 from django.db.utils import IntegrityError
 
-from ..models import Module, Type, Survey, Question, YesOrNo
+from ..models import Module, Type, Survey, Block, Question
 
 # Create your tests here.
 class SurveyTestCase(TestCase):
 	def setUp(self) -> None:
-		# Modules
-		module: Module = Module.objects.create(
+		# Module
+		module = Module.objects.create(
 			name='Módulo de Optimización Operacional',
 			code='moo'
 		)
 
-		# Types
-		type: Type = Type.objects.create(type='industrial')
+		# Type
+		type = Type.objects.create(type='industrial')
 
-		# Surveys
+		# Survey
 		survey = Survey.objects.create(module=module, type=type)
+
+		# Block
+		block = Block.objects.create(
+			survey=survey,
+			name='Bloque de Comida Rapida'
+		)
 
 		# Questions
 		questions: Question = [
 			Question.objects.create(
-				survey=survey,
+				block=block,
 				text='Te gusta McDonalds?',
-				score=YesOrNo.YES
 			),
 			Question.objects.create(
-				survey=survey,
+				block=block,
 				text='Te gusta Burger King?',
-				score=YesOrNo.NO
 			),
 			Question.objects.create(
-				survey=survey,
+				block=block,
 				text='16?',
-				score=YesOrNo.YES
 			)
 		]
 
 	def test_module(self):
+		""" Test Module class """
 		Module.objects.get(code='moo')
 		Module.objects.create(name='Módulo de Productividad Comercial', code='mpc')
 
@@ -52,6 +56,7 @@ class SurveyTestCase(TestCase):
 
 
 	def test_type(self):
+		""" Test Type class """
 		Type.objects.get(type='industrial')
 		Type.objects.create(type='comercial')
 
@@ -64,21 +69,35 @@ class SurveyTestCase(TestCase):
 			Type.objects.create(type=None)
 	
 	def test_survey(self):
+		""" Test Survey class """
 		survey = Survey.objects.first()
 		self.assertEqual(survey.module.code, 'moo')
 		self.assertEqual(survey.type.type, 'industrial')
 
 		self.assertEqual(
-			survey.questions.first(),
-			Question.objects.first()
+			survey.blocks.first(),
+			Block.objects.first()
 		)
 
 		with self.assertRaises(IntegrityError):
 			Survey.objects.create(module=None)
 
-	def test_question(self):
-		question = Question.objects.first()
-		self.assertEqual(question.survey, Survey.objects.first())
+	
+	# TODO: Test block
+	def test_block(self):
+		""" Test Block class """
+		block = Block.objects.first()
+		self.assertEqual(block.name, 'Bloque de Comida Rapida')
+		self.assertEqual(block.survey, Survey.objects.first())
 
 		with self.assertRaises(IntegrityError):
-			Question.objects.create(survey=None)
+			Block.objects.create(survey=None)
+
+
+	def test_question(self):
+		""" Test Question class """
+		question = Question.objects.first()
+		self.assertEqual(question.block, Block.objects.first())
+
+		with self.assertRaises(IntegrityError):
+			Question.objects.create(block=None)
