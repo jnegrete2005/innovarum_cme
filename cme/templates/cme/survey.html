@@ -1,5 +1,8 @@
 {% extends 'cme/layout.html' %} {% load static %}
 
+<!-- Title -->
+{% block title %}{{ survey }}{% endblock title %}
+
 <!-- CSS -->
 {% block css %}
 <link rel="stylesheet" href="{% static 'cme/css/block_3.css' %}" />
@@ -14,7 +17,8 @@
 {% block main %}
 <div id="container">
 	<!-- Survey -->
-	<form id="survey" action="{% url 'cme:survey' survey.module survey.type %}" method="post">
+	<form id="survey" action="{% url 'cme:survey' survey.module.code survey.type %}" method="POST">
+		{% csrf_token %}
 		<!-- Title for the survey -->
 		<div id="title">
 			<h1>{{ module_name }}</h1>

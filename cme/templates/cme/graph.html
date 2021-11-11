@@ -1,0 +1,35 @@
+{% extends "cme/layout.html" %} {% load static %}
+
+<!-- Title -->
+{% block title %}Gráfico{% endblock title %}
+
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'cme/css/block_4.css' %}" />
+{% endblock css %}
+
+<!-- JS -->
+{% block js %}
+<script src="{% static 'cme/js/graph.js' %}"></script>
+{% endblock js %}
+
+<!-- Main -->
+{% block main %}
+<div id="container">
+	<h1>Resultados</h1>
+	<div id="score-summary">
+		<ol>
+			{% for block in survey.blocks.all %}
+			<div class="block">
+				<li>{{ block }}:</li>
+				<span><span class="block-score"></span>/20</span>
+			</div>
+			{% endfor %}
+			<div id="final-container">
+				<span></span>
+				<h2 id="final-h2"><span id="final-score"></span>/100</h2>
+			</div>
+		</ol>
+	</div>
+</div>
+{% endblock main %}

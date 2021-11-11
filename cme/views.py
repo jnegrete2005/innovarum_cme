@@ -1,5 +1,7 @@
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponseNotAllowed, HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
+from django.core.handlers.wsgi import WSGIRequest
 
 from .models import Module, Survey, Type
 
@@ -37,6 +39,12 @@ def survey(request, module: str, type: str):
 	The survey view. (Block 3)
 	Requires the module you are evaluating in and the bussiness type.
 	"""
+	if request.method == 'POST':
+		return HttpResponseRedirect(reverse('cme:graph', kwargs={
+			'module': module,
+			'type': type
+		}))
+
 	# Validate module
 	try:
 		module = module.lower()
@@ -60,4 +68,16 @@ def survey(request, module: str, type: str):
 		'module_name': module_name,
 		'type': type_text.capitalize(),
 		'survey': survey,
+	})
+
+def graph(request: WSGIRequest, module: str, type: str):
+	"""
+	The graph view. (Block 4)
+	Only will allow if you where redirected.
+	"""
+	return render(request, 'cme/graph.html', { 
+		'survey': Survey.objects.get(
+			module=Module.objects.get(code=module),
+			type=Type.objects.get(type=type)
+		) 
 	})

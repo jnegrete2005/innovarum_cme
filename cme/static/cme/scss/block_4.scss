@@ -1,0 +1,65 @@
+@import 'colors';
+@import 'media_queries';
+
+#container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0.5rem;
+
+	@include md() {
+		padding: 1rem;
+	}
+
+	@include lg() {
+		padding: 2rem 5rem;
+	}
+
+	h1,
+	h2 {
+		margin-top: 0;
+	}
+
+	h1 {
+		text-align: center;
+	}
+
+	#score-summary {
+		border: 1px solid $contrast;
+		border-radius: 1rem;
+
+		padding: 1rem 2rem;
+		margin-bottom: 1rem;
+
+		width: auto;
+		margin: auto;
+
+		@include md() {
+			width: 80%;
+		}
+
+		ol {
+			padding-inline-start: 1.5rem;
+			margin: 0;
+
+			.block {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+
+				font-size: 1.5em;
+				margin-bottom: 1rem;
+			}
+		}
+
+		#final-container {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+		}
+	}
+}
+
+#final-h2 {
+	margin-bottom: 0;
+}
