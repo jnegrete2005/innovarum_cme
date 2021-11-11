@@ -1,1 +1,3 @@
-web: gunicorn innovarum_cme.wsgi
+web: gunicorn innovarum_cme.wsgi:application --log-file - --log-level debug
+python manage.py collectstatic --noinput
+manage.py migrate
