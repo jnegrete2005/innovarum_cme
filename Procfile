@@ -1,1 +1,1 @@
-web: gunicorn innovarum_cme.wsgi --log-file
+web: gunicorn innovarum_cme.wsgi
