@@ -1,7 +1,8 @@
-from django.http.response import Http404, HttpResponseNotAllowed, HttpResponseRedirect
-from django.shortcuts import render
+from django.http.response import Http404, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseRedirect
+from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.core.handlers.wsgi import WSGIRequest
+from django.contrib.auth import authenticate, login, logout
 
 from .models import Module, Survey, Type
 
@@ -81,3 +82,34 @@ def graph(request: WSGIRequest, module: str, type: str):
 			type=Type.objects.get(type=type)
 		) 
 	})
+
+# Log in and out views here
+def login(request: WSGIRequest):
+	# User attempted to login
+	if request.method == 'POST':
+		# Attempt to sign user in
+		email = request.POST['email']
+		password = request.POST['password']
+
+		user = authenticate(request, email=email, password=password)
+
+		# Check if authentication is successful
+		if user != None:
+			login(request, user)
+			return HttpResponseRedirect(reverse('cme:index'))
+		else:
+			return render(request, 'cme/login.html', {
+				'message': 'Email o contraseña inválidos'
+			})
+	
+	# User just entered the page
+	elif request.method == 'GET':
+		return render(request, 'cme/login.html')
+
+	# Bad request
+	else:
+		return HttpResponseBadRequest()
+
+def logout(request):
+	logout(request)
+	return HttpResponseRedirect(reverse('cme:index'))
