@@ -1,6 +1,6 @@
 $background: #ece4e4;
 $main: #253451;
 $contrast: #f07820;
-$contrast-darken: #dd6713;
+$contrast-darken: darken($contrast, 5%);
 $secundary: #515054;
 $text: #000000;

@@ -79,26 +79,4 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 1em;
-}
-#container #survey #submit input {
-  display: inline-block;
-  outline: none;
-  cursor: pointer;
-  border-radius: 500px;
-  transition-property: background-color, border-color, color, box-shadow, filter;
-  transition-duration: 0.3s;
-  border: 1px solid transparent;
-  letter-spacing: 1px;
-  min-width: 160px;
-  text-transform: uppercase;
-  white-space: normal;
-  font-weight: 700;
-  text-align: center;
-  padding: 16px 14px 18px;
-  color: #fff;
-  background-color: #f07820;
-  height: 48px;
-}
-#container #survey #submit input:hover {
-  background-color: #dd6713;
 }/*# sourceMappingURL=block_3.css.map */

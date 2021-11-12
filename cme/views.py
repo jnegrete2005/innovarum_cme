@@ -1,5 +1,5 @@
 from django.http.response import Http404, HttpResponseBadRequest, HttpResponseNotAllowed, HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse
 from django.core.handlers.wsgi import WSGIRequest
 from django.contrib.auth import authenticate, login, logout
@@ -84,7 +84,7 @@ def graph(request: WSGIRequest, module: str, type: str):
 	})
 
 # Log in and out views here
-def login(request: WSGIRequest):
+def login_view(request: WSGIRequest):
 	# User attempted to login
 	if request.method == 'POST':
 		# Attempt to sign user in
@@ -110,6 +110,6 @@ def login(request: WSGIRequest):
 	else:
 		return HttpResponseBadRequest()
 
-def logout(request):
+def logout_view(request):
 	logout(request)
 	return HttpResponseRedirect(reverse('cme:index'))

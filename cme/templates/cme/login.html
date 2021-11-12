@@ -1,0 +1,30 @@
+{% extends 'cme/layout.html' %} {% load static %}
+
+<!-- Title -->
+{% block title %}Inicia Sesión{% endblock title %}
+
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'cme/css/login.css' %}" />
+{% endblock css %}
+
+<!-- Main -->
+{% block main %}
+<div id="container">
+	<h1>Iniciar Sesión para acceder al CME</h1>
+	<form action="{% url 'cme:login' %}" method="post" id="login">
+		{% csrf_token %}
+		<div class="form_group field">
+			<input class="form_field" type="email" name="email" placeholder="Email" id="emailInput" required />
+			<label class="form_label" for="emailInput">Email</label>
+		</div>
+		<div class="form_group field">
+			<input class="form_field" type="password" name="password" placeholder="Contraseña" id="passwordInput" required />
+			<label class="form_label" for="passwordInput">Contraseña</label>
+		</div>
+		<div>
+			<input type="submit" value="Iniciar Sesión" class="btn-contrast" />
+		</div>
+	</form>
+</div>
+{% endblock main %}
