@@ -52,15 +52,6 @@ class Block(models.Model):
 		return f'{self.name}'
 
 
-class YesOrNo(models.IntegerChoices):
-	"""
-	Represent the posible answers with the punctuation.
-	"""
-	YES = 4, 'Si'
-	NO = 0, 'No'
-	UNDEFINED = -1, 'Indefinido'
-
-
 class Question(models.Model):
 	"""
 	This model represents a question. It will have the question
