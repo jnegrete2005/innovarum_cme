@@ -43,8 +43,8 @@
 					<div class="question">
 						<li class="question-text">{{ question }}</li>
 						<div class="yes-no">
-							<input type="radio" name="{{ question.id }}" class="no radio" />
-							<input type="radio" name="{{ question.id }}" class="si radio" />
+							<input type="radio" name="{{ question.id }}" class="no radio" required aria-required="true" />
+							<input type="radio" name="{{ question.id }}" class="si radio" required aria-required="true" />
 						</div>
 					</div>
 					{% endfor %}
