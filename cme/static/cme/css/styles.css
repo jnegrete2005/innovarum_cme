@@ -59,6 +59,10 @@ header {
   color: #fff;
   background-color: #f07820;
   height: 48px;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+  text-decoration: none;
 }
 .btn-contrast:hover {
   background-color: #e76b10;

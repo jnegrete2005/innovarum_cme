@@ -64,6 +64,12 @@ header {
 	background-color: $contrast;
 	height: 48px;
 
+	-webkit-appearance: button;
+	-moz-appearance: button;
+	appearance: button;
+
+	text-decoration: none;
+
 	&:hover {
 		background-color: $contrast-darken;
 	}

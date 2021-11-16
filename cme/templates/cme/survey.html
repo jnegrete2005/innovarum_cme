@@ -11,8 +11,8 @@
 
 <!-- JS -->
 {% block js %}
-<script src="{% static 'cme/js/score.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'cme/js/score.js' %}"></script>
 {% endblock js %}
 
 <!-- Main -->
@@ -70,8 +70,12 @@
 
 		<!-- Graph -->
 		<div id="graph-container">
-			<canvas id="graph" width="10rem" height="10rem"></canvas>
+			<canvas id="graph"></canvas>
 		</div>
+
+		<form id="next" action="#">
+			<input type="submit" class="btn-contrast" value="Continuar" />
+		</form>
 	</div>
 </div>
 {% endblock main %}

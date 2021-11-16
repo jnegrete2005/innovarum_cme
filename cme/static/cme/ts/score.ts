@@ -91,7 +91,7 @@ function saveScores(event: Event) {
 			const s2 = document.createElement('span');
 			s2.id = 'final-score';
 			s2.innerHTML = data.overall.toString();
-			h.append(s2, '/100');
+			h.append('Tu calificación: ', s2, '/100');
 
 			// Add all
 			div.append(s1, h);
@@ -133,7 +133,7 @@ function createGraph(scores: Array<number>, blocks: Array<string>, date: string,
 
 	let labels = [];
 	blocks.forEach((b, i) => {
-		labels.push(`Bloque ${i}`);
+		labels.push(`Bloque ${i + 1}`);
 	});
 
 	const data = {
@@ -165,8 +165,14 @@ function createGraph(scores: Array<number>, blocks: Array<string>, date: string,
 			},
 			scales: {
 				r: {
-					suggestedMin: 0,
-					suggestedMax: 20,
+					min: 0,
+					max: 20,
+					ticks: { stepSize: 4 },
+					pointLabels: {
+						font: {
+							size: 14,
+						},
+					},
 				},
 			},
 		},

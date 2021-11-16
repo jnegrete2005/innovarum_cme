@@ -1,0 +1,54 @@
+{% extends 'cme/layout.html' %}
+
+<!-- Static -->
+{% load static %}
+
+<!-- Range -->
+{% load range %}
+
+<!-- Title -->
+{% block title %} Gráfico {% endblock title %}
+
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'cme/css/block_4.css' %}" />
+{% endblock css %}
+
+<!-- JS -->
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{% static 'cme/js/graph.js' %}"></script>
+{% endblock js %}
+
+<!-- Main -->
+{% block main %}
+<div id="container">
+	<span id="date" style="display: none">{{ date }}</span>
+	<!-- Results -->
+	<div id="result" style="display: flex">
+		<div id="score-container">
+			<h1 id="results">{{ survey }}</h1>
+			<ol>
+				{% for i in blocks|times %}
+				<div class="block">
+					<li>{{ blocks|get_item:i }}:</li>
+					<span><span class="block-score">{{ scores|get_item:i }}</span>/20</span>
+				</div>
+				{% endfor %}
+				<div id="final-container">
+					<h2 id="final-h2">Tu calificación: <span id="final-score">{{ overall }}</span>/100</h2>
+				</div>
+			</ol>
+		</div>
+
+		<!-- Graph -->
+		<div id="graph-container">
+			<canvas id="graph"></canvas>
+		</div>
+
+		<form id="next" action="#">
+			<input type="submit" class="btn-contrast" value="Continuar" />
+		</form>
+	</div>
+</div>
+{% endblock main %}
