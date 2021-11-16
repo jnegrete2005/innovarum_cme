@@ -1,42 +1,35 @@
 @import 'colors';
 @import 'media_queries';
 
-#result {
+@mixin container {
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
+
+	border: 1px solid $contrast;
+	border-radius: 1rem;
+
+	padding: 1rem 2rem;
+	margin-bottom: 1rem;
+
+	width: auto;
+	height: auto;
+}
+
+#result {
+	display: none;
+	flex-direction: column;
+	row-gap: 1rem;
+
 	padding: 0.5rem;
-
-	@include md() {
-		padding: 1rem;
-	}
-
-	@include lg() {
-		padding: 2rem 5rem;
-	}
+	width: auto;
 
 	h1,
 	h2 {
 		margin-top: 0;
 	}
 
-	h1 {
-		text-align: center;
-	}
-
-	#score-summary {
-		border: 1px solid $contrast;
-		border-radius: 1rem;
-
-		padding: 1rem 2rem;
-		margin-bottom: 1rem;
-
-		width: auto;
-		margin: auto;
-
-		@include md() {
-			width: 80%;
-		}
+	#score-container {
+		@include container();
 
 		ol {
 			padding-inline-start: 1.5rem;
@@ -56,6 +49,19 @@
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
+		}
+	}
+
+	#graph-container {
+		padding: 0;
+
+		margin: 0 auto;
+
+		width: 40rem;
+		height: 40rem;
+
+		h1 {
+			margin: 1rem 2rem;
 		}
 	}
 }

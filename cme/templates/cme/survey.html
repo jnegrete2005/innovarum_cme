@@ -12,6 +12,7 @@
 <!-- JS -->
 {% block js %}
 <script src="{% static 'cme/js/score.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock js %}
 
 <!-- Main -->
@@ -42,8 +43,8 @@
 					<div class="question">
 						<li class="question-text">{{ question }}</li>
 						<div class="yes-no">
-							<input type="radio" name="{{ question.id }}" class="no radio" required />
-							<input type="radio" name="{{ question.id }}" class="si radio" required />
+							<input type="radio" name="{{ question.id }}" class="no radio" />
+							<input type="radio" name="{{ question.id }}" class="si radio" />
 						</div>
 					</div>
 					{% endfor %}
@@ -60,10 +61,16 @@
 		</div>
 	</form>
 
-	<div id="result" style="display: none">
-		<h1>Resultados</h1>
-		<div id="score-summary">
+	<div id="result">
+		<!-- Results -->
+		<div id="score-container">
+			<h1 id="results"></h1>
 			<ol></ol>
+		</div>
+
+		<!-- Graph -->
+		<div id="graph-container">
+			<canvas id="graph" width="10rem" height="10rem"></canvas>
 		</div>
 	</div>
 </div>

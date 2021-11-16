@@ -47,7 +47,7 @@ function saveScores(event) {
         // Display correct views
         document.getElementById('survey').style.display = 'none';
         const result = document.getElementById('result');
-        result.style.display = 'block';
+        result.style.display = 'flex';
         const ol = result.querySelector('ol');
         data.blocks.forEach((block, i) => {
             // Block container
@@ -76,11 +76,15 @@ function saveScores(event) {
         h.id = 'final-h2';
         const s2 = document.createElement('span');
         s2.id = 'final-score';
-        s2.innerHTML = overall.toString();
+        s2.innerHTML = data.overall.toString();
         h.append(s2, '/100');
         // Add all
         div.append(s1, h);
         ol.append(div);
+        document.querySelector('title').innerHTML = 'Gráfico';
+        /* Append to history */
+        history.pushState(null, '', './graph');
+        createGraph(data.scores, data.blocks, data.date, data.survey);
     })
         .catch((err) => {
         alert(err);
@@ -100,5 +104,48 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+function createGraph(scores, blocks, date, survey) {
+    document.getElementById('results').innerHTML = survey;
+    let labels = [];
+    blocks.forEach((b, i) => {
+        labels.push(`Bloque ${i}`);
+    });
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: date,
+                data: scores,
+                fill: true,
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                hoverBackgroundColor: 'darken(#ff638433, 5%)',
+                borderColor: 'rgb(255, 99, 132)',
+                pointBackgroundColor: 'rgb(255, 99, 132)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(255, 99, 132)',
+            },
+        ],
+    };
+    const config = {
+        type: 'radar',
+        data: data,
+        options: {
+            elements: {
+                line: {
+                    borderWidth: 3,
+                },
+            },
+            scales: {
+                r: {
+                    suggestedMin: 0,
+                    suggestedMax: 20,
+                },
+            },
+        },
+    };
+    // @ts-expect-error
+    new Chart(document.getElementById('graph'), config);
 }
 //# sourceMappingURL=score.js.map

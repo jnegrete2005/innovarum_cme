@@ -1,55 +1,49 @@
 #result {
-  display: flex;
+  display: none;
   flex-direction: column;
-  justify-content: center;
+  row-gap: 1rem;
   padding: 0.5rem;
-}
-@media only screen and (min-width: 768px) {
-  #result {
-    padding: 1rem;
-  }
-}
-@media only screen and (min-width: 992px) {
-  #result {
-    padding: 2rem 5rem;
-  }
+  width: auto;
 }
 #result h1,
 #result h2 {
   margin-top: 0;
 }
-#result h1 {
-  text-align: center;
-}
-#result #score-summary {
+#result #score-container {
+  display: flex;
+  flex-direction: column;
   border: 1px solid #f07820;
   border-radius: 1rem;
   padding: 1rem 2rem;
   margin-bottom: 1rem;
   width: auto;
-  margin: auto;
+  height: auto;
 }
-@media only screen and (min-width: 768px) {
-  #result #score-summary {
-    width: 80%;
-  }
-}
-#result #score-summary ol {
+#result #score-container ol {
   -webkit-padding-start: 1.5rem;
           padding-inline-start: 1.5rem;
   margin: 0;
 }
-#result #score-summary ol .block {
+#result #score-container ol .block {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   font-size: 1.5em;
   margin-bottom: 1rem;
 }
-#result #score-summary #final-container {
+#result #score-container #final-container {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+}
+#result #graph-container {
+  padding: 0;
+  margin: 0 auto;
+  width: 40rem;
+  height: 40rem;
+}
+#result #graph-container h1 {
+  margin: 1rem 2rem;
 }
 
 #final-h2 {
