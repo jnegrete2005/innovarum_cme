@@ -1,0 +1,26 @@
+{% extends 'cme/layout.html' %} {% load static %}
+
+<!-- Title -->
+{% block title %}Gracias{% endblock title %}
+
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'cme/css/block_5.css' %}" />
+{% endblock css %}
+
+<!-- Main -->
+{% block main %}
+<div id="container">
+	<div id="thanks">
+		<h1>Agradecemos su iniciativa.</h1>
+		<span>
+			Para mejorar sus resultados se puede poner en contacto por medio del siguiente correo:
+			<a href="mailto:lbarzallo@innovarum.biz">lbarzallo@innovarum.biz</a> y poder facilitar una reunión con dirección gerencial.
+		</span>
+	</div>
+
+	<form action="https://www.innovarum.biz">
+		<input type="submit" value="Finalizar" class="btn-contrast" />
+	</form>
+</div>
+{% endblock main %}

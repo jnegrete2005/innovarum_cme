@@ -17,9 +17,9 @@
   flex-direction: column;
   background: white;
   border: 1px solid #f07820;
-  border-radius: 1rem;
-  padding: 1rem 2rem;
-  margin-bottom: 1rem;
+  border-radius: 1em;
+  padding: 1em 2em;
+  margin-bottom: 1em;
   width: auto;
   height: auto;
 }
@@ -44,9 +44,9 @@
   flex-direction: column;
   background: white;
   border: 1px solid #f07820;
-  border-radius: 1rem;
-  padding: 1rem 2rem;
-  margin-bottom: 1rem;
+  border-radius: 1em;
+  padding: 1em 2em;
+  margin-bottom: 1em;
   width: auto;
   height: auto;
   margin: 0 auto;

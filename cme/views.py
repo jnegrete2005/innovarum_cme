@@ -132,6 +132,17 @@ def graph(request: WSGIRequest, module: str, s_type: str):
   return JsonResponse(context, status=200)
 
 
+def thanks(request: WSGIRequest):
+  """
+  The thanks view.
+  Represents Block 5 and will return thanks.html
+  """
+  if request.method == 'GET':
+    return render(request, 'cme/thanks.html')
+
+  return HttpResponseBadRequest()
+
+
 # Log in and out views here
 
 
