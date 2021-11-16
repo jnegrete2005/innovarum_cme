@@ -100,7 +100,7 @@ function saveScores(event: Event) {
 			document.querySelector('title').innerHTML = 'Gráfico';
 
 			/* Append to history */
-			history.pushState(null, '', './graph');
+			history.pushState({ graph: true }, '', './graph');
 
 			createGraph(data.scores, data.blocks, data.date, data.survey);
 		})
@@ -180,6 +180,25 @@ function createGraph(scores: Array<number>, blocks: Array<string>, date: string,
 
 	// @ts-expect-error
 	new Chart(document.getElementById('graph'), config);
+}
+
+window.addEventListener('popstate', (event) => {
+	if (event?.state?.graph) {
+		showGraph();
+		return;
+	}
+
+	showSurvey();
+});
+
+function showGraph() {
+	document.getElementById('survey').style.display = 'none';
+	document.getElementById('result').style.display = 'flex';
+}
+
+function showSurvey() {
+	document.getElementById('survey').style.display = 'block';
+	document.getElementById('result').style.display = 'none';
 }
 
 type Data = {

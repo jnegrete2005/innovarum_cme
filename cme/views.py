@@ -1,3 +1,6 @@
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
 import json
 
 from django.http.response import Http404, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
@@ -113,10 +116,22 @@ def graph(request: WSGIRequest, module: str, s_type: str):
 
   else:
     data = json.loads(request.body)
-    score = Score.objects.create(bussines=user, survey=survey, score=data.get('scores'))
+    # Get last score
+    try:
+      score = Score.objects.filter(bussines=user, survey=survey)
+      score = score[len(score) - 1]
 
-  if settings.DEBUG:
-    score = Score.objects.first()
+      if (((score.date - datetime.now().astimezone()).total_seconds() / 60 / 60 / 20) < 1):
+        score.score = data.get('scores')
+        score.save()
+      else:
+        score = Score.objects.create(bussines=user, survey=survey, score=data.get('scores'))
+
+    except AssertionError or Score.DoesNotExist:
+      score = Score.objects.create(bussines=user, survey=survey, score=data.get('scores'))
+
+  # if settings.DEBUG:
+  #   score = Score.objects.first()
 
   context = {
       'blocks': [block.name for block in survey.blocks.all()],

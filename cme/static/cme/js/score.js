@@ -83,7 +83,7 @@ function saveScores(event) {
         ol.append(div);
         document.querySelector('title').innerHTML = 'Gráfico';
         /* Append to history */
-        history.pushState(null, '', './graph');
+        history.pushState({ graph: true }, '', './graph');
         createGraph(data.scores, data.blocks, data.date, data.survey);
     })
         .catch((err) => {
@@ -153,5 +153,20 @@ function createGraph(scores, blocks, date, survey) {
     };
     // @ts-expect-error
     new Chart(document.getElementById('graph'), config);
+}
+window.addEventListener('popstate', (event) => {
+    if (event?.state?.graph) {
+        showGraph();
+        return;
+    }
+    showSurvey();
+});
+function showGraph() {
+    document.getElementById('survey').style.display = 'none';
+    document.getElementById('result').style.display = 'flex';
+}
+function showSurvey() {
+    document.getElementById('survey').style.display = 'block';
+    document.getElementById('result').style.display = 'none';
 }
 //# sourceMappingURL=score.js.map
