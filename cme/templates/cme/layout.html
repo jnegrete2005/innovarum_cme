@@ -22,6 +22,8 @@
 					{% if user.is_superuser %}
 					<a href="{% url 'cme:register' %}" class="btn-transparent" style="margin-left: 1rem">Registrar Usuario</a>
 					<a href="/admin/" class="btn-transparent" style="margin-left: 1rem">Admin</a>
+					{% endif %} {% if user.is_authenticated %}
+					<button class="btn-transparent" style="margin-left: 1rem" disabled>{{ user.first }} {{ user.last }}</button>
 					{% endif %}
 				</div>
 			</div>
