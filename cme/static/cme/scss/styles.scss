@@ -26,9 +26,10 @@ header {
 	align-items: center;
 	justify-content: space-between;
 
+	padding: 0 0.5em;
+
 	img {
-		height: 5rem;
-		margin: 0.5rem;
+		height: 4rem;
 		content: url('/static/cme/icons/icons/icon.png');
 
 		@include sm() {
@@ -84,7 +85,7 @@ header {
 	text-decoration: none;
 	text-align: center;
 	line-height: 1;
-	font-size: 17px;
+	font-size: 1em;
 	background-color: transparent;
 	padding: 10px;
 	outline: none;

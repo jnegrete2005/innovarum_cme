@@ -21,6 +21,7 @@
 					<a href="{% url 'cme:logout' %}" class="btn-transparent">Cerrar Sesión</a>
 					{% if user.is_superuser %}
 					<a href="{% url 'cme:register' %}" class="btn-transparent" style="margin-left: 1rem">Registrar Usuario</a>
+					<a href="/admin/" class="btn-transparent" style="margin-left: 1rem">Admin</a>
 					{% endif %}
 				</div>
 			</div>
