@@ -19,6 +19,9 @@
 				<img alt="logo" />
 				<div id="buttons">
 					<a href="{% url 'cme:logout' %}" class="btn-transparent">Cerrar Sesión</a>
+					{% if user.is_superuser %}
+					<a href="{% url 'cme:register' %}" class="btn-transparent" style="margin-left: 1rem">Registrar Usuario</a>
+					{% endif %}
 				</div>
 			</div>
 		</header>

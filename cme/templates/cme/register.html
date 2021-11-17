@@ -1,0 +1,57 @@
+{% extends 'cme/layout.html' %} {% load static %}
+
+<!-- Title -->
+{% block title %}Registrarse{% endblock title %}
+
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'cme/css/login.css' %}" />
+{% endblock css %}
+
+<!-- Main -->
+{% block main %}
+<div id="container">
+	<h1>Registrar usuario nuevo</h1>
+	<form action="{% url 'cme:register' %}" method="post" class="form">
+		{% csrf_token %}
+		<div class="form_group">
+			<input class="form_field" type="email" name="email" placeholder="Email" id="emailInput" required />
+			<label class="form_label" for="emailInput">Email</label>
+		</div>
+
+		<div class="form_group">
+			<input class="form_field" type="text" name="first" placeholder="Nombre" id="firstInput" maxlength="150" required />
+			<label class="form_label" for="firstInput">Nombre</label>
+		</div>
+
+		<div class="form_group">
+			<input class="form_field" type="text" name="last" placeholder="Apellido" id="lasttInput" maxlength="150" required />
+			<label class="form_label" for="lasttInput">Apellido</label>
+		</div>
+
+		<div class="form_group">
+			<input class="form_field" type="text" name="role" placeholder="Puesto de trabajo" id="roleInput" required />
+			<label class="form_label" for="roleInput">Puesto de trabajo</label>
+		</div>
+
+		<div class="form_group">
+			<input class="form_field" type="password" name="password" placeholder="Contraseña" id="passwordInput" required />
+			<label class="form_label" for="passwordInput">Contraseña</label>
+		</div>
+
+		<div>
+			<input type="checkbox" name="is_staff" placeholder="¿Es Staff?" id="staffInput" />
+			<label for="staffInput">¿Es Staff?</label>
+		</div>
+
+		<div>
+			<input type="checkbox" name="is_admin" placeholder="¿Es Admin?" id="adminInput" />
+			<label for="adminInput">¿Es Admin?</label>
+		</div>
+
+		<div>
+			<input type="submit" value="Iniciar Sesión" class="btn-contrast" />
+		</div>
+	</form>
+</div>
+{% endblock main %}

@@ -12,7 +12,7 @@
 {% block main %}
 <div id="container">
 	<h1>Iniciar Sesión para acceder al CME</h1>
-	<form action="{% url 'cme:login' %}" method="post" id="login">
+	<form action="{% url 'cme:login' %}" method="post" class="form">
 		{% csrf_token %}
 		<div class="form_group field">
 			<input class="form_field" type="email" name="email" placeholder="Email" id="emailInput" required />

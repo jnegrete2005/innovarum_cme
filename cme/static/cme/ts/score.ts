@@ -102,7 +102,7 @@ function saveScores(event: Event) {
 			/* Append to history */
 			history.pushState({ graph: true }, '', './graph');
 
-			createGraph(data.scores, data.blocks, data.date, data.survey);
+			createGraph(data.scores, data.blocks_for_graph, data.date, data.survey);
 		})
 		.catch((err: Error) => {
 			alert(err);
@@ -128,16 +128,11 @@ function getCookie(name: string): string {
 	return cookieValue;
 }
 
-function createGraph(scores: Array<number>, blocks: Array<string>, date: string, survey: string) {
+function createGraph(scores: Array<number>, blocks: string, date: string, survey: string) {
 	document.getElementById('results').innerHTML = survey;
 
-	let labels = [];
-	blocks.forEach((b, i) => {
-		labels.push(`Bloque ${i + 1}`);
-	});
-
 	const data = {
-		labels: labels,
+		labels: blocks,
 		datasets: [
 			{
 				label: date,
@@ -207,4 +202,5 @@ type Data = {
 	overall: number;
 	date: string;
 	survey: string;
+	blocks_for_graph: string;
 };

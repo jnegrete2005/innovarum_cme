@@ -21,19 +21,18 @@ const date = document.getElementById('date').innerHTML;
 const survey = document.getElementById('results').innerHTML;
 
 // Draw graph
-createGraphGet(scores, blocks, date, survey);
+createGraphGet(scores, date, survey);
 
 // Function to create graph
-function createGraphGet(scores: Array<number>, blocks: Array<string>, date: string, survey: string) {
+function createGraphGet(scores: Array<number>, date: string, survey: string) {
 	document.getElementById('results').innerHTML = survey;
 
-	let labels = [];
-	blocks.forEach((b, i) => {
-		labels.push(`Bloque ${i + 1}`);
-	});
+	const blocks_graph = document.getElementById('blocks_for_graph').innerHTML.replace(/'/gi, '"');
+
+	blocks = JSON.parse(blocks_graph);
 
 	const data = {
-		labels: labels,
+		labels: blocks,
 		datasets: [
 			{
 				label: date,

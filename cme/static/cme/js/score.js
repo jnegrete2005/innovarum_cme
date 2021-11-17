@@ -84,7 +84,7 @@ function saveScores(event) {
         document.querySelector('title').innerHTML = 'Gráfico';
         /* Append to history */
         history.pushState({ graph: true }, '', './graph');
-        createGraph(data.scores, data.blocks, data.date, data.survey);
+        createGraph(data.scores, data.blocks_for_graph, data.date, data.survey);
     })
         .catch((err) => {
         alert(err);
@@ -107,12 +107,8 @@ function getCookie(name) {
 }
 function createGraph(scores, blocks, date, survey) {
     document.getElementById('results').innerHTML = survey;
-    let labels = [];
-    blocks.forEach((b, i) => {
-        labels.push(`Bloque ${i + 1}`);
-    });
     const data = {
-        labels: labels,
+        labels: blocks,
         datasets: [
             {
                 label: date,

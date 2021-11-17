@@ -1,14 +1,15 @@
 from datetime import datetime
-from zoneinfo import ZoneInfo
-
 import json
+from typing import List
+import copy
 
-from django.http.response import Http404, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
-from django.shortcuts import render
-from django.urls import reverse
 from django.core.handlers.wsgi import WSGIRequest
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
+from django.db import IntegrityError
+from django.http.response import Http404, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
+from django.shortcuts import render
+from django.urls import reverse
 
 from .models import Bussines, Module, Score, Survey, Type
 
@@ -130,15 +131,24 @@ def graph(request: WSGIRequest, module: str, s_type: str):
     except AssertionError or Score.DoesNotExist:
       score = Score.objects.create(bussines=user, survey=survey, score=data.get('scores'))
 
-  # if settings.DEBUG:
-  #   score = Score.objects.first()
+  if settings.DEBUG:
+    score = Score.objects.first()
+
+  blocks: List[str] = [block.name for block in survey.blocks.all()]
+
+  blocks_for_graph = copy.copy(blocks)
+  for i in range(len(blocks_for_graph)):
+    blocks_for_graph[i] = blocks_for_graph[i].replace('de', '')
+    blocks_for_graph[i] = blocks_for_graph[i].replace('por', '')
+    blocks_for_graph[i] = blocks_for_graph[i].split()
 
   context = {
-      'blocks': [block.name for block in survey.blocks.all()],
+      'blocks': blocks,
       'scores': score.score,
       'overall': sum(score.score),
       'date': score.date.strftime('%d/%m/%Y'),
       'survey': str(survey),
+      'blocks_for_graph': blocks_for_graph
   }
 
   if request.method == 'GET':
@@ -187,6 +197,31 @@ def login_view(request: WSGIRequest):
   return HttpResponseBadRequest()
 
 
-def logout_view(request):
+def logout_view(request: WSGIRequest):
   logout(request)
   return HttpResponseRedirect(reverse('cme:index'))
+
+
+def register(request: WSGIRequest):
+  if request.method == 'POST':
+    email = request.POST['email']
+    first = request.POST['first']
+    last = request.POST['last']
+    role = request.POST['role']
+    password = request.POST['password']
+    is_staff = request.POST['is_staff'] == 'on'
+    is_admin = request.POST['is_admin'] == 'on'
+
+    # Attempt to create new user
+    try:
+      if is_admin:
+        user = Bussines.objects.create_superuser(email, first, last, role, password, is_superuser=is_admin, is_staff=is_staff)
+      else:
+        user = Bussines.objects.create_user(email, first, last, role, password, is_superuser=is_admin, is_staff=is_staff)
+    except IntegrityError:
+      return render(request, 'cme/register.html', {'message': 'Ese mail ya ha sido usado.'})
+
+    return HttpResponseRedirect(reverse('cme:index'))
+
+  elif request.method == 'GET':
+    return render(request, 'cme/register.html')
