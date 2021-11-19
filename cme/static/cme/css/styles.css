@@ -86,4 +86,38 @@ header {
 .btn-transparent:hover {
   color: #001f3f;
   background-color: #fff;
+}
+
+.alert {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  margin-bottom: 12px;
+  font-size: 16px;
+}
+
+.alert.alert-success {
+  background-color: #e3fdeb;
+  border-color: #26b303;
+  color: #3c763d;
+}
+
+.alert.alert-info {
+  background-color: #d9edf7;
+  color: #31708f;
+  border-color: #7eb6c1;
+}
+
+.alert.alert-warning {
+  background-color: #fcf8e3;
+  border-color: #b1a181;
+  color: #8a6d3b;
+}
+
+.alert.alert-danger {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+  color: #721c24;
 }/*# sourceMappingURL=styles.css.map */

@@ -1,17 +1,21 @@
 from datetime import datetime
-import json
 from typing import List
 import copy
+import os
+import json
+from inspect import cleandoc
+from secrets import token_hex
 
 from django.core.handlers.wsgi import WSGIRequest
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 from django.db import IntegrityError
-from django.http.response import Http404, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse
+from django.http.response import Http404, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 
 from .models import Bussines, Module, Score, Survey, Type
+from .send_mail import check_email, send_mail
 
 MODULE_CODE_TO_TEXT = {
     'moo': 'Módulo de Optimización Operacional',
@@ -159,7 +163,7 @@ def graph(request: WSGIRequest, module: str, s_type: str):
 
 def thanks(request: WSGIRequest):
   """
-  The thanks view.
+  The thanks view (Block 5).
   Represents Block 5 and will return thanks.html
   """
   if request.method == 'GET':
@@ -167,6 +171,44 @@ def thanks(request: WSGIRequest):
 
   return HttpResponseBadRequest()
 
+
+def capture(request: WSGIRequest):
+  """
+  The capture view (Block 6).
+  On GET, will return an HTML with a form to capture
+  info for potencial new users.
+  On POST, it will collect that info and send it to
+  Pablo via email.
+  """
+  if request.method == 'GET':
+    return render(request, 'cme/capture.html')
+
+  if request.method == 'POST':
+    # Get info
+    name = str(request.POST['first']).strip()
+    last = str(request.POST['last']).strip()
+    email = str(request.POST['email']).strip()
+    role = str(request.POST['role']).strip()
+    company = str(request.POST['company']).strip()
+
+    # Validate email
+    if not check_email(email):
+      return render(request, 'cme/capture.html', {'msg': 'Email inválido.'}, status=422)
+
+    msg = f"""\
+    Buenas.
+
+    Una persona ha solicitado el folleto. Aquí te mando los datos:
+    Nombre: {name}
+    Apellido: {last}
+    Email: {email}
+    Puesto de trabajo: {role}
+    Company: {company}
+    """
+
+    # TODO: put env var
+    send_mail('pvaldano@innovarum.biz', cleandoc(msg), 'Información de usuario.')
+    return render(request, 'cme/capture.html')
 
 # Log in and out views here
 
@@ -208,9 +250,9 @@ def register(request: WSGIRequest):
     first = request.POST['first']
     last = request.POST['last']
     role = request.POST['role']
-    password = request.POST['password']
-    is_staff = request.POST['is_staff'] == 'on'
-    is_admin = request.POST['is_admin'] == 'on'
+    password = token_hex(10)
+    is_staff = request.POST.get('is_staff', False) == 'on'
+    is_admin = request.POST.get('is_admin', False) == 'on'
 
     # Attempt to create new user
     try:
@@ -220,6 +262,16 @@ def register(request: WSGIRequest):
         user = Bussines.objects.create_user(email, first, last, role, password, is_superuser=is_admin, is_staff=is_staff)
     except IntegrityError:
       return render(request, 'cme/register.html', {'message': 'Ese mail ya ha sido usado.'})
+
+    msg = f"""\
+      Buenas.
+
+      Hemos validado su solicitud para acceder al Coeficiente de Madurez Empresarial, y ha sido aprovada.
+      Podrá entrar con los siguientes datos:
+      Su email: {email}
+      Contraseña segura asignada: {password}
+      """
+    send_mail(email, cleandoc(msg), 'Solicitud de acceso al CME aprovada.')
 
     return HttpResponseRedirect(reverse('cme:index'))
 

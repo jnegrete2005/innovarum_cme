@@ -1,6 +1,22 @@
 @import 'colors';
 @import 'media_queries';
 
+@mixin container {
+	display: flex;
+	flex-direction: column;
+
+	background: white;
+
+	border: 1px solid $contrast;
+	border-radius: 1em;
+
+	padding: 1em 2em;
+	margin-bottom: 1em;
+
+	width: auto;
+	height: auto;
+}
+
 #container {
 	display: flex;
 	flex-direction: column;
@@ -22,20 +38,22 @@
 	}
 
 	.form {
+		@include container();
+
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		row-gap: 1rem;
 
-		width: 90%;
+		// width: 90%;
 		margin: auto;
 
 		@include lg() {
-			width: 60%;
+			width: 40%;
 		}
 
 		.btn-contrast {
-			margin-top: 3rem;
+			margin-top: 1rem;
 		}
 	}
 }
@@ -44,11 +62,16 @@
 $primary: $contrast;
 $secondary: $contrast-darken;
 $gray: #9b9b9b;
+
 .form_group {
 	position: relative;
 	padding: 15px 0 0;
 	margin-top: 10px;
-	width: 50%;
+	width: 100%;
+
+	@include md() {
+		width: 90%;
+	}
 }
 
 .form_field {
