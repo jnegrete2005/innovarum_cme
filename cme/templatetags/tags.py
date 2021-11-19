@@ -1,4 +1,5 @@
 from django.template import Library
+from ..views import MODULE_CODE_TO_TEXT
 
 register = Library()
 
@@ -11,3 +12,8 @@ def times(ls: list):
 @register.filter()
 def get_item(ls: list, i):
   return ls[i]
+
+
+@register.filter()
+def get_module(code: str):
+  return MODULE_CODE_TO_TEXT[code]

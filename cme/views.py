@@ -14,7 +14,7 @@ from django.http.response import Http404, HttpResponseBadRequest, HttpResponseRe
 from django.shortcuts import render
 from django.urls import reverse
 
-from .models import Bussines, Module, Score, Survey, Type
+from .models import Block, Bussines, Module, Question, Score, Survey, Type
 from .send_mail import check_email, send_mail
 
 MODULE_CODE_TO_TEXT = {
@@ -58,7 +58,7 @@ def survey(request, module: str, s_type: str):
   if request.method == 'POST':
     return HttpResponseRedirect(reverse('cme:graph', kwargs={
         'module': module,
-        'type': s_type
+        's_type': s_type
     }))
 
   # Validate module
@@ -209,9 +209,49 @@ def capture(request: WSGIRequest):
     Compañía: {company}
     """
 
-    # TODO: put env var
     send_mail(os.environ.get('PABLO_EMAIL'), cleandoc(msg), 'Información de usuario.')
     return render(request, 'cme/capture.html')
+
+
+def create_survey(request: WSGIRequest):
+  """
+  View to create complete surveys more easily
+  """
+  if request.method == 'GET':
+    return render(request, 'cme/create_survey.html', {
+        'modules': [module.code for module in Module.objects.all()],
+        'types': [s_type.type for s_type in Type.objects.all()]
+    })
+
+  elif request.method == 'POST':
+    # Get type and module
+    module = request.POST['module']
+    module = Module.objects.get(code=module)
+
+    s_type = request.POST['type']
+    s_type = Type.objects.get(type=s_type)
+
+    # Create Survey
+    survey = Survey.objects.create(module=module, type=s_type)
+
+    # Add blocks and questions
+    blocks = request.POST.getlist('blocks', None)
+    for i in range(len(blocks)):
+      # Get and create block
+      blocks[i] = blocks[i].strip()
+      blocks[i] = Block.objects.create(survey=survey, name=blocks[i])
+
+      # Get questions
+      questions = request.POST.getlist(f'questions-{i}', None)
+      for j in range(len(questions)):
+        questions[j] = questions[j].strip()
+        Question.objects.create(block=blocks[i], text=questions[j])
+
+    return HttpResponseRedirect(reverse('cme:survey', kwargs={
+        'module': module.code,
+        's_type': s_type.type
+    }))
+
 
 # Log in and out views here
 
@@ -253,9 +293,9 @@ def register(request: WSGIRequest):
     first = request.POST['first']
     last = request.POST['last']
     role = request.POST['role']
-    password = token_hex(10)
-    is_staff = request.POST.get('is_staff', False) == 'on'
-    is_admin = request.POST.get('is_admin', False) == 'on'
+    password = token_hex(5)
+    is_staff = request.POST.get('is_staff', 'False') == 'True'
+    is_admin = request.POST.get('is_admin', 'False') == 'True'
 
     # Attempt to create new user
     try:

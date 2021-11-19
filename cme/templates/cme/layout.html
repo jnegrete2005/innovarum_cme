@@ -21,6 +21,7 @@
 					{% if user.is_superuser %}
 					<a href="{% url 'cme:register' %}" class="btn-transparent">Registrar Usuario</a>
 					<a href="/admin/" class="btn-transparent" style="margin-left: 1rem">Admin</a>
+					<a href="{% url 'cme:create_survey' %}" class="btn-transparent" style="margin-left: 1rem">Crear encuesta</a>
 					{% endif %}
 
 					<!-- Check if user is authenticated -->
