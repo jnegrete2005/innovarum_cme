@@ -207,7 +207,7 @@ def capture(request: WSGIRequest):
     """
 
     # TODO: put env var
-    send_mail('pvaldano@innovarum.biz', cleandoc(msg), 'Información de usuario.')
+    send_mail(os.environ.get('PABLO_EMAIL'), cleandoc(msg), 'Información de usuario.')
     return render(request, 'cme/capture.html')
 
 # Log in and out views here
