@@ -199,14 +199,14 @@ def capture(request: WSGIRequest):
       return render(request, 'cme/capture.html', {'msg': 'Email inválido.'}, status=422)
 
     msg = f"""\
-    Buenas.
+    Buenos días/tardes.
 
-    Una persona ha solicitado el folleto. Aquí te mando los datos:
+    Una persona ha solicitado el folleto. Aquí envío los datos:
     Nombre: {name}
     Apellido: {last}
     Email: {email}
     Puesto de trabajo: {role}
-    Company: {company}
+    Compañía: {company}
     """
 
     # TODO: put env var
