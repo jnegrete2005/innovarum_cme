@@ -181,6 +181,9 @@ def capture(request: WSGIRequest):
   Pablo via email.
   """
   if request.method == 'GET':
+    if request.user.is_authenticated:
+      return HttpResponseRedirect(reverse('cme:index'))
+
     return render(request, 'cme/capture.html')
 
   if request.method == 'POST':

@@ -51,6 +51,10 @@
 			<input type="submit" id="submit-form" hidden />
 			<button id="download-pdf" class="btn-contrast">Obtener folleto</button>
 		</div>
+
+		<div>
+			<span>¿Ya han aprovado tu solicitud? <a href="{% url 'cme:login' %}">Inicia sesión</a></span>
+		</div>
 	</form>
 </div>
 {% endblock main %}

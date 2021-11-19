@@ -18,12 +18,21 @@
 			<input class="form_field" type="email" name="email" placeholder="Email" id="emailInput" required />
 			<label class="form_label" for="emailInput">Email</label>
 		</div>
+
 		<div class="form_group field">
 			<input class="form_field" type="password" name="password" placeholder="Contraseña" id="passwordInput" required />
 			<label class="form_label" for="passwordInput">Contraseña</label>
 		</div>
+
 		<div>
 			<input type="submit" value="Iniciar Sesión" class="btn-contrast" />
+		</div>
+
+		<div style="text-align: center">
+			<span>
+				¿No has solicitado acceso al CME? <a href="{% url 'cme:capture' %}">Solicita acceso aquí</a><br />
+				Si ya solicitaste acceso, en menos de 24 horas laborales te deberían responder con tu usuario y contraseña.
+			</span>
 		</div>
 	</form>
 </div>

@@ -18,11 +18,14 @@
 			<div id="header">
 				<img alt="logo" />
 				<div id="buttons">
-					<a href="{% url 'cme:logout' %}" class="btn-transparent">Cerrar Sesión</a>
 					{% if user.is_superuser %}
-					<a href="{% url 'cme:register' %}" class="btn-transparent" style="margin-left: 1rem">Registrar Usuario</a>
+					<a href="{% url 'cme:register' %}" class="btn-transparent">Registrar Usuario</a>
 					<a href="/admin/" class="btn-transparent" style="margin-left: 1rem">Admin</a>
-					{% endif %} {% if user.is_authenticated %}
+					{% endif %}
+
+					<!-- Check if user is authenticated -->
+					{% if user.is_authenticated %}
+					<a href="{% url 'cme:logout' %}" class="btn-transparent" style="margin-left: 1rem">Cerrar Sesión</a>
 					<button class="btn-transparent" style="margin-left: 1rem" disabled>{{ user.first }} {{ user.last }}</button>
 					{% endif %}
 				</div>
