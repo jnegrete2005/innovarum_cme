@@ -142,8 +142,8 @@ def graph(request: WSGIRequest, module: str, s_type: str):
 
   blocks_for_graph = copy.copy(blocks)
   for i in range(len(blocks_for_graph)):
-    blocks_for_graph[i] = blocks_for_graph[i].replace('de', '')
-    blocks_for_graph[i] = blocks_for_graph[i].replace('por', '')
+    blocks_for_graph[i] = blocks_for_graph[i].replace(' de', '')
+    blocks_for_graph[i] = blocks_for_graph[i].replace(' por', '')
     blocks_for_graph[i] = blocks_for_graph[i].split()
 
   context = {
