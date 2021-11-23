@@ -16,18 +16,11 @@ body {
 }
 
 header {
-	padding: 1rem;
+	padding: 0.5em;
 	background-color: $main;
 }
 
-#header {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-
-	padding: 0 0.5em;
-
+.navbar {
 	img {
 		height: 4rem;
 		content: url('/static/cme/icons/icons/icon.png');
@@ -36,12 +29,36 @@ header {
 			content: url('/static/cme/icons/icons/logo.png');
 		}
 	}
+}
 
-	#buttons {
-		display: none;
+.navbar-collapse {
+	justify-content: flex-end;
+	align-items: center !important	;
 
-		@include sm() {
-			display: block;
+	ul {
+		*,
+		:not(:first-child) {
+			margin-left: 0;
+
+			@include xl() {
+				margin-left: 0.5em;
+			}
+		}
+
+		&:first-child {
+			margin-top: 2rem;
+
+			@include xl() {
+				margin-top: 0;
+			}
+		}
+
+		&:last-child {
+			margin-bottom: -1rem;
+
+			@include xl() {
+				margin-bottom: 0;
+			}
 		}
 	}
 }

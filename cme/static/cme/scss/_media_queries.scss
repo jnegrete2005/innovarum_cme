@@ -12,28 +12,28 @@ $screen-xl-min: 1200px;
 
 // Small devices
 @mixin sm {
-  @media only screen and (min-width: #{$screen-sm-min}) {
-    @content;
-  }
+	@media only screen and (min-width: #{$screen-sm-min}) {
+		@content;
+	}
 }
 
 // Medium devices
 @mixin md {
-  @media only screen and (min-width: #{$screen-md-min}) {
-    @content;
-  }
+	@media only screen and (min-width: #{$screen-md-min}) {
+		@content;
+	}
 }
 
 // Large devices
 @mixin lg {
-  @media only screen and (min-width: #{$screen-lg-min}) {
-    @content;
-  }
+	@media only screen and (min-width: #{$screen-lg-min}) {
+		@content;
+	}
 }
 
 // Extra large devices
 @mixin xl {
-  @media only screen and (min-width: #{$screen-xl-min}) {
-    @content;
-  }
+	@media only screen and (min-width: #{$screen-xl-min}) {
+		@content;
+	}
 }

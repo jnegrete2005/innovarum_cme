@@ -12,32 +12,48 @@ body {
 }
 
 header {
-  padding: 1rem;
+  padding: 0.5em;
   background-color: #253451;
 }
 
-#header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 0.5em;
-}
-#header img {
+.navbar img {
   height: 4rem;
   content: url("/static/cme/icons/icons/icon.png");
 }
 @media only screen and (min-width: 576px) {
-  #header img {
+  .navbar img {
     content: url("/static/cme/icons/icons/logo.png");
   }
 }
-#header #buttons {
-  display: none;
+
+.navbar-collapse {
+  justify-content: flex-end;
+  align-items: center !important;
 }
-@media only screen and (min-width: 576px) {
-  #header #buttons {
-    display: block;
+.navbar-collapse ul *,
+.navbar-collapse ul :not(:first-child) {
+  margin-left: 0;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar-collapse ul *,
+.navbar-collapse ul :not(:first-child) {
+    margin-left: 0.5em;
+  }
+}
+.navbar-collapse ul:first-child {
+  margin-top: 2rem;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar-collapse ul:first-child {
+    margin-top: 0;
+  }
+}
+.navbar-collapse ul:last-child {
+  margin-bottom: -1rem;
+}
+@media only screen and (min-width: 1200px) {
+  .navbar-collapse ul:last-child {
+    margin-bottom: 0;
   }
 }
 
