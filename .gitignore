@@ -4,7 +4,8 @@
 __pycache__
 db.sqlite3
 media
+si.json
 
 .timetracker
 
-node_modules
+webpack

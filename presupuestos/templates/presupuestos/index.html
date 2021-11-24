@@ -18,9 +18,21 @@
 	</head>
 	<body>
 		<div class="container">
-			<h1>Bienvenido</h1>
-
-			<span>Pulsa este botón para descargar la nueva hoja de excel, después de haber altualizado la tabla en Notion</span>
+			<div class="row">
+				<div class="col">
+					<h1>Bienvenido</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<span>Pulsa este botón para descargar la nueva hoja de excel, después de haber altualizado la tabla en Notion</span>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<a href="{% url 'presupuestos:getDb' %}" class="btn btn-primary" id="getInfo">Actualizar</a>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>

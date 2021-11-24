@@ -143,28 +143,15 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATIC_URL = '/static/'
 
-STATICFILES_FINDERS = ('compressor.finders.CompressorFinder')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'cme', 'static'),
+    os.path.join(BASE_DIR, 'presupuestos', 'static'),
+    os.path.join(BASE_DIR, 'webpack', 'dist')
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-COMPRESS_CSS_FILTERS = [
-    'compressor.filters.css_default.CssAbsoluteFilter',
-    'compressor.filters.cssmin.CSSMinFilter',
-    'compressor.filters.template.TemplateFilter'
-]
-
-COMPRESS_JS_FILTERS = [
-    'compressor.filters.jsmin.JSMinFilter',
-]
-
-COMPRESS_PRECOMPILERS = (
-    ('module', 'compressor_toolkit.precompilers.ES6Compiler'),
-    ('css', 'compressor_toolkit.precompilers.SCSSCompiler'),
-)
-
-COMPRESS_ENABLED = True
 
 django_heroku.settings(locals())
