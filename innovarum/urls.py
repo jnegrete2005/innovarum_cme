@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('cme/', include('cme.urls')),
     path('pres/', include('presupuestos.urls')),
+    path('legacy/', include('legacy.urls')),
 ]

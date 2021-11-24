@@ -47,8 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cme',
     'presupuestos',
-    'compressor',
-    'compressor_toolkit',
+    'legacy',
 ]
 
 MIDDLEWARE = [
@@ -146,6 +145,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'cme', 'static'),
     os.path.join(BASE_DIR, 'presupuestos', 'static'),
+    os.path.join(BASE_DIR, 'legacy', 'static'),
     os.path.join(BASE_DIR, 'webpack', 'dist')
 ]
 
