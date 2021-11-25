@@ -8,6 +8,7 @@ from secrets import token_hex
 
 from django.core.handlers.wsgi import WSGIRequest
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import user_passes_test
 from django.conf import settings
 from django.db import IntegrityError
 from django.http.response import Http404, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse, HttpResponse
@@ -29,14 +30,22 @@ MODULE_CODE_TO_TEXT = {
 
 AVAILABLE_TYPES = ['comercial', 'servicios', 'industrial']
 
+NOT_ALLOWED = 'cme:not_allowed'
+
+
+def can_enter_cme(user) -> bool:
+  return user.cme_access
+
 # Create your views here.
 
 
+@user_passes_test(can_enter_cme, login_url=NOT_ALLOWED)
 def index(request):
   """ Index view (Block 1) """
   return render(request, 'cme/index.html')
 
 
+@user_passes_test(can_enter_cme, login_url=NOT_ALLOWED)
 def company_picker(request, module: str):
   """ View to pick which type of company you belong to. (Block 2) """
   try:
@@ -50,6 +59,7 @@ def company_picker(request, module: str):
   })
 
 
+@user_passes_test(can_enter_cme, login_url='cme:login_view')
 def survey(request, module: str, s_type: str):
   """
   The survey view. (Block 3)
@@ -87,6 +97,7 @@ def survey(request, module: str, s_type: str):
   })
 
 
+@user_passes_test(can_enter_cme, login_url=NOT_ALLOWED)
 def graph(request: WSGIRequest, module: str, s_type: str):
   """
   The graph view. (Block 4)
@@ -161,6 +172,7 @@ def graph(request: WSGIRequest, module: str, s_type: str):
   return JsonResponse(context, status=200)
 
 
+@user_passes_test(can_enter_cme, login_url=NOT_ALLOWED)
 def thanks(request: WSGIRequest):
   """
   The thanks view (Block 5).
@@ -267,8 +279,13 @@ def login_view(request: WSGIRequest):
 
     # Check if authentication is successful
     if user != None:
-      login(request, user)
-      return HttpResponseRedirect(reverse('cme:index'))
+      if user.cme_access:
+        login(request, user)
+        return HttpResponseRedirect(reverse('cme:index'))
+
+      return render(request, 'cme/login.html', {
+          'message': 'No tiene acceso a esta sección de la página.'
+      })
 
     return render(request, 'cme/login.html', {
         'message': 'Email o contraseña inválidos'
@@ -293,7 +310,7 @@ def register(request: WSGIRequest):
     first = request.POST['first']
     last = request.POST['last']
     role = request.POST['role']
-    password = token_hex(5)
+    password = token_hex(3)
     is_staff = request.POST.get('is_staff', 'False') == 'True'
     is_admin = request.POST.get('is_admin', 'False') == 'True'
 

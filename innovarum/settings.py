@@ -98,7 +98,6 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'cme.Bussines'
 
-LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = ''
 
 # Password validation

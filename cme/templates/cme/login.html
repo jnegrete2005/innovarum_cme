@@ -12,6 +12,13 @@
 {% block main %}
 <div id="container">
 	<h1>Iniciar Sesión para acceder al CME</h1>
+
+	{% if message %}
+	<div class="d-flex justify-content-center mt-3 mb-3">
+		<div class="alert alert-danger" style="width: fit-content">{{ message }}</div>
+	</div>
+	{% endif %}
+
 	<form action="{% url 'cme:login' %}" method="post" class="form">
 		{% csrf_token %}
 		<div class="form_group field">
