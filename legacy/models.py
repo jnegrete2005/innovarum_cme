@@ -1,7 +1,5 @@
 from django.db import models
 
-from ..cme.models import Bussines
-
 # Create your models here.
 
 
@@ -31,4 +29,4 @@ class LegacyUser(models.Model):
   """
   Represents a User for Legacy
   """
-  base_user = models.OneToOneField(Bussines, on_delete=models.CASCADE, related_name='legacy')
+  base_user = models.OneToOneField('cme.Bussines', on_delete=models.CASCADE, related_name='legacy')

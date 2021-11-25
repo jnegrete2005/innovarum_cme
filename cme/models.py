@@ -94,6 +94,7 @@ class CustomAccountManager(BaseUserManager):
     other_fields.setdefault('is_superuser', True)
     other_fields.setdefault('is_staff', True)
     other_fields.setdefault('is_active', True)
+    other_fields.setdefault('cme_access', True)
 
     if other_fields.get('is_superuser') is not True:
       raise ValueError('Superuser must be assigned to is_superuser=True.')
@@ -101,6 +102,8 @@ class CustomAccountManager(BaseUserManager):
       raise ValueError('Superuser must be assigned to is_staff=True.')
     if other_fields.get('is_active') is not True:
       raise ValueError('Superuser must be assigned to is_active=True.')
+    if other_fields.get('cme_access') is not True:
+      raise ValueError('Superuser must be assigned to cme_access=True.')
 
     return self.create_user(email, first, last, role, password, **other_fields)
 
@@ -115,6 +118,8 @@ class Bussines(AbstractBaseUser, PermissionsMixin):
   is_staff = models.BooleanField(default=False)
   is_active = models.BooleanField(default=True)
   role = models.CharField(max_length=300)
+
+  cme_access = models.BooleanField(default=False)
 
   USERNAME_FIELD = 'email'
   REQUIRED_FIELDS = ['first', 'last', 'role']
@@ -132,7 +137,7 @@ class Score(models.Model):
   score = ArrayField(models.PositiveSmallIntegerField())
   bussines = models.ForeignKey(Bussines, on_delete=models.CASCADE, related_name='scores')
   survey = models.ForeignKey(Survey, on_delete=models.CASCADE, related_name='scores')
-  date: datetime = models.DateTimeField(auto_now_add=True)
+  date = models.DateTimeField(auto_now_add=True)
 
   def __str__(self) -> str:
     return str(self.score)

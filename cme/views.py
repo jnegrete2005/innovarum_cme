@@ -300,9 +300,9 @@ def register(request: WSGIRequest):
     # Attempt to create new user
     try:
       if is_admin:
-        user = Bussines.objects.create_superuser(email, first, last, role, password, is_superuser=is_admin, is_staff=is_staff)
+        Bussines.objects.create_superuser(email, first, last, role, password, cme_access=True, is_superuser=is_admin, is_staff=is_staff)
       else:
-        user = Bussines.objects.create_user(email, first, last, role, password, is_superuser=is_admin, is_staff=is_staff)
+        Bussines.objects.create_user(email, first, last, role, password, cme_access=True, is_superuser=is_admin, is_staff=is_staff)
     except IntegrityError:
       return render(request, 'cme/register.html', {'message': 'Ese mail ya ha sido usado.'})
 
