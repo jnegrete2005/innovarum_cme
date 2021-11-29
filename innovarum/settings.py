@@ -143,8 +143,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'cme', 'static'),
-    os.path.join(BASE_DIR, 'presupuestos', 'static'),
-    os.path.join(BASE_DIR, 'webpack', 'dist')
+    # os.path.join(BASE_DIR, 'presupuestos', 'static'),
+    # os.path.join(BASE_DIR, 'webpack', 'dist'),
 ]
 
 # Default primary key field type
