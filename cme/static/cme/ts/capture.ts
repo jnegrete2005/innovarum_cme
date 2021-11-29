@@ -8,7 +8,7 @@ downloadPdf.addEventListener('click', () => {
 	}
 
 	const el = document.createElement('a');
-	el.href = '/static/CME.pdf';
+	el.href = '/static/cme/brochure.pdf';
 	el.download = 'CME.pdf';
 
 	document.documentElement.appendChild(el);
