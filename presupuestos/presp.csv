@@ -1,0 +1,3 @@
+Name,Mes,Presupuesto,Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo
+NN,Marzo,60,True,False,True,False,False,False,False
+NN,Enero,50,True,True,False,False,True,True,True

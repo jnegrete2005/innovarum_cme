@@ -47,8 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cme',
     'presupuestos',
-    'compressor',
-    'compressor_toolkit',
 ]
 
 MIDDLEWARE = [
