@@ -36,7 +36,7 @@ function saveScores(event: Event) {
 		scores.push(parseInt(score.innerHTML));
 	});
 
-	fetch(`/${MODULE}/${TYPE}/graph/`, {
+	fetch(`/cme/${MODULE}/${TYPE}/graph/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
