@@ -25,8 +25,8 @@ document.getElementById('survey').addEventListener('submit', (event) => saveScor
 function saveScores(event: Event) {
 	event.preventDefault();
 
-	const MODULE = window.location.pathname.split('/')[1];
-	const TYPE = window.location.pathname.split('/')[2];
+	const MODULE = window.location.pathname.split('/')[2];
+	const TYPE = window.location.pathname.split('/')[3];
 	let overall = 0;
 	let scores: Array<number> = [];
 
@@ -36,7 +36,7 @@ function saveScores(event: Event) {
 		scores.push(parseInt(score.innerHTML));
 	});
 
-	fetch(`/${MODULE}/${TYPE}/graph/`, {
+	fetch(`/cme/${MODULE}/${TYPE}/graph/`, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

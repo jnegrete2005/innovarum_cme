@@ -4,8 +4,9 @@
 __pycache__
 db.sqlite3
 media
-si.json
 
 .timetracker
+bfg.jar
+presp.csv
 
 webpack

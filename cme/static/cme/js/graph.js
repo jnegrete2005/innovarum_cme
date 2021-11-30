@@ -1,6 +1,6 @@
 // Get scores
-let scores = [];
-Array.from(document.getElementsByClassName('block-score')).forEach((el) => {
+var scores = [];
+Array.from(document.getElementsByClassName('block-score')).forEach(function (el) {
     try {
         scores.push(parseInt(el.innerHTML));
     }
@@ -9,22 +9,22 @@ Array.from(document.getElementsByClassName('block-score')).forEach((el) => {
     }
 });
 // Get blocks
-let blocks = [];
-Array.from(document.querySelector('ol').querySelectorAll('li')).forEach((el) => {
+var blocks = [];
+Array.from(document.querySelector('ol').querySelectorAll('li')).forEach(function (el) {
     blocks.push(el.innerHTML);
 });
 // Get date
-const date = document.getElementById('date').innerHTML;
+var date = document.getElementById('date').innerHTML;
 // Get survey name
-const survey = document.getElementById('results').innerHTML;
+var survey = document.getElementById('results').innerHTML;
 // Draw graph
 createGraphGet(scores, date, survey);
 // Function to create graph
 function createGraphGet(scores, date, survey) {
     document.getElementById('results').innerHTML = survey;
-    const blocks_graph = document.getElementById('blocks_for_graph').innerHTML.replace(/'/gi, '"');
+    var blocks_graph = document.getElementById('blocks_for_graph').innerHTML.replace(/'/gi, '"');
     blocks = JSON.parse(blocks_graph);
-    const data = {
+    var data = {
         labels: blocks,
         datasets: [
             {
@@ -41,7 +41,7 @@ function createGraphGet(scores, date, survey) {
             },
         ],
     };
-    const config = {
+    var config = {
         type: 'radar',
         data: data,
         options: {

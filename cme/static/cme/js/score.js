@@ -1,11 +1,11 @@
 // Score display
-const q_group = Array.from(document.getElementsByClassName('question-group'));
-q_group.forEach((ol) => {
+var q_group = Array.from(document.getElementsByClassName('question-group'));
+q_group.forEach(function (ol) {
     // The score for each block
-    Array.from(ol.getElementsByClassName('radio')).forEach((el) => {
-        el.addEventListener('change', (event) => {
-            let block_score = 0;
-            Array.from(ol.getElementsByClassName('si')).forEach((yes) => {
+    Array.from(ol.getElementsByClassName('radio')).forEach(function (el) {
+        el.addEventListener('change', function (event) {
+            var block_score = 0;
+            Array.from(ol.getElementsByClassName('si')).forEach(function (yes) {
                 // Check if it was checked
                 if (yes.checked) {
                     block_score += 4;
@@ -17,48 +17,48 @@ q_group.forEach((ol) => {
 });
 // Saving scores
 // TODO: Make validation and error handling.
-document.getElementById('survey').addEventListener('submit', (event) => saveScores(event));
+document.getElementById('survey').addEventListener('submit', function (event) { return saveScores(event); });
 function saveScores(event) {
     event.preventDefault();
-    const MODULE = window.location.pathname.split('/')[1];
-    const TYPE = window.location.pathname.split('/')[2];
-    let overall = 0;
-    let scores = [];
+    var MODULE = window.location.pathname.split('/')[2];
+    var TYPE = window.location.pathname.split('/')[3];
+    var overall = 0;
+    var scores = [];
     // Get the scores from all the blocks
-    Array.from(document.getElementsByClassName('score')).forEach((score) => {
+    Array.from(document.getElementsByClassName('score')).forEach(function (score) {
         overall += parseInt(score.innerHTML);
         scores.push(parseInt(score.innerHTML));
     });
-    fetch(`/${MODULE}/${TYPE}/graph/`, {
+    fetch("/cme/" + MODULE + "/" + TYPE + "/graph/", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
             'X-CSRFToken': getCookie('csrftoken'),
         },
-        body: JSON.stringify({ overall, scores }),
+        body: JSON.stringify({ overall: overall, scores: scores }),
     })
-        .then((response) => {
+        .then(function (response) {
         if (!response.ok)
-            throw Error(`${response.statusText} - ${response.status}`);
+            throw Error(response.statusText + " - " + response.status);
         return response.json();
     })
-        .then((data) => {
+        .then(function (data) {
         // Display correct views
         document.getElementById('survey').style.display = 'none';
-        const result = document.getElementById('result');
+        var result = document.getElementById('result');
         result.style.display = 'flex';
-        const ol = result.querySelector('ol');
-        data.blocks.forEach((block, i) => {
+        var ol = result.querySelector('ol');
+        data.blocks.forEach(function (block, i) {
             // Block container
-            const div = document.createElement('div');
+            var div = document.createElement('div');
             div.classList.add('block');
             // Block name
-            const li = document.createElement('li');
+            var li = document.createElement('li');
             li.innerHTML = block + ':';
             // Block score
-            const s1 = document.createElement('span');
-            const s2 = document.createElement('span');
+            var s1 = document.createElement('span');
+            var s2 = document.createElement('span');
             s2.classList.add('block-score');
             s2.innerHTML = data.scores[i].toString();
             s1.append(s2, '/20');
@@ -67,14 +67,14 @@ function saveScores(event) {
             ol.append(div);
         });
         // Final score
-        const div = document.createElement('div');
+        var div = document.createElement('div');
         div.id = 'final-container';
         // Span
-        const s1 = document.createElement('span');
+        var s1 = document.createElement('span');
         // Final score text
-        const h = document.createElement('h2');
+        var h = document.createElement('h2');
         h.id = 'final-h2';
-        const s2 = document.createElement('span');
+        var s2 = document.createElement('span');
         s2.id = 'final-score';
         s2.innerHTML = data.overall.toString();
         h.append('Tu calificación: ', s2, '/100');
@@ -86,16 +86,16 @@ function saveScores(event) {
         history.pushState({ graph: true }, '', './graph');
         createGraph(data.scores, data.blocks_for_graph, data.date, data.survey);
     })
-        .catch((err) => {
+        .catch(function (err) {
         alert(err);
     });
 }
 function getCookie(name) {
-    let cookieValue = null;
+    var cookieValue = null;
     if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
             // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) === name + '=') {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -107,7 +107,7 @@ function getCookie(name) {
 }
 function createGraph(scores, blocks, date, survey) {
     document.getElementById('results').innerHTML = survey;
-    const data = {
+    var data = {
         labels: blocks,
         datasets: [
             {
@@ -124,7 +124,7 @@ function createGraph(scores, blocks, date, survey) {
             },
         ],
     };
-    const config = {
+    var config = {
         type: 'radar',
         data: data,
         options: {
@@ -150,8 +150,9 @@ function createGraph(scores, blocks, date, survey) {
     // @ts-expect-error
     new Chart(document.getElementById('graph'), config);
 }
-window.addEventListener('popstate', (event) => {
-    if (event?.state?.graph) {
+window.addEventListener('popstate', function (event) {
+    var _a;
+    if ((_a = event === null || event === void 0 ? void 0 : event.state) === null || _a === void 0 ? void 0 : _a.graph) {
         showGraph();
         return;
     }
