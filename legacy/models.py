@@ -108,3 +108,6 @@ class UserTrio(models.Model):
   trio = models.ForeignKey(Trio, on_delete=models.CASCADE)
   user = models.ForeignKey('cme.Bussines', on_delete=models.CASCADE)
   done = ArrayField(models.BooleanField(default=False), size=3)
+
+  class Meta:
+    verbose_name_plural = 'User Trios'
