@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
+from django.db.models.fields.related import ForeignKey
 
 
 # Create your models here.
@@ -38,9 +39,29 @@ class Quiz(models.Model):
   It will have a `name`
   """
   name = models.CharField(max_length=200)
+  user = models.ManyToManyField('cme.Bussines', related_name='quizes', through='UserQuiz', through_fields=('quiz', 'user'))
 
   def __str__(self) -> str:
     return f'{self.name}'
+
+
+class UserQuiz(models.Model):
+  """
+  Represents the results for the `Quiz`
+
+  It has the `user`, the `quiz`, and the `results`.
+
+  `results` will be an array of array of numbers. Each array will be a question,
+  and the numbers inside will represent the questions. The answered question will
+  be represented with a 1, the rest will be 0's.
+  """
+
+  quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='users')
+  user = models.ForeignKey('cme.Bussines', on_delete=models.CASCADE, related_name='presupuestos_quizes')
+  score = models.ManyToManyField('Answer', related_name='answered')
+
+  class Meta:
+    verbose_name_plural = 'UserQuizes'
 
 
 class Question(models.Model):
@@ -74,19 +95,16 @@ class Trio(models.Model):
   quiz = models.ForeignKey(Quiz, on_delete=models.SET_NULL, related_name='trios', null=True)
   video = models.URLField()
   module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='trios')
+  user = models.ManyToManyField('cme.Bussines', related_name='trios', through='UserTrio', through_fields=('trio', 'user'))
 
 
-class UserQuiz(models.Model):
+class UserTrio(models.Model):
   """
-  Represents the results for the `Quiz`
-
-  It has the `user`, the `quiz`, and the `results`.
-
-  `results` will be an array of array of numbers. Each array will be a question,
-  and the numbers inside will represent the questions. The answered question will
-  be represented with a 1, the rest will be 0's.
+  ManyToMany with `User` and `Trio` intermediary.
+  `user` is FK to `Bussines`  
+  `trio` is FK to `Trio`
+  `done` is an Array of booleans of size 3 to determine the `trio`s that are done
   """
-
-  user = models.ForeignKey('cme.Bussines', on_delete=models.CASCADE, related_name='presupuestos_quizes')
-  quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name='users')
-  score = ArrayField(ArrayField(models.BooleanField()))
+  trio = models.ForeignKey(Trio, on_delete=models.CASCADE)
+  user = models.ForeignKey('cme.Bussines', on_delete=models.CASCADE)
+  done = ArrayField(models.BooleanField(default=False), size=3)
