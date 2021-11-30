@@ -1,0 +1,20 @@
+@import 'colors';
+@import 'navbar';
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+:root {
+	font-size: 16px;
+	font-family: 'Open Sans';
+}
+
+body {
+	background-color: $background;
+	color: $text;
+	margin: 0;
+	padding: 0;
+}
+
+.title {
+	@include title();
+	font-size: 2.3em;
+}

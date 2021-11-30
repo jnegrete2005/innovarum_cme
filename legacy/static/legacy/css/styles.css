@@ -1,0 +1,150 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
+main {
+  margin-left: 5em;
+  padding: 1rem;
+  transition: margin-left 200ms ease;
+}
+
+.navbar {
+  position: fixed;
+  background-color: #253451;
+  display: inline-block;
+  transition: all 200ms ease;
+}
+
+.navbar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.nav-item {
+  width: 100%;
+}
+.nav-item:last-child {
+  margin-top: auto;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  height: 5rem;
+  color: #000000;
+  text-decoration: none;
+  filter: grayscale(100%) opacity(0.7);
+  transition: all 200ms;
+}
+.nav-link:hover {
+  filter: grayscale(0) opacity(1);
+  background: #f07820;
+}
+.nav-link:hover svg {
+  color: #253451;
+  transition: color 200ms ease;
+}
+.nav-link svg {
+  min-width: 2rem;
+  margin: 0 1.5rem;
+  width: 32px;
+  height: 32px;
+  color: #1f1e20;
+}
+
+.link-text {
+  display: none;
+  margin: 0 1rem;
+}
+
+.logo {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  letter-spacing: 0.3ch;
+  width: 100%;
+}
+.logo .nav-link {
+  color: #000000;
+}
+.logo .nav-link:hover {
+  color: #dd2f44;
+}
+.logo svg {
+  transform: rotate(0deg);
+  transition: all 200ms;
+}
+
+.navbar:hover .logo svg {
+  transform: rotate(-360deg);
+  width: 48px;
+  height: 48px;
+}
+
+/* Small screens */
+@media only screen and (max-width: 600px) {
+  .navbar {
+    bottom: 0;
+    width: 100vw;
+    height: 5rem;
+  }
+
+  .logo {
+    display: none;
+  }
+
+  .navbar-nav {
+    flex-direction: row;
+  }
+
+  .nav-link {
+    justify-content: center;
+  }
+
+  main {
+    margin: 0;
+  }
+}
+/* Large screens */
+@media only screen and (min-width: 600px) {
+  .navbar {
+    top: 0;
+    width: 5rem;
+    height: 100vh;
+  }
+  .navbar:hover {
+    width: 16rem;
+  }
+  .navbar:hover .link-text {
+    display: block;
+  }
+  .navbar:hover ~ main {
+    margin-left: 16rem;
+  }
+}
+:root {
+  font-size: 16px;
+  font-family: "Open Sans";
+}
+
+body {
+  background-color: #ece4e4;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+}
+
+.title {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  letter-spacing: 0.3ch;
+  width: 100%;
+  font-size: 2.3em;
+}/*# sourceMappingURL=styles.css.map */
