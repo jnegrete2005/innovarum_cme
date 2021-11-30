@@ -20,8 +20,8 @@ q_group.forEach(function (ol) {
 document.getElementById('survey').addEventListener('submit', function (event) { return saveScores(event); });
 function saveScores(event) {
     event.preventDefault();
-    var MODULE = window.location.pathname.split('/')[1];
-    var TYPE = window.location.pathname.split('/')[2];
+    var MODULE = window.location.pathname.split('/')[2];
+    var TYPE = window.location.pathname.split('/')[3];
     var overall = 0;
     var scores = [];
     // Get the scores from all the blocks
