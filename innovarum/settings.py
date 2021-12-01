@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'cme',
     'presupuestos',
     'legacy',
+    'graphene_django',
 ]
 
 MIDDLEWARE = [
@@ -148,5 +149,8 @@ MEDIA_URL = '/media/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Graphql
+GRAPHENE = {'SCHEMA': 'graph_inv.schema.schema'}
 
 django_heroku.settings(locals(), logging=False)

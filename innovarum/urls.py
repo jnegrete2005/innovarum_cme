@@ -18,6 +18,9 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import user_passes_test
+
+from graphene_django.views import GraphQLView
 
 urlpatterns = [
     path('', lambda request: redirect('cme:index', permanent=False)),
@@ -25,6 +28,8 @@ urlpatterns = [
     path('cme/', include('cme.urls')),
     path('pres/', include('presupuestos.urls')),
     path('legacy/', include('legacy.urls')),
+    path('graphql', user_passes_test(lambda user: user.admin, GraphQLView.as_view(graphiql=False))),
+    path('graphiql', GraphQLView.as_view(graphiql=True)),
 ]
 
 if settings.DEBUG:
