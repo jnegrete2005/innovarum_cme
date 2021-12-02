@@ -91,22 +91,22 @@ function getCourses() {
 					data.data.courses[i].modules.forEach((trio, i) => {
 						max += trio.trios.length * 3;
 					});
-					prog.max = max;
 				}
+				prog.max = max;
 
 				if (!data.data.user) {
 					prog.value = 0;
 				} else {
 					data.data.user.usertrioSet.forEach((usertrio) => {
+						let value = 0;
 						if (usertrio.trio.module.course.id == card.dataset.id) {
-							let value = 0;
 							usertrio.done.forEach((val) => {
 								if (val) {
 									value++;
 								}
 							});
-							prog.value = value;
 						}
+						prog.value = value;
 					});
 				}
 
