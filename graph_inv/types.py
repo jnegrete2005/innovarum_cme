@@ -1,4 +1,4 @@
-from graphene_django import DjangoObjectType
+from graphene_django import DjangoObjectType, DjangoListField
 
 from legacy.models import Course, Module, Quiz, UserQuiz, Question, Answer, Trio, UserTrio
 from cme.models import Bussines
@@ -40,15 +40,15 @@ class AnswerType(DjangoObjectType):
     fields = '__all__'
 
 
-class TrioType(DjangoObjectType):
-  class Meta:
-    model = Trio
-    fields = '__all__'
-
-
 class UserTrioType(DjangoObjectType):
   class Meta:
     model = UserTrio
+    fields = '__all__'
+
+
+class TrioType(DjangoObjectType):
+  class Meta:
+    model = Trio
     fields = '__all__'
 
 
@@ -56,3 +56,8 @@ class BusinessType(DjangoObjectType):
   class Meta:
     model = Bussines
     fields = '__all__'
+
+  trios = DjangoListField(UserTrioType)
+
+  def resolve_trios(value_obj, info):
+    return value_obj.trios
