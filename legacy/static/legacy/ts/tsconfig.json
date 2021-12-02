@@ -1,0 +1,9 @@
+{
+	"compilerOptions": {
+		"watch": true,
+		"target": "ESNext",
+		"lib": ["DOM", "ES2015"],
+		"outDir": "../js/",
+		"sourceMap": true,
+	}
+}

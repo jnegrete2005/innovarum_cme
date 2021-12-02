@@ -1,0 +1,104 @@
+.form-container {
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
+  margin: auto;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.form-container .btn-contrast {
+  background-color: #dd2f44;
+}
+.form-container .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 1rem;
+  margin: auto;
+}
+.form-container .form .btn-contrast {
+  margin-top: 1rem;
+}
+
+/* Form */
+.form_group {
+  position: relative;
+  padding: 15px 0 0;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.form_field {
+  font-family: inherit;
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #9b9b9b;
+  outline: 0;
+  font-size: 1.3rem;
+  color: #000000;
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+}
+.form_field::-moz-placeholder {
+  color: transparent;
+}
+.form_field:-ms-input-placeholder {
+  color: transparent;
+}
+.form_field::placeholder {
+  color: transparent;
+}
+.form_field:-moz-placeholder-shown ~ .form_label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
+}
+.form_field:-ms-input-placeholder ~ .form_label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
+}
+.form_field:placeholder-shown ~ .form_label {
+  font-size: 1.3rem;
+  cursor: text;
+  top: 20px;
+}
+
+.form_label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #9b9b9b;
+}
+
+.form_field:focus {
+  padding-bottom: 6px;
+  font-weight: 700;
+  border-width: 3px;
+  -o-border-image: linear-gradient(to right, #dd2f44, #d02237);
+     border-image: linear-gradient(to right, #dd2f44, #d02237);
+  border-image-slice: 1;
+}
+.form_field:focus ~ .form_label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: #dd2f44;
+  font-weight: 700;
+}
+
+/* reset input */
+.form_field:required, .form_field:invalid {
+  box-shadow: none;
+}
+
+.end-text {
+  text-align: center;
+  margin: 1em 0;
+}/*# sourceMappingURL=forms.css.map */

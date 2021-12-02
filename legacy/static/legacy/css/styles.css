@@ -147,4 +147,81 @@ body {
   letter-spacing: 0.3ch;
   width: 100%;
   font-size: 2.3em;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 2rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+@media only screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  .container:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.card {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  grid-template-rows: repeat(auto-fit, minmax(10rem, 1fr));
+  grid-template-areas: "image" "progress";
+  border-radius: 18px;
+  background: white;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
+  text-align: center;
+  transition: 200ms ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: #000000;
+}
+.card .card-image {
+  grid-area: image;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  background-size: cover;
+}
+.card .card-text {
+  grid-area: progress;
+  margin: 1.5em;
+}
+.card .card-text h2 {
+  margin: 0;
+}
+.card:hover {
+  transform: scale(1.1);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
+}
+
+.btn-contrast {
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  border-radius: 500px;
+  transition-property: background-color, border-color, color, box-shadow, filter;
+  transition-duration: 0.3s;
+  border: 1px solid transparent;
+  letter-spacing: 1px;
+  min-width: 160px;
+  text-transform: uppercase;
+  white-space: normal;
+  font-weight: 700;
+  text-align: center;
+  padding: 1em 0.9em;
+  color: #fff;
+  background-color: #f07820;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+  text-decoration: none;
+}
+.btn-contrast:hover {
+  background-color: #e76b10;
 }/*# sourceMappingURL=styles.css.map */
