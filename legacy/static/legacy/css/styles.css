@@ -176,17 +176,20 @@ body {
   border-radius: 18px;
   background: white;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
-  text-align: center;
   transition: 200ms ease;
   cursor: pointer;
+  text-align: center;
   text-decoration: none;
   color: #000000;
+  max-width: 300px;
 }
 .card .card-image {
   grid-area: image;
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   background-size: cover;
+  max-width: 300px;
+  max-height: 200px;
 }
 .card .card-text {
   grid-area: progress;

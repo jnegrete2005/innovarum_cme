@@ -171,6 +171,7 @@
 		</main>
 
 		{% block js %}
+
 		<!-- Get user's id -->
 		{% if user.is_authenticated %} {{ request.user.id|json_script:"user_id" }} {% endif %}
 

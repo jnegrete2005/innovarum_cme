@@ -56,8 +56,3 @@ class BusinessType(DjangoObjectType):
   class Meta:
     model = Bussines
     fields = '__all__'
-
-  trios = DjangoListField(UserTrioType)
-
-  def resolve_trios(value_obj, info):
-    return value_obj.trios

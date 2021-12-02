@@ -1,18 +1,49 @@
-import type { CoursesQuery } from './graphql';
+import type { GetUserTriosCourses } from './graphql';
 
 const GRAPHQL_URL = 'graphql';
 
 function getCourses() {
-	// Create the query
-	const query = `
-    {
-      courses {
-        id
-        name
-        img
-      }
-    }
-  `;
+	// Create the query and body
+	let query: string;
+	let body: BodyInit;
+	const user_id: number | null = JSON.parse(document.getElementById('user_id').textContent);
+
+	if (user_id) {
+		query = `
+			query GetUserTriosCourses($id: ID!) {
+				user(id: $id) {
+					usertrioSet {
+						trio {
+							module {
+								course {
+									 id 
+								}
+							}
+						}
+						done
+					}
+				}
+				
+				courses {
+					id
+					name
+					img
+				}
+			}
+		`;
+		body = JSON.stringify({ query, variables: { id: user_id } });
+	} else {
+		query = `
+		{
+			courses {
+				id
+				name
+				img
+			}
+		}
+		`;
+		body = JSON.stringify({ query });
+	}
 
 	// Fetch
 	fetch(`/${GRAPHQL_URL}`, {
@@ -22,19 +53,19 @@ function getCourses() {
 			Accept: 'application/json',
 			'X-CSRFToken': getCookie('csrftoken'),
 		},
-		body: JSON.stringify({ query }),
+		body: body,
 		credentials: 'include',
 	})
 		.then((response) => {
 			if (!response.ok) throw Error(`${response.statusText} - ${response.status}`);
 			return response.json();
 		})
-		.then((data: CoursesQuery) => {
+		.then((data: GetUserTriosCourses) => {
 			// Get the container
 			const container = document.querySelector('#index > div.container');
 
 			// Render each course
-			data.data.courses.forEach((course) => {
+			data.data.courses.forEach((course, i) => {
 				// Create card
 				const card = document.createElement('a');
 				card.dataset.id = course.id.toString();
@@ -43,7 +74,7 @@ function getCourses() {
 				// Create img
 				const img = document.createElement('div');
 				img.classList.add('card-image');
-				img.style.backgroundImage = `url('/media/${course.img}')`;
+				img.style.backgroundImage = `url('/media/legacy/courses/${course.img}')`;
 
 				// Create text container
 				const text = document.createElement('div');
@@ -53,7 +84,31 @@ function getCourses() {
 				const h2 = document.createElement('h2');
 				h2.innerHTML = course.name;
 				const prog = document.createElement('progress');
-				/* TODO: Add max and value to progress */
+
+				// Set the progress bar
+				let max = 0;
+				if (data.data.courses[i].modules) {
+					data.data.courses[i].modules.forEach((trio, i) => {
+						max += trio.trios.length * 3;
+					});
+					prog.max = max;
+				}
+
+				if (!data.data.user) {
+					prog.value = 0;
+				} else {
+					data.data.user.usertrioSet.forEach((usertrio) => {
+						if (usertrio.trio.module.course.id == card.dataset.id) {
+							let value = 0;
+							usertrio.done.forEach((val) => {
+								if (val) {
+									value++;
+								}
+							});
+							prog.value = value;
+						}
+					});
+				}
 
 				// Add title and prog to text
 				text.append(h2, prog);

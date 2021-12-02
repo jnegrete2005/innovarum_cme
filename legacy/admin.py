@@ -36,7 +36,7 @@ class AnswerAdmin(ModelAdmin):
 
 @register(Trio)
 class TrioAdmin(ModelAdmin):
-  list_display = ['file', 'quiz', 'video', 'module']
+  list_display = ['id', 'file', 'quiz', 'video', 'module']
 
 
 @register(UserTrio)
