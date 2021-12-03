@@ -1,4 +1,4 @@
-from graphene_django import DjangoObjectType, DjangoListField
+from graphene_django import DjangoObjectType
 
 from legacy.models import Course, Module, Quiz, UserQuiz, Question, Answer, Trio, UserTrio
 from cme.models import Bussines
