@@ -1,9 +1,16 @@
-const GRAPHQL_URL = 'graphql';
-function getCourses() {
+import { courseClick } from './course.js';
+export const GRAPHQL_URL = '/graphql';
+async function getCourses() {
     // Create the query and body
     let query;
     let body;
-    const user_id = JSON.parse(document.getElementById('user_id').textContent);
+    let user_id;
+    try {
+        user_id = JSON.parse(document.getElementById('user_id').textContent);
+    }
+    catch {
+        user_id = null;
+    }
     if (user_id) {
         query = `
 			query GetUserTriosCourses($id: ID!) {
@@ -42,7 +49,7 @@ function getCourses() {
         body = JSON.stringify({ query });
     }
     // Fetch
-    fetch(`/${GRAPHQL_URL}`, {
+    await fetch(GRAPHQL_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -69,7 +76,7 @@ function getCourses() {
             // Create img
             const img = document.createElement('div');
             img.classList.add('card-image');
-            img.style.backgroundImage = `url('/media/legacy/courses/${course.img}')`;
+            img.style.backgroundImage = `url('/media/${course.img}')`;
             // Create text container
             const text = document.createElement('div');
             text.classList.add('card-text');
@@ -108,9 +115,13 @@ function getCourses() {
             // Append new card to container
             container.append(card);
         });
+    })
+        .catch((error) => {
+        alert(error.message);
     });
 }
-getCourses();
+await getCourses();
+courseClick();
 export function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== '') {

@@ -112,3 +112,156 @@ body {
 		background-color: $contrast-darken;
 	}
 }
+
+/* Modals */
+.modal {
+	display: none; /* Hidden by default */
+
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+
+	.modal-content {
+		background-color: white;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+		animation-name: animatetop;
+		animation-duration: 0.4s;
+
+		position: relative;
+		width: 50%;
+		max-height: calc(100% - 10rem);
+		overflow-y: auto; /* Enable scroll if needed */
+		overflow-x: hidden;
+
+		top: 5rem;
+		left: 4rem;
+		margin: auto auto auto auto;
+		padding: 0;
+
+		border: 1px solid #888;
+		border-radius: 1rem;
+
+		@include md() {
+			width: 95%;
+			top: 5%;
+			left: 0;
+		}
+
+		.modal-header {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+
+			padding: 2px 16px;
+			background-color: $contrast;
+			color: white;
+
+			h2 {
+				margin: 0.4em 0;
+			}
+
+			.close {
+				color: #666666;
+				float: right;
+				font-size: 28px;
+				font-weight: bold;
+
+				&:hover,
+				&:focus {
+					color: black;
+					text-decoration: none;
+					cursor: pointer;
+				}
+			}
+		}
+
+		.modal-body {
+			padding: 2px 16px;
+
+			.course-module-list {
+				list-style: none;
+				padding: 0;
+
+				.trios {
+					padding: 0;
+
+					li {
+						display: flex;
+						flex-direction: row;
+						justify-content: space-between;
+						align-items: center;
+
+						margin-bottom: 1em;
+
+						&:nth-child(3n) {
+							margin-bottom: 1.7em;
+						}
+
+						div {
+							display: flex;
+							flex-direction: row;
+							justify-content: space-between;
+							align-items: center;
+
+							overflow: hidden;
+
+							img {
+								width: 24px;
+								height: 24px;
+
+								margin-right: 0.7em;
+							}
+
+							a {
+								text-overflow: ellipsis;
+								text-decoration: none;
+								white-space: nowrap;
+								color: $main;
+
+								overflow: hidden;
+							}
+						}
+
+						input[type='checkbox'] {
+							min-width: 21px;
+							min-height: 21px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// Animate modals
+@keyframes animatetop {
+	from {
+		top: -300px;
+		opacity: 0;
+	}
+	to {
+		top: 5rem;
+		opacity: 1;
+	}
+}
+
+@include md() {
+	@keyframes animatetop {
+		from {
+			top: -300px;
+			opacity: 0;
+		}
+		to {
+			top: 5%;
+			opacity: 1;
+		}
+	}
+}

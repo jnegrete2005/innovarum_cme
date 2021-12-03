@@ -25,4 +25,23 @@ type GetUserTriosCourses = {
 	};
 };
 
-export type { GetUserTriosCourses };
+type GetCourse = {
+	data: {
+		course: {
+			id: string;
+			name: string;
+			modules?: {
+				trios?: {
+					id: string;
+					file: string;
+					video: string;
+					quiz: null | {
+						id: string;
+					};
+				}[];
+			}[];
+		};
+	};
+};
+
+export type { GetUserTriosCourses, GetCourse };

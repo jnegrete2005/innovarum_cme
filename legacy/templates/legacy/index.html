@@ -13,6 +13,7 @@
 
 		<link rel="stylesheet" href="{% static 'legacy/css/styles.css' %}" />
 		<link rel="stylesheet" href="{% static 'legacy/css/navbar.css' %}" />
+		<link rel="stylesheet" href="{% static 'legacy/css/forms.css' %}" />
 
 		{% block css %} {% endblock css %}
 
@@ -161,6 +162,20 @@
 			</ul>
 		</nav>
 
+		<!-- Modal -->
+		<div id="modal" class="modal">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 id="modal-title"></h2>
+					<span class="close">&times;</span>
+				</div>
+
+				<div class="modal-body">
+					<ul class="course-module-list"></ul>
+				</div>
+			</div>
+		</div>
+
 		<main>
 			{% block main %}
 			<div id="index">
@@ -176,6 +191,7 @@
 		{% if user.is_authenticated %} {{ request.user.id|json_script:"user_id" }} {% endif %}
 
 		<script src="{% static 'legacy/js/index.js' %}" type="module"></script>
+		<script src="{% static 'legacy/js/course.js' %}" type="module" defer></script>
 		{% endblock js %}
 	</body>
 </html>
