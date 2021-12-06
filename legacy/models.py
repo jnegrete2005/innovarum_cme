@@ -97,6 +97,9 @@ class Trio(models.Model):
   module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='trios')
   user = models.ManyToManyField('cme.Bussines', related_name='trios', through='UserTrio', through_fields=('trio', 'user'))
 
+  def __str__(self) -> str:
+    return f'Trio {self.id} de {self.module}'
+
 
 class UserTrio(models.Model):
   """

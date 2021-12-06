@@ -1,4 +1,5 @@
 import { getCookie, GRAPHQL_URL } from './index.js';
+import { updateUsertrio } from './trios.js';
 const modal = document.getElementById('modal');
 const span = document.getElementsByClassName('close')[0];
 const query = `
@@ -8,6 +9,9 @@ const query = `
 			name
 			modules {
 				trios {
+					usertrioSet {
+						done
+					}
 					id
 					file
 					video
@@ -53,6 +57,7 @@ export function courseClick() {
 }
 // Will fill the modal with the course info
 function fillCourse(data) {
+    modal.dataset.id = data.data.course.id;
     // Get the modal
     const mBody = modal.getElementsByClassName('modal-body')[0];
     // Get modal title
@@ -73,10 +78,20 @@ function fillCourse(data) {
             const ul = document.createElement('ul');
             ul.classList.add('trios');
             if (module.trios) {
-                module.trios.forEach((trio, i) => {
-                    createTrio(trio, `/media/${trio.file}`, trio.file.split('/')[2], '/static/legacy/icons/file.svg', ul);
-                    createTrio(trio, trio.video, trio.video, '/static/legacy/icons/play.svg', ul);
-                    createTrio(trio, '', 'Autoevaluación', '/static/legacy/icons/pencil.svg', ul);
+                module.trios.forEach((trio) => {
+                    // Get trio
+                    const template_trio = [
+                        createTrio(trio, `/media/${trio.file}`, trio.file.split('/')[2], '/static/legacy/icons/file.svg', 0),
+                        createTrio(trio, trio.video, trio.video, '/static/legacy/icons/play.svg', 1),
+                        createTrio(trio, '', 'Autoevaluación', '/static/legacy/icons/pencil.svg', 2),
+                    ];
+                    // Create a wrapper div for trio
+                    const wrapper_trio = document.createElement('div');
+                    wrapper_trio.ariaRoleDescription = 'Wrap a trio';
+                    wrapper_trio.dataset.id = trio.id;
+                    wrapper_trio.append(...template_trio);
+                    // Append wrapper
+                    ul.append(wrapper_trio);
                 });
             }
             // Join everything
@@ -84,8 +99,9 @@ function fillCourse(data) {
             ml.append(li);
         });
     }
+    updateUsertrio();
 }
-function createTrio(trio, href, innerText, icon, ul) {
+function createTrio(trio, href, innerText, icon, i) {
     // Create li for trio
     const tLi = document.createElement('li');
     // Create the link
@@ -104,14 +120,33 @@ function createTrio(trio, href, innerText, icon, ul) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.name = trio.id;
+    checkbox.checked = trio.usertrioSet[0] ? trio.usertrioSet[0].done[i] : false;
     // Append the anchor tags to the li, and the li to the ul
     tLi.append(div, checkbox);
-    ul.append(tLi);
+    return tLi;
 }
 function clearModal() {
     modal.style.display = 'none';
+    // Try closing from a course
+    try {
+        // Get the progress bar value from the checkboxes
+        let val = 0;
+        Array.from(modal.querySelectorAll('li')).forEach((el) => {
+            if (el.lastElementChild.checked) {
+                val++;
+            }
+        });
+        // Find the course it closed from
+        Array.from(document.querySelectorAll('a.card')).forEach((card) => {
+            if (card.dataset.id === modal.dataset.id) {
+                card.querySelector('progress').value = val;
+            }
+        });
+        modal.dataset.id = null;
+    }
+    catch { }
     document.getElementsByClassName('course-module-list')[0].innerHTML = null;
-    document.getElementsByClassName('modal-title')[0].innerHTML = null;
+    document.getElementById('modal-title').innerHTML = null;
     return;
 }
 // When the user clicks on <span> (x), close the modal
@@ -126,7 +161,7 @@ window.addEventListener('click', (event) => {
 });
 // When the user clicks esc, close the modal
 window.addEventListener('keydown', (event) => {
-    if (event.key == 'Escape' && event.target == modal) {
+    if (event.key == 'Escape' && modal.style.display == 'block') {
         clearModal();
     }
 });

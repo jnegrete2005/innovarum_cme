@@ -32,6 +32,11 @@ type GetCourse = {
 			name: string;
 			modules?: {
 				trios?: {
+					usertrioSet:
+						| null
+						| {
+								done: [boolean, boolean, boolean];
+						  }[];
 					id: string;
 					file: string;
 					video: string;
@@ -44,4 +49,15 @@ type GetCourse = {
 	};
 };
 
-export type { GetUserTriosCourses, GetCourse };
+type UpdateUserTrio = {
+	data: {
+		updateUsertrio: {
+			trio: {
+				id: string;
+				done: [boolean, boolean, boolean];
+			};
+		};
+	};
+};
+
+export type { GetUserTriosCourses, GetCourse, UpdateUserTrio };

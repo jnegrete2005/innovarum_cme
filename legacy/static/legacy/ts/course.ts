@@ -1,4 +1,5 @@
 import { getCookie, GRAPHQL_URL } from './index.js';
+import { updateUsertrio } from './trios.js';
 
 import type { GetCourse } from './graphql';
 
@@ -11,6 +12,9 @@ const query = `
 			name
 			modules {
 				trios {
+					usertrioSet {
+						done
+					}
 					id
 					file
 					video
@@ -59,6 +63,8 @@ export function courseClick() {
 
 // Will fill the modal with the course info
 function fillCourse(data: GetCourse) {
+	modal.dataset.id = data.data.course.id;
+
 	// Get the modal
 	const mBody = modal.getElementsByClassName('modal-body')[0];
 
@@ -84,10 +90,22 @@ function fillCourse(data: GetCourse) {
 			const ul = document.createElement('ul');
 			ul.classList.add('trios');
 			if (module.trios) {
-				module.trios.forEach((trio, i) => {
-					createTrio(trio, `/media/${trio.file}`, trio.file.split('/')[2], '/static/legacy/icons/file.svg', ul);
-					createTrio(trio, trio.video, trio.video, '/static/legacy/icons/play.svg', ul);
-					createTrio(trio, '', 'Autoevaluación', '/static/legacy/icons/pencil.svg', ul);
+				module.trios.forEach((trio) => {
+					// Get trio
+					const template_trio = [
+						createTrio(trio, `/media/${trio.file}`, trio.file.split('/')[2], '/static/legacy/icons/file.svg', 0),
+						createTrio(trio, trio.video, trio.video, '/static/legacy/icons/play.svg', 1),
+						createTrio(trio, '', 'Autoevaluación', '/static/legacy/icons/pencil.svg', 2),
+					];
+
+					// Create a wrapper div for trio
+					const wrapper_trio = document.createElement('div');
+					wrapper_trio.ariaRoleDescription = 'Wrap a trio';
+					wrapper_trio.dataset.id = trio.id;
+					wrapper_trio.append(...template_trio);
+
+					// Append wrapper
+					ul.append(wrapper_trio);
 				});
 			}
 
@@ -96,9 +114,27 @@ function fillCourse(data: GetCourse) {
 			ml.append(li);
 		});
 	}
+
+	updateUsertrio();
 }
 
-function createTrio(trio, href: string, innerText: string, icon: string, ul: HTMLUListElement) {
+function createTrio(
+	trio: {
+		usertrioSet: {
+			done: [boolean, boolean, boolean];
+		}[];
+		id: string;
+		file: string;
+		video: string;
+		quiz: {
+			id: string;
+		};
+	},
+	href: string,
+	innerText: string,
+	icon: string,
+	i: number
+) {
 	// Create li for trio
 	const tLi = document.createElement('li');
 
@@ -121,16 +157,38 @@ function createTrio(trio, href: string, innerText: string, icon: string, ul: HTM
 	const checkbox = document.createElement('input');
 	checkbox.type = 'checkbox';
 	checkbox.name = trio.id;
+	checkbox.checked = trio.usertrioSet[0] ? trio.usertrioSet[0].done[i] : false;
 
 	// Append the anchor tags to the li, and the li to the ul
 	tLi.append(div, checkbox);
-	ul.append(tLi);
+	return tLi;
 }
 
 function clearModal() {
 	modal.style.display = 'none';
+
+	// Try closing from a course
+	try {
+		// Get the progress bar value from the checkboxes
+		let val = 0;
+		Array.from(modal.querySelectorAll('li')).forEach((el) => {
+			if ((<HTMLInputElement>el.lastElementChild).checked) {
+				val++;
+			}
+		});
+
+		// Find the course it closed from
+		Array.from(document.querySelectorAll('a.card')).forEach((card: HTMLAnchorElement) => {
+			if (card.dataset.id === modal.dataset.id) {
+				card.querySelector('progress').value = val;
+			}
+		});
+
+		modal.dataset.id = null;
+	} catch {}
+
 	document.getElementsByClassName('course-module-list')[0].innerHTML = null;
-	document.getElementsByClassName('modal-title')[0].innerHTML = null;
+	document.getElementById('modal-title').innerHTML = null;
 	return;
 }
 
@@ -148,7 +206,7 @@ window.addEventListener('click', (event) => {
 
 // When the user clicks esc, close the modal
 window.addEventListener('keydown', (event) => {
-	if (event.key == 'Escape' && event.target == modal) {
+	if (event.key == 'Escape' && modal.style.display == 'block') {
 		clearModal();
 	}
 });

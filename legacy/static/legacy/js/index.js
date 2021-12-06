@@ -101,8 +101,8 @@ async function getCourses() {
                 prog.value = 0;
             }
             else {
+                let value = 0;
                 data.data.user.usertrioSet.forEach((usertrio) => {
-                    let value = 0;
                     if (usertrio.trio.module.course.id == card.dataset.id) {
                         usertrio.done.forEach((val) => {
                             if (val) {
@@ -126,6 +126,7 @@ async function getCourses() {
     });
 }
 await getCourses();
+// Run functions after main script
 courseClick();
 export function getCookie(name) {
     let cookieValue = null;
