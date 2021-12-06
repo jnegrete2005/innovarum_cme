@@ -24,7 +24,7 @@ async function getCourses() {
 						trio {
 							module {
 								course {
-									 id 
+									id 
 								}
 							}
 						}
@@ -36,6 +36,11 @@ async function getCourses() {
 					id
 					name
 					img
+					modules {
+						trios {
+							id
+						}
+					}
 				}
 			}
 		`;
@@ -95,8 +100,8 @@ async function getCourses() {
 
 				// Set the progress bar
 				let max = 0;
-				if (data.data.courses[i].modules) {
-					data.data.courses[i].modules.forEach((trio, i) => {
+				if (course.modules) {
+					course.modules.forEach((trio, i) => {
 						max += trio.trios.length * 3;
 					});
 				}
