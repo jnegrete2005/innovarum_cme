@@ -27,7 +27,7 @@
   margin-top: 1rem;
 }
 
-/* Quiz */
+/* Quiz and course */
 h2 {
   margin: 1.3em 0 0;
 }
@@ -55,24 +55,38 @@ h4 {
   }
 }
 
-.add {
+.add-remove {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 }
-.add .close {
+.add-remove .remove {
+  margin-right: 0.5em;
+}
+.add-remove .add,
+.add-remove .remove {
   font-size: x-large;
   float: right;
   font-size: 28px;
   font-weight: bold;
   transition: all 200ms ease;
 }
-.add .close:hover, .add .close:focus {
+.add-remove .add:hover, .add-remove .add:focus,
+.add-remove .remove:hover,
+.add-remove .remove:focus {
   color: #dd2f44;
   text-decoration: none;
   cursor: pointer;
 }
-.add + .form_group {
+.add-remove .disabled {
+  color: gray;
+}
+.add-remove .disabled:hover, .add-remove .disabled:focus {
+  color: gray;
+  text-decoration: none;
+  cursor: default;
+}
+.add-remove + .form_group {
   margin-top: 0;
 }
 

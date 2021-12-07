@@ -34,7 +34,7 @@
 	}
 }
 
-/* Quiz */
+/* Quiz and course */
 h2 {
 	margin: 1.3em 0 0;
 }
@@ -60,12 +60,17 @@ h4 {
 	}
 }
 
-.add {
+.add-remove {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
 
-	.close {
+	.remove {
+		margin-right: 0.5em;
+	}
+
+	.add,
+	.remove {
 		font-size: x-large;
 		float: right;
 		font-size: 28px;
@@ -77,6 +82,17 @@ h4 {
 			color: $legacy;
 			text-decoration: none;
 			cursor: pointer;
+		}
+	}
+
+	.disabled {
+		color: gray;
+
+		&:hover,
+		&:focus {
+			color: gray;
+			text-decoration: none;
+			cursor: default;
 		}
 	}
 
