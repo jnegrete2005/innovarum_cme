@@ -39,10 +39,10 @@ function addAnswer(el) {
     // Get the index of the question
     const i = parseInt(el.parentElement.parentElement.parentElement.parentElement.dataset.index);
     // Get the answer container
-    const answers = el.parentElement.parentElement.parentElement;
+    const answer_container = el.parentElement.parentElement.parentElement;
     // Get the index of the answer
-    const j = parseInt(answers.children[answers.children.length - 1].dataset.index);
-    answers.innerHTML += `
+    const j = parseInt(answer_container.children[answer_container.children.length - 1].dataset.index);
+    answer_container.innerHTML += `
     <div class="form_group field answer" data-index="${j + 1}">
       <input type="checkbox" name="answer${i}-checkbox" />
       <div>
@@ -51,6 +51,10 @@ function addAnswer(el) {
       </div>
     </div>
   `;
+    // Check (for validation) if there is more that 1 answer to remove .disabled
+    if (answer_container.children.length > 2) {
+        answer_container.querySelector('span.remove').classList.remove('disabled');
+    }
     return;
 }
 function addQuestion(el) {
@@ -74,7 +78,7 @@ function addQuestion(el) {
 					<h4>Respuestas</h4>
 					<div>
 						<span class="add">&plus;</span>
-						<span class="remove">&minus;</span>
+						<span class="remove disabled">&minus;</span>
 					</div>
 				</div>
 				<div class="form_group field answer" data-index="1">
@@ -97,9 +101,23 @@ function remove(el) {
     if (el.classList.contains('disabled'))
         return;
     // Case for question
-    if (el.parentElement.dataset.question === 'true') {
-        removeQuestion(el);
+    if (el.parentElement.dataset.question === 'true')
+        return removeQuestion(el);
+    // Case for answer
+    removeAnswer(el);
+}
+function removeAnswer(el) {
+    // Get answer container
+    const answer_container = el.parentElement.parentElement.parentElement;
+    // Get last answer
+    const last_answer = answer_container.children[answer_container.children.length - 1];
+    // Remove answer
+    last_answer.remove();
+    // Check if there is only 1 answer to add disabled to the remove btn
+    if (answer_container.children.length <= 2) {
+        el.classList.add('disabled');
     }
+    return;
 }
 function removeQuestion(el) {
     // Get last question
@@ -111,5 +129,6 @@ function removeQuestion(el) {
     if (document.getElementsByClassName('questions')[0].children.length <= 1) {
         el.classList.add('disabled');
     }
+    return;
 }
 //# sourceMappingURL=quiz.js.map
