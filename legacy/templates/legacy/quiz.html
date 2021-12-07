@@ -30,7 +30,7 @@
 				<h2>Preguntas</h2>
 				<div data-question="true">
 					<span class="add">&plus;</span>
-					<span class="remove">&minus;</span>
+					<span class="remove disabled">&minus;</span>
 				</div>
 			</div>
 			<div class="questions">
@@ -47,12 +47,15 @@
 							<h4>Respuestas</h4>
 							<div>
 								<span class="add">&plus;</span>
-								<span class="remove">&minus;</span>
+								<span class="remove disabled">&minus;</span>
 							</div>
 						</div>
-						<div class="form_group field" data-index="1">
-							<input class="form_field" type="text" name="answer1" id="answer-1-1-Input" placeholder="Respuesta 1" />
-							<label class="form_label" for="answer-1-1-Input">Respuesta 1</label>
+						<div class="form_group field answer" data-index="1">
+							<input type="checkbox" name="answer1-checkbox" />
+							<div>
+								<input class="form_field" type="text" name="answer1" id="answer-1-1-Input" placeholder="Respuesta 1" />
+								<label class="form_label" for="answer-1-1-Input">Respuesta 1</label>
+							</div>
 						</div>
 					</div>
 				</div>

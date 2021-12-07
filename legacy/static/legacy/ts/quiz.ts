@@ -14,13 +14,31 @@ Array.from(document.getElementsByClassName('remove')).forEach((el) => {
 
 function add(el: HTMLElement) {
 	// Case for question
-	if (el.parentElement.dataset.question === 'true') return addQuestion();
+	if (el.parentElement.dataset.question === 'true') {
+		addQuestion(el);
+	} else {
+		// Case for answer
+		addAnswer(el);
+	}
 
-	// Case for answer
-	return addAnswer(el);
+	Array.from(document.getElementsByClassName('answer-container')).forEach((el) => {
+		// Add event listener to all .add inside .answer-container
+		Array.from(el.getElementsByClassName('add')).forEach((el: HTMLElement) => {
+			el.addEventListener('click', () => {
+				add(el);
+			});
+		});
+
+		// Add event listener to all .remove inside .answer-container
+		Array.from(el.getElementsByClassName('remove')).forEach((el: HTMLElement) => {
+			el.addEventListener('click', () => {
+				remove(el);
+			});
+		});
+	});
+
+	return;
 }
-
-function remove(el: HTMLElement) {}
 
 function addAnswer(el: HTMLElement) {
 	// Get the index of the question
@@ -33,20 +51,19 @@ function addAnswer(el: HTMLElement) {
 	const j = parseInt((<HTMLElement>answers.children[answers.children.length - 1]).dataset.index);
 
 	answers.innerHTML += `
-    <div class="form_group field" data-index="${j + 1}">
-      <input class="form_field" type="text" name="answer${i}" id="answer-${i}-${j + 1}-Input" placeholder="Respuesta ${j + 1}" />
-      <label class="form_label" for="answer-${i}-${j + 1}-Input">Respuesta ${j + 1}</label>
+    <div class="form_group field answer" data-index="${j + 1}">
+      <input type="checkbox" name="answer${i}-checkbox" />
+      <div>
+        <input class="form_field" type="text" name="answer${i}" id="answer-${i}-${j + 1}-Input" placeholder="Respuesta ${j + 1}" />
+        <label class="form_label" for="answer-${i}-${j + 1}-Input">Respuesta ${j + 1}</label>
+      </div>
     </div>
   `;
-
-	answers.querySelector('span.add').addEventListener('click', () => {
-		add(answers.querySelector('span.add'));
-	});
 
 	return;
 }
 
-function addQuestion() {
+function addQuestion(el: HTMLElement) {
 	// Get the container
 	const question_container = document.getElementsByClassName('questions')[0];
 
@@ -56,40 +73,59 @@ function addQuestion() {
 
 	// Append to it
 	question_container.innerHTML += `
-  <div class="questions">
-    <div class="question" data-index="${i + 1}">
-      <h3>Pregunta ${i + 1}</h3>
-      <div class="form_group field">
-        <input class="form_field" type="text" name="question" id="question${i + 1}Input" placeholder="Pregunta ${i + 1}" />
-        <label class="form_label" for="question${i + 1}Input">Pregunta ${i + 1}</label>
-      </div>
+		<div class="question" data-index="${i + 1}">
+			<h3>Pregunta ${i + 1}</h3>
+			<div class="form_group field">
+				<input class="form_field" type="text" name="question" id="question${i + 1}Input" placeholder="Pregunta ${i + 1}" />
+				<label class="form_label" for="question${i + 1}Input">Pregunta ${i + 1}</label>
+			</div>
 
-      <!-- Answers -->
-      <div class="answer-container">
-        <div class="add-remove">
-          <h4>Respuestas</h4>
-          <div>
-            <span class="add">&plus;</span>
-            <span class="remove">&minus;</span>
-          </div>
-        </div>
-        <div class="form_group field" data-index="1">
-          <input class="form_field" type="text" name="answer${i + 1}" id="answer-${i + 1}-1-Input" placeholder="Respuesta 1" />
-          <label class="form_label" for="answer-${i + 1}-1-Input">Respuesta 1</label>
-        </div>
-      </div>
-    </div>
-  </div>
+			<!-- Answers -->
+			<div class="answer-container">
+				<div class="add-remove">
+					<h4>Respuestas</h4>
+					<div>
+						<span class="add">&plus;</span>
+						<span class="remove">&minus;</span>
+					</div>
+				</div>
+				<div class="form_group field answer" data-index="1">
+					<input type="checkbox" name="answer${i + 1}-checkbox" />
+					<div>
+						<input class="form_field" type="text" name="answer${i + 1}" id="answer-${i + 1}-1-Input" placeholder="Respuesta 1" />
+						<label class="form_label" for="answer-${i + 1}-1-Input">Respuesta 1</label>
+					</div>
+				</div>
+			</div>
+		</div>
   `;
 
-	// Add event listener to all .add inside .answer-container
-	Array.from(document.getElementsByClassName('answer-container')).forEach((el) => {
-		Array.from(el.getElementsByClassName('add')).forEach((el: HTMLElement) => {
-			el.addEventListener('click', () => {
-				add(el);
-			});
-		});
-	});
-
+	if (question_container.children.length > 1) {
+		el.nextElementSibling.classList.remove('disabled');
+	}
 	return;
+}
+
+function remove(el: HTMLElement) {
+	// Check if disabled
+	if (el.classList.contains('disabled')) return;
+
+	// Case for question
+	if (el.parentElement.dataset.question === 'true') {
+		removeQuestion(el);
+	}
+}
+
+function removeQuestion(el: HTMLElement) {
+	// Get last question
+	let last_question: HTMLCollection | HTMLElement = document.getElementsByClassName('question');
+	last_question = <HTMLElement>last_question[last_question.length - 1];
+
+	// Remove it
+	last_question.remove();
+
+	// Check if there is only 1 question to add disabled to the remove btn
+	if (document.getElementsByClassName('questions')[0].children.length <= 1) {
+		el.classList.add('disabled');
+	}
 }

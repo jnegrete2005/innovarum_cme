@@ -93,6 +93,18 @@ h4 {
 .answer-container {
   margin-left: 1.5em;
 }
+.answer-container .answer {
+  display: flex;
+  align-items: baseline;
+  -moz-column-gap: 0.5em;
+       column-gap: 0.5em;
+}
+.answer-container .answer div {
+  width: 100%;
+}
+.answer-container:last-of-type {
+  margin-bottom: 5em;
+}
 
 /* Form */
 .form_group {

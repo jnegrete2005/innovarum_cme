@@ -103,6 +103,20 @@ h4 {
 
 .answer-container {
 	margin-left: 1.5em;
+
+	.answer {
+		display: flex;
+		align-items: baseline;
+		column-gap: 0.5em;
+
+		div {
+			width: 100%;
+		}
+	}
+
+	&:last-of-type {
+		margin-bottom: 5em;
+	}
 }
 
 /* Form */
