@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.handlers.wsgi import WSGIRequest
 from django.db import IntegrityError
-from django.http.response import HttpResponseBadRequest
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_GET, require_http_methods, require_safe
 
@@ -13,6 +12,26 @@ def index(request: WSGIRequest):
   Index view for Legacy App
   """
   return render(request, 'legacy/index.html')
+
+
+# Create URLs
+@require_GET
+def create_view(request: WSGIRequest):
+  """
+  Will return a template to choose what you want to create.
+
+  It is not supposed to be used that much.
+  """
+  return render(request, 'legacy/create.html')
+
+
+@require_http_methods(['GET', 'POST'])
+def create_quiz(request: WSGIRequest):
+  """
+  Will create a quiz
+  """
+  if request.method == 'GET':
+    return render(request, 'legacy/quiz.html')
 
 
 # User URLs

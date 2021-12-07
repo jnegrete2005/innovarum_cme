@@ -6,6 +6,12 @@
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+  overflow: auto;
+}
+@media only screen and (max-width: 576px) {
+  .form-container {
+    margin-bottom: 6rem;
+  }
 }
 .form-container .btn-contrast {
   background-color: #dd2f44;
@@ -19,6 +25,59 @@
 }
 .form-container .form .btn-contrast {
   margin-top: 1rem;
+}
+
+/* Quiz */
+h2 {
+  margin: 1.3em 0 0;
+}
+
+h3 {
+  margin: 1.5em 0 -0.5em;
+}
+
+h4 {
+  margin: 1.5em 0 0;
+  font-size: larger;
+}
+
+.w-100 {
+  width: 70%;
+}
+@media only screen and (max-width: 768px) {
+  .w-100 {
+    width: 90%;
+  }
+}
+@media only screen and (max-width: 576px) {
+  .w-100 {
+    width: 100%;
+  }
+}
+
+.add {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.add .close {
+  font-size: x-large;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  transition: all 200ms ease;
+}
+.add .close:hover, .add .close:focus {
+  color: #dd2f44;
+  text-decoration: none;
+  cursor: pointer;
+}
+.add + .form_group {
+  margin-top: 0;
+}
+
+.answer-container {
+  margin-left: 1.5em;
 }
 
 /* Form */

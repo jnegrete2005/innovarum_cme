@@ -1,0 +1,12 @@
+{% extends 'legacy/index.html' %} {% load static %} {% block js %} {% endblock js %}
+
+<!-- Main -->
+{% block main %}
+<div class="container" style="flex-direction: column">
+	<h1 class="title">Crear</h1>
+	<div style="display: flex; justify-content: center; align-self: center; gap: 3em">
+		<a href="{% url 'legacy:create_quiz' %}" class="btn-contrast">Crear Quiz</a>
+		<a href="#" class="btn-contrast">Crear Curso</a>
+	</div>
+</div>
+{% endblock main %}

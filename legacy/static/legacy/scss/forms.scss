@@ -1,4 +1,6 @@
 @import 'colors';
+@import 'media_queries';
+@import 'media_queries';
 
 .form-container {
 	flex-direction: column;
@@ -7,6 +9,12 @@
 
 	margin: auto;
 	width: fit-content;
+
+	overflow: auto;
+
+	@include sm() {
+		margin-bottom: 6rem;
+	}
 
 	.btn-contrast {
 		background-color: $legacy;
@@ -24,6 +32,61 @@
 			margin-top: 1rem;
 		}
 	}
+}
+
+/* Quiz */
+h2 {
+	margin: 1.3em 0 0;
+}
+
+h3 {
+	margin: 1.5em 0 -0.5em;
+}
+
+h4 {
+	margin: 1.5em 0 0;
+	font-size: larger;
+}
+
+.w-100 {
+	width: 70%;
+
+	@include md() {
+		width: 90%;
+	}
+
+	@include sm() {
+		width: 100%;
+	}
+}
+
+.add {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+
+	.close {
+		font-size: x-large;
+		float: right;
+		font-size: 28px;
+		font-weight: bold;
+		transition: all 200ms ease;
+
+		&:hover,
+		&:focus {
+			color: $legacy;
+			text-decoration: none;
+			cursor: pointer;
+		}
+	}
+
+	& + .form_group {
+		margin-top: 0;
+	}
+}
+
+.answer-container {
+	margin-left: 1.5em;
 }
 
 /* Form */
