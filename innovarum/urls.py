@@ -39,12 +39,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('cme/', include('cme.urls')),
     path('pres/', include('presupuestos.urls')),
-    path('legacy/', include('legacy.urls')),
-    path('graphql', GraphQLView.as_view(graphiql=False)),
-    path('graphiql', admin_required(GraphQLView.as_view(graphiql=True))),
 ]
 
 if settings.DEBUG:
+  urlpatterns.extend([path('legacy/', include('legacy.urls')),
+                     path('graphql', GraphQLView.as_view(graphiql=False)),
+                     path('graphiql', admin_required(GraphQLView.as_view(graphiql=True))), ])
+
   urlpatterns += (
       static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) +
       static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
