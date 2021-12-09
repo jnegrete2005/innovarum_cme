@@ -1,3 +1,6 @@
+from typing import List
+from .models import Quiz, Question, Answer
+
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.core.handlers.wsgi import WSGIRequest
 from django.db import IntegrityError
@@ -33,8 +36,50 @@ def create_quiz(request: WSGIRequest):
   if request.method == 'GET':
     return render(request, 'legacy/quiz.html')
 
+  # Get and create quiz
+  quiz = request.POST.get('quiz').strip()
+  quiz = Quiz.objects.create(name=quiz)
+
+  # Get questions
+  questions = request.POST.getlist('question', None)
+
+  # Iterate through questions
+  for i, question in enumerate(questions):
+    question = question.strip()
+    question = Question.objects.create(name=question, quiz=quiz)
+
+    # Get answers
+    answers = list(map(lambda item: True if item == 'on' else item, request.POST.getlist(f'answer{i + 1}')))
+
+    # Will represent if the current answer is new
+    new_answer = True
+
+    # Iterate through answers
+    for i, answer in enumerate(answers):
+      # Check if the element is a radio
+      if answer == True:
+        Answer.objects.create(name=answers[i + 1].strip(), is_correct=True, question=question)
+
+        # Set next answer to not new
+        new_answer = False
+
+      # If element is not a radio
+      if answer != True:
+        # If it is an old answer, set new_answer to True for next iteration
+        if new_answer == False:
+          new_answer = True
+          continue
+
+        # If it is a new answer, create it
+        else:
+          Answer.objects.create(name=answer.strip(), is_correct=False, question=question)
+
+  return redirect('legacy:create_quiz')
+
 
 # User URLs
+
+
 @require_http_methods(['GET', 'POST'])
 def login_view(request: WSGIRequest):
   """ View to login in Legacy """

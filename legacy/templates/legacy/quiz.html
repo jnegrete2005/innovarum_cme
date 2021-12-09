@@ -16,7 +16,8 @@
 	</script>
 	{% endif %}
 
-	<form action="#" method="post">
+	<form action="{% url 'legacy:create_quiz' %}" method="post">
+		{% csrf_token %}
 		<!-- Quiz -->
 		<h2>Nombre del Quiz</h2>
 		<div class="form_group field">
@@ -51,7 +52,7 @@
 							</div>
 						</div>
 						<div class="form_group field answer" data-index="1">
-							<input type="checkbox" name="answer1-checkbox" />
+							<input type="radio" name="answer1" />
 							<div>
 								<input class="form_field" type="text" name="answer1" id="answer-1-1-Input" placeholder="Respuesta 1" />
 								<label class="form_label" for="answer-1-1-Input">Respuesta 1</label>
@@ -60,6 +61,10 @@
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div>
+			<input type="submit" value="Subir" class="btn-contrast" />
 		</div>
 	</form>
 </div>

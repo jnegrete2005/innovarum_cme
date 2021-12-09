@@ -52,7 +52,7 @@ function addAnswer(el: HTMLElement) {
 
 	answer_container.innerHTML += `
     <div class="form_group field answer" data-index="${j + 1}">
-      <input type="checkbox" name="answer${i}-checkbox" />
+      <input type="radio" name="answer${i}" />
       <div>
         <input class="form_field" type="text" name="answer${i}" id="answer-${i}-${j + 1}-Input" placeholder="Respuesta ${j + 1}" />
         <label class="form_label" for="answer-${i}-${j + 1}-Input">Respuesta ${j + 1}</label>
@@ -95,7 +95,7 @@ function addQuestion(el: HTMLElement) {
 					</div>
 				</div>
 				<div class="form_group field answer" data-index="1">
-					<input type="checkbox" name="answer${i + 1}-checkbox" />
+					<input type="radio" name="answer${i + 1}" />
 					<div>
 						<input class="form_field" type="text" name="answer${i + 1}" id="answer-${i + 1}-1-Input" placeholder="Respuesta 1" />
 						<label class="form_label" for="answer-${i + 1}-1-Input">Respuesta 1</label>
