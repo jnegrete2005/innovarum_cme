@@ -42,6 +42,8 @@ type GetCourse = {
 					video: string;
 					quiz: null | {
 						id: string;
+						name: string;
+						gUrl: string;
 					};
 				}[];
 			}[];

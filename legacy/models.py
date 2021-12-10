@@ -40,6 +40,7 @@ class Quiz(models.Model):
   """
   name = models.CharField(max_length=200)
   user = models.ManyToManyField('cme.Bussines', related_name='quizes', through='UserQuiz', through_fields=('quiz', 'user'))
+  g_url = models.URLField(blank=True, null=True)
 
   def __str__(self) -> str:
     return f'{self.name}'
