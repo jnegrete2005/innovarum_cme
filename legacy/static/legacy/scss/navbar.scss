@@ -85,6 +85,7 @@ main {
 
 	.nav-link {
 		color: $text;
+		justify-content: space-between !important;
 
 		&:hover {
 			color: #dd2f44;
