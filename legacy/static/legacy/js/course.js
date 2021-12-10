@@ -16,7 +16,9 @@ const query = `
 					file
 					video
 					quiz {
+						id
 						name
+						gUrl
 					}
 				}
 			}
@@ -78,12 +80,14 @@ function fillCourse(data) {
             const ul = document.createElement('ul');
             ul.classList.add('trios');
             if (module.trios) {
+                module.trios.reverse();
                 module.trios.forEach((trio) => {
+                    const quiz_url = trio.quiz?.gUrl ? trio.quiz?.gUrl : trio.quiz?.id ? `quiz/${trio.quiz.id}` : '#';
                     // Get trio
                     const template_trio = [
                         createTrio(trio, `/media/${trio.file}`, trio.file.split('/')[2], '/static/legacy/icons/file.svg', 0),
                         createTrio(trio, trio.video, trio.video, '/static/legacy/icons/play.svg', 1),
-                        createTrio(trio, '', 'Autoevaluación', '/static/legacy/icons/pencil.svg', 2),
+                        createTrio(trio, quiz_url, 'Autoevaluación', '/static/legacy/icons/pencil.svg', 2, true),
                     ];
                     // Create a wrapper div for trio
                     const wrapper_trio = document.createElement('div');
@@ -101,13 +105,14 @@ function fillCourse(data) {
     }
     updateUsertrio();
 }
-function createTrio(trio, href, innerText, icon, i) {
+function createTrio(trio, href, innerText, icon, i, new_tab = false) {
     // Create li for trio
     const tLi = document.createElement('li');
     // Create the link
     const a = document.createElement('a');
     a.href = href;
     a.innerText = innerText;
+    a.target = new_tab ? '_blank' : a.target;
     // Create icon
     const svg = document.createElement('img');
     svg.src = icon;

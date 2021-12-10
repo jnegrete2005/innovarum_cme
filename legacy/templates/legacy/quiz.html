@@ -1,0 +1,31 @@
+{% extends 'legacy/index.html' %} {% load static %} {% block js %} {% endblock js %}
+
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'legacy/css/quiz.css' %}" />
+{% endblock css %}
+
+<!-- Main -->
+{% block main %}
+<article itemscope itemtype="https://schema.org/RegisterAction" class="form-container w-100">
+	<h1 class="title">{{ quiz.name }}</h1>
+	<form action="{% url 'legacy:take_quiz' quiz.id %}" method="post">
+		{% csrf_token %}
+
+		<!-- Questions -->
+		{% for question in quiz.questions.all %}
+		<div class="question">
+			<h2>{{ question.name }}</h2>
+			<div class="answer-container">
+				{% for answer in question.answers.all %}
+				<div class="answer">
+					<input type="radio" name="answer-{{ question.id }}-{{ answer.id }}" id="answer-{{ question.id }}-{{ answer.id }" />
+					<label for="answer-{{ question.id }}-{{ answer.id }}">{{ answer.name }}</label>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+		{% endfor %}
+	</form>
+</article>
+{% endblock main %}

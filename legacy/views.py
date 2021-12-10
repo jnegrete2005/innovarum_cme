@@ -16,6 +16,15 @@ def index(request: WSGIRequest):
   return render(request, 'legacy/index.html')
 
 
+@require_http_methods(['GET', 'POST'])
+def quiz_view(request: WSGIRequest, id: int):
+  """
+  Will return a template to take the quiz.
+  """
+  if request.method == 'GET':
+    return render(request, 'legacy/quiz.html', {'quiz': Quiz.objects.get(id=id)})
+
+
 # Create URLs
 @require_GET
 def create_view(request: WSGIRequest):
