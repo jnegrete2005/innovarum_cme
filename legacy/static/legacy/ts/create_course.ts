@@ -20,6 +20,7 @@ function add(el: HTMLElement) {
 		addModule(el);
 
 		const last_trio = document.getElementsByClassName('trio-container')[document.getElementsByClassName('trio-container').length - 1];
+
 		// Get the last add el
 		const last_add = last_trio.getElementsByClassName('add')[0];
 		last_add.addEventListener('click', () => {
