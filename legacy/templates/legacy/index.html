@@ -22,6 +22,7 @@
 	<body>
 		<nav class="navbar">
 			<ul class="navbar-nav">
+				<!-- Logo -->
 				<li class="logo">
 					<a href="{% url 'legacy:index' %}" class="nav-link">
 						<span class="link-text">Legacy</span>
@@ -53,6 +54,8 @@
 						</svg>
 					</a>
 				</li>
+
+				<!-- Profile -->
 				<li class="nav-item">
 					<a href="#" class="nav-link">
 						<svg
@@ -74,6 +77,8 @@
 						<span class="link-text">Tu perfil</span>
 					</a>
 				</li>
+
+				<!-- Ongoing courses -->
 				<li class="nav-item">
 					<a href="#" class="nav-link">
 						<svg
@@ -95,6 +100,8 @@
 						<span class="link-text">Cursos en progreso</span>
 					</a>
 				</li>
+
+				<!-- Completed courses -->
 				<li class="nav-item">
 					<a href="#" class="nav-link">
 						<svg
@@ -116,6 +123,33 @@
 						<span class="link-text">Cursos completados</span>
 					</a>
 				</li>
+
+				{% if user.is_staff %}
+				<!-- Create -->
+				<li class="nav-item">
+					<a href="{% url 'legacy:create' %}" class="nav-link">
+						<svg
+							aria-hidden="true"
+							focusable="false"
+							data-prefix="fas"
+							data-icon="plus"
+							class="svg-inline--fa fa-plus fa-w-14"
+							role="img"
+							xmlns="http://www.w3.org/2000/svg"
+							viewBox="0 0 448 512"
+							aria-details="By fontawesome. https://fontawesome.com/license"
+						>
+							<path
+								fill="currentColor"
+								d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"
+							></path>
+						</svg>
+						<span class="link-text">Crear curso/quiz</span>
+					</a>
+				</li>
+				{% endif %}
+
+				<!-- Log in/out -->
 				<li class="nav-item">
 					{% if user.is_authenticated %}
 					<a href="{% url 'legacy:logout' %}" class="nav-link">

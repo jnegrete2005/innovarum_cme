@@ -10,6 +10,7 @@ urlpatterns = [
     # Create URLs
     path('crear/', staff_member_required(views.create_view), name='create'),
     path('crear/quiz/', views.create_quiz, name='create_quiz'),
+    path('crear/curso/', views.create_course, name='create_course'),
 
     # User URLs
     path('login', views.login_view, name='login'),

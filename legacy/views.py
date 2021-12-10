@@ -1,4 +1,3 @@
-from typing import List
 from .models import Quiz, Question, Answer
 
 from django.contrib.auth import authenticate, login, logout, get_user_model
@@ -34,7 +33,7 @@ def create_quiz(request: WSGIRequest):
   Will create a quiz
   """
   if request.method == 'GET':
-    return render(request, 'legacy/quiz.html')
+    return render(request, 'legacy/create_quiz.html')
 
   # Get and create quiz
   quiz = request.POST.get('quiz').strip()
@@ -77,9 +76,20 @@ def create_quiz(request: WSGIRequest):
   return redirect('legacy:create_quiz')
 
 
+@require_http_methods(['GET', 'POST'])
+def create_course(request: WSGIRequest):
+  """
+  Request:
+  - POST: Will create a course
+  - GET: Will return the template to create
+  """
+  if request.method == 'GET':
+    return render(request, 'legacy/create_course.html', {
+        'quizzes': Quiz.objects.filter(trios=None)
+    })
+
+
 # User URLs
-
-
 @require_http_methods(['GET', 'POST'])
 def login_view(request: WSGIRequest):
   """ View to login in Legacy """
