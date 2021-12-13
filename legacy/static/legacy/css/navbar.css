@@ -23,6 +23,7 @@ main {
 
 .nav-item {
   width: 100%;
+  cursor: pointer;
 }
 .nav-item:last-child {
   margin-top: auto;

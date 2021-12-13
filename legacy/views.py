@@ -26,14 +26,6 @@ def quiz_view(request: WSGIRequest, id: int):
     return render(request, 'legacy/quiz.html', {'quiz': Quiz.objects.get(id=id)})
 
 
-@require_safe
-def profile_view(request: WSGIRequest, id: int):
-  """
-  Will return a template to see the profile of the user
-  """
-  return render(request, 'legacy/profile.html', {'profile': get_user_model().objects.get(pk=id)})
-
-
 # Create URLs
 @require_GET
 def create_view(request: WSGIRequest):

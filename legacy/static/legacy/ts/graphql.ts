@@ -58,4 +58,11 @@ type UpdateUserTrio = {
 	};
 };
 
-export type { GetUserTriosCourses, GetCourse, UpdateUserTrio };
+interface courseModes {
+	all: 'all';
+	ongoing: 'ongoing';
+	done: 'done';
+	initial: 'initial';
+}
+
+export type { GetUserTriosCourses, GetCourse, UpdateUserTrio, courseModes };
