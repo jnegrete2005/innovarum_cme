@@ -15,11 +15,7 @@ const query = `
 					id
 					file
 					video
-					quiz {
-						id
-						name
-						gUrl
-					}
+					quiz
 				}
 			}
 		}
@@ -28,6 +24,13 @@ const query = `
 export function courseClick() {
     Array.from(document.getElementsByClassName('card')).forEach((card) => {
         card.addEventListener('click', () => {
+            // If not logged in, put an error
+            try {
+                JSON.parse(document.getElementById('user_id').textContent);
+            }
+            catch {
+                return alert('Inicie sesión para acceder a los cursos.');
+            }
             // When the user clicks on the button, open the modal
             modal.style.display = 'block';
             // Get the course's ID
@@ -82,7 +85,7 @@ function fillCourse(data) {
             if (module.trios) {
                 module.trios.reverse();
                 module.trios.forEach((trio) => {
-                    const quiz_url = trio.quiz?.gUrl ? trio.quiz?.gUrl : trio.quiz?.id ? `quiz/${trio.quiz.id}` : '#';
+                    const quiz_url = trio.quiz ? trio.quiz : '#';
                     // Get trio
                     const template_trio = [
                         createTrio(trio, `/media/${trio.file}`, trio.file.split('/')[2], '/static/legacy/icons/file.svg', 0),

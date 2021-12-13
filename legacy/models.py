@@ -25,7 +25,7 @@ class Module(models.Model):
 
   Module's contents will be stored in `Trio`s
   """
-  index = models.PositiveSmallIntegerField(unique=True)
+  index = models.PositiveSmallIntegerField()
   course = models.ForeignKey(Course, on_delete=models.PROTECT, related_name='modules')
 
   def __str__(self) -> str:
@@ -93,7 +93,8 @@ class Trio(models.Model):
   (which will be key to `Quiz`)
   """
   file = models.FileField(upload_to='legacy/classes/', max_length=254)
-  quiz = models.ForeignKey(Quiz, on_delete=models.SET_NULL, related_name='trios', null=True, blank=True)
+  """ FOR NOW QUIZ WILL BE A URL """
+  quiz = models.URLField(null=True, blank=True)
   video = models.URLField()
   module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='trios')
   user = models.ManyToManyField('cme.Bussines', related_name='trios', through='UserTrio', through_fields=('trio', 'user'))

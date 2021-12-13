@@ -172,6 +172,49 @@ select.form_field option {
   filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
 }
 
+.readonly {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  display: block;
+  margin: calc(1.5em - 10px) 0 0;
+  padding: 10px 0 0;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  border: none;
+  background: none;
+  outline: none;
+  font-size: 1.5em;
+}
+.readonly::-moz-placeholder {
+  -moz-appearance: none;
+       appearance: none;
+  color: black;
+  height: -moz-max-content;
+  height: max-content;
+}
+.readonly:-ms-input-placeholder {
+  appearance: none;
+  color: black;
+  height: max-content;
+}
+.readonly::placeholder {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  color: black;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+}
+.readonly:hover {
+  cursor: text;
+}
+
 /* Form */
 .form_group {
   position: relative;

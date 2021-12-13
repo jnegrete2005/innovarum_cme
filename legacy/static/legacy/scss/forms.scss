@@ -175,10 +175,6 @@ select.form_field {
 		align-items: center;
 		width: 100%;
 		height: 100%;
-
-		// top: calc(1em + 2px);
-		// left: 25%;
-		// right: 25%;
 	}
 
 	&:hover,
@@ -200,6 +196,31 @@ select.form_field {
 		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
 		cursor: pointer;
 		filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+	}
+}
+
+.readonly {
+	appearance: none;
+	display: block;
+
+	margin: calc(1.5em - 10px) 0 0;
+	padding: 10px 0 0;
+	height: max-content;
+	width: min-content;
+
+	border: none;
+	background: none;
+	outline: none;
+	font-size: 1.5em;
+
+	&::placeholder {
+		appearance: none;
+		color: black;
+		height: max-content;
+	}
+
+	&:hover {
+		cursor: text;
 	}
 }
 

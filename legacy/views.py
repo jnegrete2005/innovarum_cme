@@ -1,6 +1,7 @@
-from .models import Quiz, Question, Answer
+from .models import Course, Module, Quiz, Question, Answer, Trio
 
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
@@ -23,6 +24,14 @@ def quiz_view(request: WSGIRequest, id: int):
   """
   if request.method == 'GET':
     return render(request, 'legacy/quiz.html', {'quiz': Quiz.objects.get(id=id)})
+
+
+@require_safe
+def profile_view(request: WSGIRequest, id: int):
+  """
+  Will return a template to see the profile of the user
+  """
+  return render(request, 'legacy/profile.html', {'profile': get_user_model().objects.get(pk=id)})
 
 
 # Create URLs
@@ -96,6 +105,45 @@ def create_course(request: WSGIRequest):
     return render(request, 'legacy/create_course.html', {
         'quizzes': Quiz.objects.filter(trios=None)
     })
+
+  # Get course
+  course = request.POST.get('course').strip()
+
+  # Get the file for course
+  course_img = request.FILES.get('course-img')
+  img_name = default_storage.save(f'legacy/courses/{course_img.name}', course_img)
+
+  # Save course
+  course = Course.objects.create(name=course, img=img_name)
+
+  # Get the modules
+  modules = request.POST.getlist('module', None)
+
+  # Iterate through the modules
+  for i, module in enumerate(modules):
+    module = module.strip()
+    module = Module.objects.create(index=i + 1, course=course)
+
+    # Get trios
+    trios = request.POST.getlist(f'trio-{i + 1}')
+
+    # Create a trio every 2 elements
+    for j in range(len(trios)):
+      if j % 2 != 0:
+        continue
+
+      # Get file
+      t_file = request.FILES.getlist(f'trio-{i + 1}')[int(j / 2)]
+      t_filename = default_storage.save(f'legacy/classes/{t_file}', t_file)
+
+      # Get other elements
+      vid = trios[j]
+      quiz = trios[j + 1]
+
+      # Create the trio
+      Trio.objects.create(file=t_filename, quiz=quiz, video=vid, module=module)
+
+  return redirect('legacy:index')
 
 
 # User URLs

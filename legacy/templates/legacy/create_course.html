@@ -16,7 +16,7 @@
 	</script>
 	{% endif %}
 
-	<form action="{% url 'legacy:create_course' %}" method="post">
+	<form action="{% url 'legacy:create_course' %}" method="post" enctype="multipart/form-data">
 		{% csrf_token %}
 
 		<!-- Course -->
@@ -24,6 +24,10 @@
 		<div class="form_group field">
 			<input class="form_field" type="text" name="course" id="courseInput" placeholder="Nombre" />
 			<label class="form_label" for="courseInput">Nombre</label>
+		</div>
+
+		<div class="wrapper field">
+			<input type="file" class="browse" name="course-img" required />
 		</div>
 
 		<div class="modules-container">
@@ -38,7 +42,7 @@
 			<!-- Modules -->
 			<div class="modules">
 				<div class="module" data-index="1">
-					<h3>Módulo 1</h3>
+					<input type="text" class="readonly" name="module" value="Módulo 1" placeholder="Módulo 1" readonly aria-readonly="true" />
 
 					<!-- Trios -->
 					<div class="trio-container">
@@ -54,24 +58,19 @@
 						<div class="trio" data-index="1">
 							<!-- File -->
 							<div class="wrapper field">
-								<!-- <span class="wrapper-text">Arrastra y suelta el archivo aquí</span> -->
-								<input type="file" class="browse" name="trio-1-1" required />
+								<input type="file" class="browse" name="trio-1" required />
 							</div>
 
 							<!-- Video -->
 							<div class="form_group field">
-								<input class="form_field" type="url" name="trio-1-1" id="trio-1-1-input" placeholder="Video" />
+								<input class="form_field" type="url" name="trio-1" id="trio-1-1-input" placeholder="Video" />
 								<label class="form_label" for="trio-1-1-input">Video</label>
 							</div>
 
 							<!-- Quiz -->
 							<div class="form_group field">
-								<select name="trio-1-1" class="form_field" id="trio-1-1-select">
-									<option selected>Seleccionar quiz</option>
-									{% for quiz in quizzes %}
-									<option value="{{ quiz.id }}">{{ quiz.name }}</option>
-									{% endfor %}
-								</select>
+								<input class="form_field" type="url" name="trio-1" id="trio-1-1-input" placeholder="Quiz" />
+								<label class="form_label" for="trio-1-1-input">Quiz</label>
 							</div>
 						</div>
 					</div>

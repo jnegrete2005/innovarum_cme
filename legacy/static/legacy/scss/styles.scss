@@ -165,6 +165,7 @@ body {
 			align-items: center;
 
 			padding: 2px 16px;
+
 			background-color: $contrast;
 			color: white;
 
@@ -194,6 +195,10 @@ body {
 				list-style: none;
 				padding: 0;
 
+				h2 {
+					margin-bottom: 1em;
+				}
+
 				.trios {
 					padding: 0;
 
@@ -206,7 +211,7 @@ body {
 						margin-bottom: 1em;
 
 						&:nth-child(3n) {
-							margin-bottom: 1.7em;
+							margin-bottom: 2em;
 						}
 
 						div {

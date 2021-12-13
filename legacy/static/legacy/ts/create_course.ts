@@ -58,18 +58,18 @@ function addTrio(el: HTMLElement) {
 		<div class="trio" data-index="${j + 1}">
 			<!-- File -->
 			<div class="wrapper field">
-				<input type="file" class="browse" name="trio-${i}-${j + 1}" />
+				<input type="file" class="browse" name="trio-${i}" />
 			</div>
 
 			<!-- Video -->
 			<div class="form_group field">
-				<input class="form_field" type="url" name="trio-${i}-${j + 1}" id="trio-${i}-${j + 1}-input" placeholder="Video" />
+				<input class="form_field" type="url" name="trio-${i}" id="trio-${i}-${j + 1}-input" placeholder="Video" />
 				<label class="form_label" for="trio-${i}-${j + 1}-input">Video</label>
 			</div>
 
 			<!-- Quiz -->
 			<div class="form_group field">
-				<select name="trio-${i}-${j + 1}" class="form_field" id="trio-${i}-${j + 1}-select">
+				<select name="trio-${i}" class="form_field" id="trio-${i}-${j + 1}-select">
 					${select}
 				</select>
 			</div>
@@ -94,7 +94,7 @@ function addModule(el: HTMLElement) {
 	module_container.insertAdjacentHTML(
 		'beforeend',
 		`<div class="module" data-index="${i + 1}">
-			<h3>Módulo ${i + 1}</h3>
+			<input type="text" class="readonly" name="module" value="Módulo ${i + 1}" placeholder="Módulo ${i + 1}" readonly disabled aria-readonly="true" />
 
 			<!-- Trios -->
 			<div class="trio-container">
@@ -110,18 +110,18 @@ function addModule(el: HTMLElement) {
 				<div class="trio" data-index="1">
 					<!-- File -->
 					<div class="wrapper field">
-						<input type="file" class="browse" name="trio-${i + 1}-1" />
+						<input type="file" class="browse" name="trio-${i + 1}" />
 					</div>
 
 					<!-- Video -->
 					<div class="form_group field">
-						<input class="form_field" type="url" name="trio-${i + 1}-1" id="trio-${i + 1}-1-input" placeholder="Video" />
+						<input class="form_field" type="url" name="trio-${i + 1}" id="trio-${i + 1}-1-input" placeholder="Video" />
 						<label class="form_label" for="trio-${i + 1}-1-input">Video</label>
 					</div>
 
 					<!-- Quiz -->
 					<div class="form_group field">
-						<select name="trio-${i + 1}-1" class="form_field" id="trio-${i + 1}-1-select">
+						<select name="trio-${i + 1}" class="form_field" id="trio-${i + 1}-1-select">
 							<option selected>Seleccionar quiz</option>
 							{% for quiz in quizzes %}
 							<option value="{{ quiz.id }}">{{ quiz.name }}</option>

@@ -40,11 +40,7 @@ type GetCourse = {
 					id: string;
 					file: string;
 					video: string;
-					quiz: null | {
-						id: string;
-						name: string;
-						gUrl: string;
-					};
+					quiz: null | string;
 				}[];
 			}[];
 		};
