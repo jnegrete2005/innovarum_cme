@@ -70,6 +70,7 @@ main {
 }
 .logo .nav-link {
   color: #000000;
+  justify-content: space-between !important;
 }
 .logo .nav-link:hover {
   color: #dd2f44;
@@ -309,6 +310,9 @@ body {
   list-style: none;
   padding: 0;
 }
+.modal .modal-content .modal-body .course-module-list h2 {
+  margin-bottom: 1em;
+}
 .modal .modal-content .modal-body .course-module-list .trios {
   padding: 0;
 }
@@ -320,7 +324,7 @@ body {
   margin-bottom: 1em;
 }
 .modal .modal-content .modal-body .course-module-list .trios li:nth-child(3n) {
-  margin-bottom: 1.7em;
+  margin-bottom: 2em;
 }
 .modal .modal-content .modal-body .course-module-list .trios li div {
   display: flex;

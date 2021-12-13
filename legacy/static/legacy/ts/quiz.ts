@@ -16,26 +16,26 @@ function add(el: HTMLElement) {
 	// Case for question
 	if (el.parentElement.dataset.question === 'true') {
 		addQuestion(el);
-	} else {
-		// Case for answer
-		addAnswer(el);
+
+		const last_answer = document.getElementsByClassName('answer-container')[document.getElementsByClassName('answer-container').length - 1];
+
+		// Get the last add el
+		const last_add = last_answer.getElementsByClassName('add')[0];
+		last_add.addEventListener('click', () => {
+			add(<HTMLElement>last_add);
+		});
+
+		// Get last remove el
+		const last_remove = last_answer.getElementsByClassName('remove')[0];
+		last_remove.addEventListener('click', () => {
+			remove(<HTMLElement>last_remove);
+		});
 	}
 
-	Array.from(document.getElementsByClassName('answer-container')).forEach((el) => {
-		// Add event listener to all .add inside .answer-container
-		Array.from(el.getElementsByClassName('add')).forEach((el: HTMLElement) => {
-			el.addEventListener('click', () => {
-				add(el);
-			});
-		});
-
-		// Add event listener to all .remove inside .answer-container
-		Array.from(el.getElementsByClassName('remove')).forEach((el: HTMLElement) => {
-			el.addEventListener('click', () => {
-				remove(el);
-			});
-		});
-	});
+	// Case for answer
+	else {
+		addAnswer(el);
+	}
 
 	return;
 }
@@ -50,15 +50,18 @@ function addAnswer(el: HTMLElement) {
 	// Get the index of the answer
 	const j = parseInt((<HTMLElement>answer_container.children[answer_container.children.length - 1]).dataset.index);
 
-	answer_container.innerHTML += `
-    <div class="form_group field answer" data-index="${j + 1}">
-      <input type="radio" name="answer${i}" />
-      <div>
-        <input class="form_field" type="text" name="answer${i}" id="answer-${i}-${j + 1}-Input" placeholder="Respuesta ${j + 1}" />
-        <label class="form_label" for="answer-${i}-${j + 1}-Input">Respuesta ${j + 1}</label>
-      </div>
-    </div>
-  `;
+	answer_container.insertAdjacentHTML(
+		'beforeend',
+		`
+			<div class="form_group field answer" data-index="${j + 1}">
+				<input type="radio" name="answer${i}" />
+				<div>
+					<input class="form_field" type="text" name="answer${i}" id="answer-${i}-${j + 1}-Input" placeholder="Respuesta ${j + 1}" />
+					<label class="form_label" for="answer-${i}-${j + 1}-Input">Respuesta ${j + 1}</label>
+				</div>
+			</div>
+		`
+	);
 
 	// Check (for validation) if there is more that 1 answer to remove .disabled
 	if (answer_container.children.length > 2) {
@@ -77,33 +80,36 @@ function addQuestion(el: HTMLElement) {
 	const i = parseInt((<HTMLDivElement>last_question).dataset.index);
 
 	// Append to it
-	question_container.innerHTML += `
-		<div class="question" data-index="${i + 1}">
-			<h3>Pregunta ${i + 1}</h3>
-			<div class="form_group field">
-				<input class="form_field" type="text" name="question" id="question${i + 1}Input" placeholder="Pregunta ${i + 1}" />
-				<label class="form_label" for="question${i + 1}Input">Pregunta ${i + 1}</label>
-			</div>
+	question_container.insertAdjacentHTML(
+		'beforeend',
+		`
+			<div class="question" data-index="${i + 1}">
+				<h3>Pregunta ${i + 1}</h3>
+				<div class="form_group field">
+					<input class="form_field" type="text" name="question" id="question${i + 1}Input" placeholder="Pregunta ${i + 1}" />
+					<label class="form_label" for="question${i + 1}Input">Pregunta ${i + 1}</label>
+				</div>
 
-			<!-- Answers -->
-			<div class="answer-container">
-				<div class="add-remove">
-					<h4>Respuestas</h4>
-					<div>
-						<span class="add">&plus;</span>
-						<span class="remove disabled">&minus;</span>
+				<!-- Answers -->
+				<div class="answer-container">
+					<div class="add-remove">
+						<h4>Respuestas</h4>
+						<div>
+							<span class="add">&plus;</span>
+							<span class="remove disabled">&minus;</span>
+						</div>
 					</div>
-				</div>
-				<div class="form_group field answer" data-index="1">
-					<input type="radio" name="answer${i + 1}" />
-					<div>
-						<input class="form_field" type="text" name="answer${i + 1}" id="answer-${i + 1}-1-Input" placeholder="Respuesta 1" />
-						<label class="form_label" for="answer-${i + 1}-1-Input">Respuesta 1</label>
+					<div class="form_group field answer" data-index="1">
+						<input type="radio" name="answer${i + 1}" />
+						<div>
+							<input class="form_field" type="text" name="answer${i + 1}" id="answer-${i + 1}-1-Input" placeholder="Respuesta 1" />
+							<label class="form_label" for="answer-${i + 1}-1-Input">Respuesta 1</label>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-  `;
+		`
+	);
 
 	if (question_container.children.length > 1) {
 		el.nextElementSibling.classList.remove('disabled');

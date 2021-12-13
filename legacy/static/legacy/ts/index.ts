@@ -1,10 +1,10 @@
 import { courseClick } from './course.js';
 
-import type { GetUserTriosCourses } from './graphql';
+import type { GetUserTriosCourses, courseModes } from './graphql';
 
 export const GRAPHQL_URL = '/graphql';
 
-async function getCourses() {
+async function getCourses(option: keyof courseModes) {
 	// Create the query and body
 	let query: string;
 	let body: BodyInit;
@@ -16,36 +16,43 @@ async function getCourses() {
 		user_id = null;
 	}
 
+	if ((window.location.href.split('/')[4] === '#done' || window.location.href.split('/')[4] === '#ongoing') && option === 'initial')
+		option = <keyof courseModes>window.location.href.split('/')[4].replace('#', '');
+
+	if (option === 'initial') option = 'all';
+
 	if (user_id) {
 		query = `
-			query GetUserTriosCourses($id: ID!) {
-				user(id: $id) {
-					usertrioSet {
-						trio {
-							module {
-								course {
-									id 
+				query GetUserTriosCourses($id: ID, $option: String!) {
+					user(id: $id) {
+						usertrioSet {
+							trio {
+								module {
+									course {
+										id 
+									}
 								}
 							}
-						}
-						done
-					}
-				}
-				
-				courses {
-					id
-					name
-					img
-					modules {
-						trios {
-							id
+							done
 						}
 					}
+					
+					courses(id: $id, option: $option) {
+						id
+						name
+						img
+						modules {
+							trios {
+								id
+							}
+						}
+					}
 				}
-			}
-		`;
-		body = JSON.stringify({ query, variables: { id: user_id } });
+			`;
+
+		body = JSON.stringify({ query, variables: { id: user_id, option: option } });
 	} else {
+		if (option !== 'all') return alert('Inicie sesión para acceder a los cursos.');
 		query = `
 		{
 			courses {
@@ -76,6 +83,12 @@ async function getCourses() {
 		.then((data: GetUserTriosCourses) => {
 			// Get the container
 			const container = document.querySelector('#index > div.container');
+			container.innerHTML = '';
+
+			if (data.data.courses.length === 0) {
+				alert('No hay cursos. Te mandaremos a la página principal');
+				return getCourses('all');
+			}
 
 			// Render each course
 			data.data.courses.forEach((course, i) => {
@@ -132,13 +145,17 @@ async function getCourses() {
 				// Append new card to container
 				container.append(card);
 			});
+
+			if (window.location.pathname.split('/')[2] === option) return;
+			if ((history.state?.option === 'all' || history.state?.option === null || history.state === null) && option === 'all') return;
+			history.pushState(option === 'all' ? null : { option }, '', option === 'all' ? '' : `./${option}`);
 		})
 		.catch((error: Error) => {
 			alert(error.message);
 		});
 }
 
-await getCourses();
+await getCourses('initial');
 
 // Run functions after main script
 courseClick();
@@ -161,3 +178,19 @@ export function getCookie(name: string): string {
 	}
 	return cookieValue;
 }
+
+/* Event listeners for other courses options */
+Array.from(document.getElementsByClassName('course')).forEach((el: HTMLElement) => {
+	el.addEventListener('click', async () => {
+		// Get selected courses
+		await getCourses(el.classList.contains('ongoing') ? 'ongoing' : 'done');
+
+		// Run functions after main script
+		courseClick();
+	});
+});
+
+window.addEventListener('popstate', (event) => {
+	if (!event.state?.option) return getCourses('all');
+	getCourses(event.state.option);
+});

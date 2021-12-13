@@ -18,9 +18,7 @@ const query = `
 					id
 					file
 					video
-					quiz {
-						name
-					}
+					quiz
 				}
 			}
 		}
@@ -30,6 +28,13 @@ const query = `
 export function courseClick() {
 	Array.from(document.getElementsByClassName('card')).forEach((card: HTMLAnchorElement) => {
 		card.addEventListener('click', () => {
+			// If not logged in, put an error
+			try {
+				JSON.parse(document.getElementById('user_id').textContent);
+			} catch {
+				return alert('Inicie sesión para acceder a los cursos.');
+			}
+
 			// When the user clicks on the button, open the modal
 			modal.style.display = 'block';
 
@@ -90,12 +95,16 @@ function fillCourse(data: GetCourse) {
 			const ul = document.createElement('ul');
 			ul.classList.add('trios');
 			if (module.trios) {
+				module.trios.reverse();
+
 				module.trios.forEach((trio) => {
+					const quiz_url = trio.quiz ? trio.quiz : '#';
+
 					// Get trio
 					const template_trio = [
 						createTrio(trio, `/media/${trio.file}`, trio.file.split('/')[2], '/static/legacy/icons/file.svg', 0),
 						createTrio(trio, trio.video, trio.video, '/static/legacy/icons/play.svg', 1),
-						createTrio(trio, '', 'Autoevaluación', '/static/legacy/icons/pencil.svg', 2),
+						createTrio(trio, quiz_url, 'Autoevaluación', '/static/legacy/icons/pencil.svg', 2, true),
 					];
 
 					// Create a wrapper div for trio
@@ -126,14 +135,13 @@ function createTrio(
 		id: string;
 		file: string;
 		video: string;
-		quiz: {
-			id: string;
-		};
+		quiz: string;
 	},
 	href: string,
 	innerText: string,
 	icon: string,
-	i: number
+	i: number,
+	new_tab = false
 ) {
 	// Create li for trio
 	const tLi = document.createElement('li');
@@ -142,6 +150,7 @@ function createTrio(
 	const a = document.createElement('a');
 	a.href = href;
 	a.innerText = innerText;
+	a.target = new_tab ? '_blank' : a.target;
 
 	// Create icon
 	const svg = document.createElement('img');

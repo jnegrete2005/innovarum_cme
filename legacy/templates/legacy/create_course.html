@@ -1,0 +1,86 @@
+{% extends 'legacy/index.html' %} {% load static %}
+
+<!-- JS -->
+{% block js %}
+<script src="{% static 'legacy/js/create_course.js' %}" type="module"></script>
+{% endblock js %}
+
+<!-- Main -->
+{% block main %}
+<div class="form-container w-100">
+	<h1 class="title">Crear Curso</h1>
+
+	{% if message %} {{ message|json_script:'message' }}
+	<script>
+		alert(JSON.parse(document.getElementById('message').textContent));
+	</script>
+	{% endif %}
+
+	<form action="{% url 'legacy:create_course' %}" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+
+		<!-- Course -->
+		<h2>Nombre del curso</h2>
+		<div class="form_group field">
+			<input class="form_field" type="text" name="course" id="courseInput" placeholder="Nombre" />
+			<label class="form_label" for="courseInput">Nombre</label>
+		</div>
+
+		<div class="wrapper field">
+			<input type="file" class="browse" name="course-img" required />
+		</div>
+
+		<div class="modules-container">
+			<div class="add-remove">
+				<h2>Modules</h2>
+				<div data-module="true">
+					<span class="add">&plus;</span>
+					<span class="remove disabled">&minus;</span>
+				</div>
+			</div>
+
+			<!-- Modules -->
+			<div class="modules">
+				<div class="module" data-index="1">
+					<input type="text" class="readonly" name="module" value="Módulo 1" placeholder="Módulo 1" readonly aria-readonly="true" />
+
+					<!-- Trios -->
+					<div class="trio-container">
+						<div class="add-remove">
+							<h4>Tríos</h4>
+							<div>
+								<span class="add">&plus;</span>
+								<span class="remove disabled">&minus;</span>
+							</div>
+						</div>
+
+						<!-- Trio -->
+						<div class="trio" data-index="1">
+							<!-- File -->
+							<div class="wrapper field">
+								<input type="file" class="browse" name="trio-1" required />
+							</div>
+
+							<!-- Video -->
+							<div class="form_group field">
+								<input class="form_field" type="url" name="trio-1" id="trio-1-1-input" placeholder="Video" />
+								<label class="form_label" for="trio-1-1-input">Video</label>
+							</div>
+
+							<!-- Quiz -->
+							<div class="form_group field">
+								<input class="form_field" type="url" name="trio-1" id="trio-1-1-input" placeholder="Quiz" />
+								<label class="form_label" for="trio-1-1-input">Quiz</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<input type="submit" value="Subir" class="btn-contrast" />
+		</div>
+	</form>
+</div>
+{% endblock main %}

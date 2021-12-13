@@ -1,7 +1,7 @@
-from typing import List
-from .models import Quiz, Question, Answer
+from .models import Course, Module, Quiz, Question, Answer, Trio
 
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
@@ -15,6 +15,15 @@ def index(request: WSGIRequest):
   Index view for Legacy App
   """
   return render(request, 'legacy/index.html')
+
+
+@require_http_methods(['GET', 'POST'])
+def quiz_view(request: WSGIRequest, id: int):
+  """
+  Will return a template to take the quiz.
+  """
+  if request.method == 'GET':
+    return render(request, 'legacy/quiz.html', {'quiz': Quiz.objects.get(id=id)})
 
 
 # Create URLs
@@ -34,7 +43,7 @@ def create_quiz(request: WSGIRequest):
   Will create a quiz
   """
   if request.method == 'GET':
-    return render(request, 'legacy/quiz.html')
+    return render(request, 'legacy/create_quiz.html')
 
   # Get and create quiz
   quiz = request.POST.get('quiz').strip()
@@ -77,9 +86,59 @@ def create_quiz(request: WSGIRequest):
   return redirect('legacy:create_quiz')
 
 
+@require_http_methods(['GET', 'POST'])
+def create_course(request: WSGIRequest):
+  """
+  Request:
+  - POST: Will create a course
+  - GET: Will return the template to create
+  """
+  if request.method == 'GET':
+    return render(request, 'legacy/create_course.html', {
+        'quizzes': Quiz.objects.filter(trios=None)
+    })
+
+  # Get course
+  course = request.POST.get('course').strip()
+
+  # Get the file for course
+  course_img = request.FILES.get('course-img')
+  img_name = default_storage.save(f'legacy/courses/{course_img.name}', course_img)
+
+  # Save course
+  course = Course.objects.create(name=course, img=img_name)
+
+  # Get the modules
+  modules = request.POST.getlist('module', None)
+
+  # Iterate through the modules
+  for i, module in enumerate(modules):
+    module = module.strip()
+    module = Module.objects.create(index=i + 1, course=course)
+
+    # Get trios
+    trios = request.POST.getlist(f'trio-{i + 1}')
+
+    # Create a trio every 2 elements
+    for j in range(len(trios)):
+      if j % 2 != 0:
+        continue
+
+      # Get file
+      t_file = request.FILES.getlist(f'trio-{i + 1}')[int(j / 2)]
+      t_filename = default_storage.save(f'legacy/classes/{t_file}', t_file)
+
+      # Get other elements
+      vid = trios[j]
+      quiz = trios[j + 1]
+
+      # Create the trio
+      Trio.objects.create(file=t_filename, quiz=quiz, video=vid, module=module)
+
+  return redirect('legacy:index')
+
+
 # User URLs
-
-
 @require_http_methods(['GET', 'POST'])
 def login_view(request: WSGIRequest):
   """ View to login in Legacy """

@@ -1,0 +1,73 @@
+{% extends 'legacy/create.html' %} {% load static %}
+
+<!-- JS -->
+{% block js %}
+<script src="{% static 'legacy/js/quiz.js' %}" type="module"></script>
+{% endblock js %}
+
+<!-- Main -->
+{% block main %}
+<div class="form-container w-100">
+	<h1 class="title">Crear Quiz</h1>
+
+	{% if message %} {{ message|json_script:'message' }}
+	<script>
+		alert(JSON.parse(document.getElementById('message').textContent));
+	</script>
+	{% endif %}
+
+	<form action="{% url 'legacy:create_quiz' %}" method="post">
+		{% csrf_token %}
+
+		<!-- Quiz -->
+		<h2>Nombre del Quiz</h2>
+		<div class="form_group field">
+			<input class="form_field" type="text" name="quiz" id="quizInput" placeholder="Nombre" />
+			<label class="form_label" for="quizInput">Nombre</label>
+		</div>
+
+		<!-- Questions -->
+		<div class="question-container">
+			<div class="add-remove">
+				<h2>Preguntas</h2>
+				<div data-question="true">
+					<span class="add">&plus;</span>
+					<span class="remove disabled">&minus;</span>
+				</div>
+			</div>
+			<div class="questions">
+				<div class="question" data-index="1">
+					<h3>Pregunta 1</h3>
+					<div class="form_group field">
+						<input class="form_field" type="text" name="question" id="question1Input" placeholder="Pregunta 1" />
+						<label class="form_label" for="question1Input">Pregunta 1</label>
+					</div>
+
+					<!-- Answers -->
+					<div class="answer-container">
+						<div class="add-remove">
+							<h4>Respuestas</h4>
+							<div>
+								<span class="add">&plus;</span>
+								<span class="remove disabled">&minus;</span>
+							</div>
+						</div>
+
+						<div class="form_group field answer" data-index="1">
+							<input type="radio" name="answer1" />
+							<div>
+								<input class="form_field" type="text" name="answer1" id="answer-1-1-Input" placeholder="Respuesta 1" />
+								<label class="form_label" for="answer-1-1-Input">Respuesta 1</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div>
+			<input type="submit" value="Subir" class="btn-contrast" />
+		</div>
+	</form>
+</div>
+{% endblock main %}

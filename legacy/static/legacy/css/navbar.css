@@ -23,6 +23,7 @@ main {
 
 .nav-item {
   width: 100%;
+  cursor: pointer;
 }
 .nav-item:last-child {
   margin-top: auto;
@@ -69,6 +70,7 @@ main {
 }
 .logo .nav-link {
   color: #000000;
+  justify-content: space-between !important;
 }
 .logo .nav-link:hover {
   color: #dd2f44;

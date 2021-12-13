@@ -1,6 +1,5 @@
 @import 'colors';
 @import 'media_queries';
-@import 'media_queries';
 
 .form-container {
 	flex-direction: column;
@@ -101,7 +100,8 @@ h4 {
 	}
 }
 
-.answer-container {
+.answer-container,
+.trio-container {
 	margin-left: 1.5em;
 
 	.answer {
@@ -116,6 +116,111 @@ h4 {
 
 	&:last-of-type {
 		margin-bottom: 5em;
+	}
+}
+
+// Select
+select.form_field {
+	padding-left: 15px;
+
+	border: 1px solid gray;
+	border-radius: 1rem;
+
+	appearance: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+
+	background-image: url('data:image/svg+xml;utf8,<svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 10.127L12 18.127L20 10.127H4Z" fill="%238E8E93"/></svg>');
+	background-repeat: no-repeat;
+	background-position-y: 50%;
+	background-position-x: 98%;
+
+	cursor: pointer;
+
+	&:focus,
+	&:hover {
+		outline: none;
+		border: 1px solid $legacy;
+	}
+
+	option {
+		background-color: #fff;
+	}
+}
+
+// Margin after trios
+.trio {
+	margin-bottom: 4em;
+
+	&:last-of-type {
+		margin-bottom: 0;
+	}
+}
+
+// Input type file
+.wrapper {
+	margin-top: 1em;
+	width: calc(100% - 4px);
+	height: 4em;
+	border: gray dotted 2px;
+	position: relative;
+
+	&::before {
+		content: 'Arrastra y suelta el archivo aquí';
+		font-weight: 600;
+
+		position: absolute;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+	}
+
+	&:hover,
+	&:focus {
+		border: $legacy dotted 2px;
+
+		&::before {
+			color: $legacy;
+		}
+	}
+
+	.browse {
+		width: 100%;
+		height: 100%;
+
+		opacity: 0;
+		z-index: -1;
+
+		-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
+		cursor: pointer;
+		filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+	}
+}
+
+.readonly {
+	appearance: none;
+	display: block;
+
+	margin: calc(1.5em - 10px) 0 0;
+	padding: 10px 0 0;
+	height: max-content;
+	width: min-content;
+
+	border: none;
+	background: none;
+	outline: none;
+	font-size: 1.5em;
+
+	&::placeholder {
+		appearance: none;
+		color: black;
+		height: max-content;
+	}
+
+	&:hover {
+		cursor: text;
 	}
 }
 
