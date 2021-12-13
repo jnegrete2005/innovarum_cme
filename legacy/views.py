@@ -94,9 +94,7 @@ def create_course(request: WSGIRequest):
   - GET: Will return the template to create
   """
   if request.method == 'GET':
-    return render(request, 'legacy/create_course.html', {
-        'quizzes': Quiz.objects.filter(trios=None)
-    })
+    return render(request, 'legacy/create_course.html')
 
   # Get course
   course = request.POST.get('course').strip()
