@@ -26,7 +26,7 @@ from graphene_django.views import GraphQLView
 def admin_required(function=None):
   actual_decorator = user_passes_test(
       lambda u: u.is_superuser,
-      login_url='/vota/',
+      login_url='/legacy/login',
       redirect_field_name=''
   )
   if function:

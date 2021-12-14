@@ -6,11 +6,11 @@ from graphql import GraphQLError
 
 
 class Query(graphene.ObjectType):
-  courses = DjangoListField(CourseType, id=graphene.ID(required=False), option=graphene.String())
+  courses = DjangoListField(CourseType, option=graphene.String(), id=graphene.ID(required=False))
   course = graphene.Field(CourseType, id=graphene.ID())
   user = graphene.Field(BusinessType, id=graphene.ID())
 
-  def resolve_courses(root, info, id, option):
+  def resolve_courses(root, info, option, id=None):
     """ Query for getting all courses """
     # Always return all courses if option is all
     if option == 'all':

@@ -54,15 +54,15 @@ async function getCourses(option: keyof courseModes) {
 	} else {
 		if (option !== 'all') return alert('Inicie sesión para acceder a los cursos.');
 		query = `
-		{
-			courses {
+		query GetCourses($option: String!) {
+			courses(option: $option) {
 				id
 				name
 				img
 			}
 		}
 		`;
-		body = JSON.stringify({ query });
+		body = JSON.stringify({ query, variables: { option } });
 	}
 
 	// Fetch
