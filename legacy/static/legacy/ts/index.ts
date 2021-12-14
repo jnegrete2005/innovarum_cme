@@ -132,8 +132,8 @@ async function getCourses(option: keyof courseModes) {
 								}
 							});
 						}
-						prog.value = value;
 					});
+					prog.value = value;
 				}
 
 				// Add title and prog to text

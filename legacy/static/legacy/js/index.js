@@ -121,8 +121,8 @@ async function getCourses(option) {
                             }
                         });
                     }
-                    prog.value = value;
                 });
+                prog.value = value;
             }
             // Add title and prog to text
             text.append(h2, prog);
