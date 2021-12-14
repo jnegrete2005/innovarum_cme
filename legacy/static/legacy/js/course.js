@@ -1,4 +1,4 @@
-import { getCookie, GRAPHQL_URL } from './index.js';
+import { displayError, getCookie, GRAPHQL_URL } from './index.js';
 import { updateUsertrio } from './trios.js';
 const modal = document.getElementById('modal');
 const span = document.getElementsByClassName('close')[0];
@@ -29,7 +29,7 @@ export function courseClick() {
                 JSON.parse(document.getElementById('user_id').textContent);
             }
             catch {
-                return alert('Inicie sesión para acceder a los cursos.');
+                return displayError('Error de sesión', 'Inicie sesión para acceder a los cursos.');
             }
             // When the user clicks on the button, open the modal
             modal.style.display = 'block';
@@ -55,7 +55,7 @@ export function courseClick() {
                 fillCourse(data);
             })
                 .catch((error) => {
-                alert(error.message);
+                displayError('Error', error.message);
             });
         });
     });
@@ -133,7 +133,7 @@ function createTrio(trio, href, innerText, icon, i, new_tab = false) {
     tLi.append(div, checkbox);
     return tLi;
 }
-function clearModal() {
+export function clearModal() {
     modal.style.display = 'none';
     // Try closing from a course
     try {
@@ -153,7 +153,9 @@ function clearModal() {
         modal.dataset.id = null;
     }
     catch { }
-    document.getElementsByClassName('course-module-list')[0].innerHTML = null;
+    const m_body = document.getElementsByClassName('modal-body')[0];
+    m_body.innerHTML = null;
+    m_body.insertAdjacentHTML('beforeend', '<ul class="course-module-list"></ul>');
     document.getElementById('modal-title').innerHTML = null;
     return;
 }

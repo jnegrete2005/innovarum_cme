@@ -1,4 +1,4 @@
-import { getCookie, GRAPHQL_URL } from './index.js';
+import { displayError, getCookie, GRAPHQL_URL } from './index.js';
 
 export function updateUsertrio() {
 	// Select all the checkboxes
@@ -56,7 +56,7 @@ export function updateUsertrio() {
 					return response.json();
 				})
 				.catch((error: Error) => {
-					alert(error.message);
+					displayError('Error', error.message);
 				});
 		});
 	});

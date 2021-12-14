@@ -191,6 +191,12 @@ body {
 		.modal-body {
 			padding: 2px 16px;
 
+			.modal-error-text {
+				display: block;
+				font-size: larger;
+				margin-top: 1em;
+			}
+
 			.course-module-list {
 				list-style: none;
 				padding: 0;

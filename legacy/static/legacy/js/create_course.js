@@ -38,7 +38,6 @@ function addTrio(el) {
     const i = parseInt(trio_container.parentElement.dataset.index);
     // Get the index of the last trio
     const j = parseInt(trio_container.children[trio_container.children.length - 1].dataset.index);
-    const select = document.querySelector('select.form_field').innerHTML;
     trio_container.insertAdjacentHTML('beforeend', `<!-- Trio -->
 		<div class="trio" data-index="${j + 1}">
 			<!-- File -->
@@ -54,9 +53,8 @@ function addTrio(el) {
 
 			<!-- Quiz -->
 			<div class="form_group field">
-				<select name="trio-${i}" class="form_field" id="trio-${i}-${j + 1}-select">
-					${select}
-				</select>
+				<input class="form_field" type="url" name="trio-${i}" id="trio-${i}-${j + 1}-input" placeholder="Quiz" />
+				<label class="form_label" for="trio-${i}-${j + 1}-input">Quiz</label>
 			</div>
 		</div>`);
     // Check (for validation) if there is more that 1 trio to remove .disabled
@@ -99,12 +97,8 @@ function addModule(el) {
 
 					<!-- Quiz -->
 					<div class="form_group field">
-						<select name="trio-${i + 1}" class="form_field" id="trio-${i + 1}-1-select">
-							<option selected>Seleccionar quiz</option>
-							{% for quiz in quizzes %}
-							<option value="{{ quiz.id }}">{{ quiz.name }}</option>
-							{% endfor %}
-						</select>
+						<input class="form_field" type="url" name="trio-${i + 1}" id="trio-${i + 1}-1-input" placeholder="Quiz" />
+						<label class="form_label" for="trio-${i + 1}-1-input">Quiz</label>
 					</div>
 				</div>
 			</div>

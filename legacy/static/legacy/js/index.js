@@ -1,4 +1,4 @@
-import { courseClick } from './course.js';
+import { clearModal, courseClick } from './course.js';
 export const GRAPHQL_URL = '/graphql';
 async function getCourses(option) {
     // Create the query and body
@@ -47,7 +47,7 @@ async function getCourses(option) {
     }
     else {
         if (option !== 'all')
-            return alert('Inicie sesión para acceder a los cursos.');
+            return displayError('Error de sesión', 'Inicie sesión para acceder a los cursos.');
         query = `
 			query GetCourses($option: String!) {
 				courses(option: $option) {
@@ -80,7 +80,7 @@ async function getCourses(option) {
         const container = document.querySelector('#index > div.container');
         container.innerHTML = '';
         if (data.data.courses.length === 0) {
-            alert('No hay cursos. Te mandaremos a la página principal');
+            displayError('No hay cursos', 'Te mandaremos a la página principal.');
             return getCourses('all');
         }
         // Render each course
@@ -140,7 +140,7 @@ async function getCourses(option) {
         history.pushState(option === 'all' ? null : { option }, '', option === 'all' ? '' : `./#${option}`);
     })
         .catch((error) => {
-        alert(error.message);
+        displayError('Error', error.message);
     });
 }
 await getCourses('initial');
@@ -177,4 +177,16 @@ window.addEventListener('popstate', (event) => {
         return getCourses('all');
     getCourses(event.state.option);
 });
+// Function to use the modal to display errors
+export function displayError(title, text) {
+    clearModal();
+    const modal = document.getElementById('modal');
+    // Open modal
+    modal.style.display = 'block';
+    // Set the title
+    const m_title = document.getElementById('modal-title');
+    m_title.innerText = title;
+    const m_body = document.getElementsByClassName('modal-body')[0];
+    m_body.insertAdjacentHTML('afterbegin', `<span class="modal-error-text">${text}</h2>`);
+}
 //# sourceMappingURL=index.js.map

@@ -24,6 +24,7 @@ main {
 
 .nav-item {
   width: 100%;
+  cursor: pointer;
 }
 .nav-item:last-child {
   margin-top: auto;
@@ -305,6 +306,11 @@ body {
 }
 .modal .modal-content .modal-body {
   padding: 2px 16px;
+}
+.modal .modal-content .modal-body .modal-error-text {
+  display: block;
+  font-size: larger;
+  margin-top: 1em;
 }
 .modal .modal-content .modal-body .course-module-list {
   list-style: none;

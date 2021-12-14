@@ -1,4 +1,4 @@
-import { getCookie, GRAPHQL_URL } from './index.js';
+import { displayError, getCookie, GRAPHQL_URL } from './index.js';
 export function updateUsertrio() {
     // Select all the checkboxes
     Array.from(document.querySelectorAll('input[type=checkbox]')).forEach((checkbox) => {
@@ -52,7 +52,7 @@ export function updateUsertrio() {
                 return response.json();
             })
                 .catch((error) => {
-                alert(error.message);
+                displayError('Error', error.message);
             });
         });
     });

@@ -1,4 +1,4 @@
-import { courseClick } from './course.js';
+import { clearModal, courseClick } from './course.js';
 
 import type { GetUserTriosCourses, courseModes } from './graphql';
 
@@ -52,7 +52,7 @@ async function getCourses(option: keyof courseModes) {
 
 		body = JSON.stringify({ query, variables: { id: user_id, option: option } });
 	} else {
-		if (option !== 'all') return alert('Inicie sesión para acceder a los cursos.');
+		if (option !== 'all') return displayError('Error de sesión', 'Inicie sesión para acceder a los cursos.');
 		query = `
 			query GetCourses($option: String!) {
 				courses(option: $option) {
@@ -86,7 +86,7 @@ async function getCourses(option: keyof courseModes) {
 			container.innerHTML = '';
 
 			if (data.data.courses.length === 0) {
-				alert('No hay cursos. Te mandaremos a la página principal');
+				displayError('No hay cursos', 'Te mandaremos a la página principal.');
 				return getCourses('all');
 			}
 
@@ -154,7 +154,7 @@ async function getCourses(option: keyof courseModes) {
 			history.pushState(option === 'all' ? null : { option }, '', option === 'all' ? '' : `./#${option}`);
 		})
 		.catch((error: Error) => {
-			alert(error.message);
+			displayError('Error', error.message);
 		});
 }
 
@@ -198,3 +198,20 @@ window.addEventListener('popstate', (event) => {
 	if (!event.state?.option) return getCourses('all');
 	getCourses(event.state.option);
 });
+
+// Function to use the modal to display errors
+export function displayError(title: string, text: string) {
+	clearModal();
+
+	const modal = document.getElementById('modal');
+
+	// Open modal
+	modal.style.display = 'block';
+
+	// Set the title
+	const m_title = document.getElementById('modal-title');
+	m_title.innerText = title;
+
+	const m_body = <HTMLElement>document.getElementsByClassName('modal-body')[0];
+	m_body.insertAdjacentHTML('afterbegin', `<span class="modal-error-text">${text}</h2>`);
+}
