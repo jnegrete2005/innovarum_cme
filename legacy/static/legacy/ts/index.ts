@@ -54,15 +54,15 @@ async function getCourses(option: keyof courseModes) {
 	} else {
 		if (option !== 'all') return alert('Inicie sesión para acceder a los cursos.');
 		query = `
-		query GetCourses($option: String!) {
-			courses(option: $option) {
-				id
-				name
-				img
+			query GetCourses($option: String!) {
+				courses(option: $option) {
+					id
+					name
+					img
+				}
 			}
-		}
 		`;
-		body = JSON.stringify({ query, variables: { option } });
+		body = JSON.stringify({ query, variables: { option: 'all' } });
 	}
 
 	// Fetch
@@ -146,9 +146,12 @@ async function getCourses(option: keyof courseModes) {
 				container.append(card);
 			});
 
-			if (window.location.pathname.split('/')[2] === option) return;
-			if ((history.state?.option === 'all' || history.state?.option === null || history.state === null) && option === 'all') return;
-			history.pushState(option === 'all' ? null : { option }, '', option === 'all' ? '' : `./${option}`);
+			if (window.location.href.split('/')[4] === `#${option}`) return;
+			if ((history.state?.option === 'all' || history.state?.option === null || history.state === null) && option === 'all') {
+				history.replaceState({ option }, '', './');
+				return;
+			}
+			history.pushState(option === 'all' ? null : { option }, '', option === 'all' ? '' : `./#${option}`);
 		})
 		.catch((error: Error) => {
 			alert(error.message);
@@ -191,6 +194,7 @@ Array.from(document.getElementsByClassName('course')).forEach((el: HTMLElement) 
 });
 
 window.addEventListener('popstate', (event) => {
+	if (event.state === null) return;
 	if (!event.state?.option) return getCourses('all');
 	getCourses(event.state.option);
 });

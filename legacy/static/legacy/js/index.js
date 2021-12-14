@@ -49,15 +49,15 @@ async function getCourses(option) {
         if (option !== 'all')
             return alert('Inicie sesión para acceder a los cursos.');
         query = `
-		{
-			courses {
-				id
-				name
-				img
+			query GetCourses($option: String!) {
+				courses(option: $option) {
+					id
+					name
+					img
+				}
 			}
-		}
 		`;
-        body = JSON.stringify({ query });
+        body = JSON.stringify({ query, variables: { option: 'all' } });
     }
     // Fetch
     await fetch(GRAPHQL_URL, {
@@ -131,11 +131,13 @@ async function getCourses(option) {
             // Append new card to container
             container.append(card);
         });
-        if (window.location.pathname.split('/')[2] === option)
+        if (window.location.href.split('/')[4] === `#${option}`)
             return;
-        if ((history.state?.option === 'all' || history.state?.option === null || history.state === null) && option === 'all')
+        if ((history.state?.option === 'all' || history.state?.option === null || history.state === null) && option === 'all') {
+            history.replaceState({ option }, '', './');
             return;
-        history.pushState(option === 'all' ? null : { option }, '', option === 'all' ? '' : `./${option}`);
+        }
+        history.pushState(option === 'all' ? null : { option }, '', option === 'all' ? '' : `./#${option}`);
     })
         .catch((error) => {
         alert(error.message);
@@ -169,6 +171,8 @@ Array.from(document.getElementsByClassName('course')).forEach((el) => {
     });
 });
 window.addEventListener('popstate', (event) => {
+    if (event.state === null)
+        return;
     if (!event.state?.option)
         return getCourses('all');
     getCourses(event.state.option);

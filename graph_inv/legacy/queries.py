@@ -31,13 +31,16 @@ class Query(graphene.ObjectType):
 
       for course in courses:
         course_trios = map(lambda module: module.trios.all(), course.modules.all())
+        appended_course = False
 
         # Iterate through the trios in the course
         for trios in course_trios:
           for trio in trios:
-            print(trio.usertrio_set.first().done)
-            if trio.usertrio_set.first().done != [True, True, True] and trio.usertrio_set.first().done != [False, False, False]:
-              course_list.append(course)
+            if not appended_course:
+              if trio.usertrio_set.first().done != [True, True, True] and trio.usertrio_set.first().done != [False, False, False]:
+                course_list.append(course)
+                appended_course = True
+                continue
               continue
 
       return course_list
