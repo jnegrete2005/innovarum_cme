@@ -29,8 +29,8 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 SECURE_HSTS_PRELOAD = not DEBUG
 SESION_COOKIE_SECURE = not DEBUG
 
-ALLOWED_HOSTS = ['innovarum-cme.herokuapp.com', '127.0.0.1']
-SECURE_HSTS_SECONDS = ['innovarum-cme.herokuapp.com']
+ALLOWED_HOSTS = ['innovarum.herokuapp.com', '127.0.0.1']
+SECURE_HSTS_SECONDS = ['innovarum.herokuapp.com']
 
 # Application definition
 
