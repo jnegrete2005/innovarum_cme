@@ -51,7 +51,7 @@ main {
   margin: 0 1.5rem;
   width: 32px;
   height: 32px;
-  color: #1f1e20;
+  color: #eee;
 }
 
 .link-text {
@@ -84,6 +84,7 @@ main {
   transform: rotate(-360deg);
   width: 48px;
   height: 48px;
+  color: #fff;
 }
 
 /* Small screens */
