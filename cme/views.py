@@ -137,7 +137,7 @@ def graph(request: WSGIRequest, module: str, s_type: str):
       score = Score.objects.filter(bussines=user, survey=survey)
       score = score[len(score) - 1]
 
-      if (((score.date - datetime.now().astimezone()).total_seconds() / 60 / 60 / 20) < 1):
+      if (((score.date - datetime.now().astimezone()).total_seconds() / 60 / 60 / 20) > 1):
         score.score = data.get('scores')
         score.save()
       else:
