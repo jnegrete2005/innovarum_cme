@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #ece4e4;
+  background-color: #ece4e4 !important;
   color: #000000;
   margin: 0;
   padding: 0;
