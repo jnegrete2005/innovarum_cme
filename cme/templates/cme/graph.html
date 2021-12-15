@@ -16,6 +16,9 @@
 
 <!-- JS -->
 {% block js %}
+<!-- Vars for JS -->
+{{ dates|json_script:'dates' }} {{ blocks_for_graph|json_script:'blocks_for_graph' }} {{ scores|json_script:'scores' }}
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{% static 'cme/js/graph.js' %}"></script>
 {% endblock js %}
@@ -23,8 +26,6 @@
 <!-- Main -->
 {% block main %}
 <div id="container">
-	<span id="date" style="display: none">{{ date }}</span>
-	<span id="blocks_for_graph" style="display: none">{{ blocks_for_graph }}</span>
 	<!-- Results -->
 	<div id="result" style="display: flex">
 		<div id="score-container">
@@ -33,7 +34,7 @@
 				{% for i in blocks|times %}
 				<div class="block">
 					<li>{{ blocks|get_item:i }}:</li>
-					<span><span class="block-score">{{ scores|get_item:i }}</span>/20</span>
+					<span><span class="block-score">{{ scores.0|get_item:i }}</span>/20</span>
 				</div>
 				{% endfor %}
 				<div id="final-container">

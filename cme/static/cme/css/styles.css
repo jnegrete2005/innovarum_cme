@@ -30,6 +30,9 @@ header {
   justify-content: flex-end;
   align-items: center !important;
 }
+.navbar-collapse .nav-item {
+  font-size: 14px;
+}
 .navbar-collapse ul *,
 .navbar-collapse ul :not(:first-child) {
   margin-left: 0;

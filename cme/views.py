@@ -146,8 +146,13 @@ def graph(request: WSGIRequest, module: str, s_type: str):
     except AssertionError or Score.DoesNotExist:
       score = Score.objects.create(bussines=user, survey=survey, score=data.get('scores'))
 
-  if settings.DEBUG:
-    score = Score.objects.first()
+  # Get the other scores from the user
+  scores_raw = Score.objects.filter(bussines=user, survey=survey)
+  scores = list(map(lambda score: score.score, scores_raw))
+  dates = list(map(lambda score: score.date.strftime('%d/%m/%Y'), scores_raw))
+
+  # if settings.DEBUG:
+  #   score = Score.objects.first()
 
   blocks: List[str] = [block.name for block in survey.blocks.all()]
 
@@ -159,9 +164,9 @@ def graph(request: WSGIRequest, module: str, s_type: str):
 
   context = {
       'blocks': blocks,
-      'scores': score.score,
+      'scores': scores,
       'overall': sum(score.score),
-      'date': score.date.strftime('%d/%m/%Y'),
+      'dates': dates,
       'survey': str(survey),
       'blocks_for_graph': blocks_for_graph
   }

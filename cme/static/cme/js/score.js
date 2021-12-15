@@ -60,7 +60,7 @@ function saveScores(event) {
             var s1 = document.createElement('span');
             var s2 = document.createElement('span');
             s2.classList.add('block-score');
-            s2.innerHTML = data.scores[i].toString();
+            s2.innerHTML = data.scores[data.scores.length - 1][i].toString();
             s1.append(s2, '/20');
             // Add to page
             div.append(li, s1);
@@ -84,7 +84,7 @@ function saveScores(event) {
         document.querySelector('title').innerHTML = 'Gráfico';
         /* Append to history */
         history.pushState({ graph: true }, '', './graph');
-        createGraph(data.scores, data.blocks_for_graph, data.date, data.survey);
+        createGraph(data.scores, data.blocks_for_graph, data.dates, data.survey);
     })
         .catch(function (err) {
         alert(err);
@@ -105,24 +105,27 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-function createGraph(scores, blocks, date, survey) {
+function createGraph(scores, blocks, dates, survey) {
     document.getElementById('results').innerHTML = survey;
+    var datasets = [];
+    scores.forEach(function (score, i) {
+        var current_color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+        datasets.push({
+            label: dates[i],
+            data: score,
+            fill: true,
+            backgroundColor: current_color + "33",
+            hoverBackgroundColor: "darken(" + current_color + "33, 5%)",
+            borderColor: current_color,
+            pointBackgroundColor: current_color,
+            pointBorderColor: '#fff',
+            pointHoverBackgroundColor: '#fff',
+            pointHoverBorderColor: current_color,
+        });
+    });
     var data = {
         labels: blocks,
-        datasets: [
-            {
-                label: date,
-                data: scores,
-                fill: true,
-                backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                hoverBackgroundColor: 'darken(#ff638433, 5%)',
-                borderColor: 'rgb(255, 99, 132)',
-                pointBackgroundColor: 'rgb(255, 99, 132)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgb(255, 99, 132)',
-            },
-        ],
+        datasets: datasets,
     };
     var config = {
         type: 'radar',
@@ -147,6 +150,8 @@ function createGraph(scores, blocks, date, survey) {
             },
         },
     };
+    // @ts-expect-error
+    Chart.defaults.font.size = 16;
     // @ts-expect-error
     new Chart(document.getElementById('graph'), config);
 }

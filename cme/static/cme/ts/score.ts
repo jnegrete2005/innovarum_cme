@@ -2,7 +2,6 @@
 const q_group = Array.from(document.getElementsByClassName('question-group'));
 q_group.forEach((ol: HTMLOListElement) => {
 	// The score for each block
-
 	Array.from(ol.getElementsByClassName('radio')).forEach((el: HTMLInputElement) => {
 		el.addEventListener('change', (event: Event) => {
 			let block_score = 0;
@@ -70,7 +69,7 @@ function saveScores(event: Event) {
 				const s1 = document.createElement('span');
 				const s2 = document.createElement('span');
 				s2.classList.add('block-score');
-				s2.innerHTML = data.scores[i].toString();
+				s2.innerHTML = data.scores[data.scores.length - 1][i].toString();
 				s1.append(s2, '/20');
 
 				// Add to page
@@ -102,7 +101,7 @@ function saveScores(event: Event) {
 			/* Append to history */
 			history.pushState({ graph: true }, '', './graph');
 
-			createGraph(data.scores, data.blocks_for_graph, data.date, data.survey);
+			createGraph(data.scores, data.blocks_for_graph, data.dates, data.survey);
 		})
 		.catch((err: Error) => {
 			alert(err);
@@ -128,25 +127,30 @@ function getCookie(name: string): string {
 	return cookieValue;
 }
 
-function createGraph(scores: Array<number>, blocks: string, date: string, survey: string) {
+function createGraph(scores: Array<Array<number>>, blocks: string, dates: Array<string>, survey: string) {
 	document.getElementById('results').innerHTML = survey;
+
+	let datasets = [];
+	scores.forEach((score, i) => {
+		const current_color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+		datasets.push({
+			label: dates[i],
+			data: score,
+			fill: true,
+			backgroundColor: `${current_color}33`,
+			hoverBackgroundColor: `darken(${current_color}33, 5%)`,
+			borderColor: current_color,
+			pointBackgroundColor: current_color,
+			pointBorderColor: '#fff',
+			pointHoverBackgroundColor: '#fff',
+			pointHoverBorderColor: current_color,
+		});
+	});
 
 	const data = {
 		labels: blocks,
-		datasets: [
-			{
-				label: date,
-				data: scores,
-				fill: true,
-				backgroundColor: 'rgba(255, 99, 132, 0.2)',
-				hoverBackgroundColor: 'darken(#ff638433, 5%)',
-				borderColor: 'rgb(255, 99, 132)',
-				pointBackgroundColor: 'rgb(255, 99, 132)',
-				pointBorderColor: '#fff',
-				pointHoverBackgroundColor: '#fff',
-				pointHoverBorderColor: 'rgb(255, 99, 132)',
-			},
-		],
+		datasets: datasets,
 	};
 
 	const config = {
@@ -174,6 +178,9 @@ function createGraph(scores: Array<number>, blocks: string, date: string, survey
 	};
 
 	// @ts-expect-error
+	Chart.defaults.font.size = 16;
+
+	// @ts-expect-error
 	new Chart(document.getElementById('graph'), config);
 }
 
@@ -198,9 +205,9 @@ function showSurvey() {
 
 type Data = {
 	blocks: Array<string>;
-	scores: Array<number>;
+	scores: Array<Array<number>>;
 	overall: number;
-	date: string;
+	dates: Array<string>;
 	survey: string;
 	blocks_for_graph: string;
 };

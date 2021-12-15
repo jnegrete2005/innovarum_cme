@@ -1,12 +1,5 @@
 // Get scores
-let scores: Array<number> = [];
-Array.from(document.getElementsByClassName('block-score')).forEach((el: HTMLSpanElement) => {
-	try {
-		scores.push(parseInt(el.innerHTML));
-	} catch (TypeError) {
-		alert('Ha ocurrido un error.');
-	}
-});
+const scores: Array<Array<number>> = JSON.parse(document.getElementById('scores').textContent);
 
 // Get blocks
 let blocks: Array<string> = [];
@@ -15,7 +8,7 @@ Array.from(document.querySelector('ol').querySelectorAll('li')).forEach((el) => 
 });
 
 // Get date
-const date = document.getElementById('date').innerHTML;
+const date: Array<string> = JSON.parse(document.getElementById('dates').textContent);
 
 // Get survey name
 const survey = document.getElementById('results').innerHTML;
@@ -24,29 +17,34 @@ const survey = document.getElementById('results').innerHTML;
 createGraphGet(scores, date, survey);
 
 // Function to create graph
-function createGraphGet(scores: Array<number>, date: string, survey: string) {
+function createGraphGet(scores: Array<Array<number>>, dates: Array<string>, survey: string) {
 	document.getElementById('results').innerHTML = survey;
 
-	const blocks_graph = document.getElementById('blocks_for_graph').innerHTML.replace(/'/gi, '"');
+	const blocks = JSON.parse(document.getElementById('blocks_for_graph').textContent);
 
-	blocks = JSON.parse(blocks_graph);
+	// Create datasets
+	let datasets: Array<object> = [];
+	scores.forEach((score, i) => {
+		const current_color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+
+		datasets.push({
+			label: dates[i],
+			data: score,
+			fill: true,
+			backgroundColor: `${current_color}33`,
+			hoverBackgroundColor: `darken(${current_color}33, 5%)`,
+			borderColor: current_color,
+			pointBackgroundColor: current_color,
+			pointBorderColor: '#fff',
+			pointHoverBackgroundColor: '#fff',
+			pointHoverBorderColor: current_color,
+		});
+	});
 
 	const data = {
 		labels: blocks,
-		datasets: [
-			{
-				label: date,
-				data: scores,
-				fill: true,
-				backgroundColor: 'rgba(255, 99, 132, 0.2)',
-				hoverBackgroundColor: 'darken(#ff638433, 5%)',
-				borderColor: 'rgb(255, 99, 132)',
-				pointBackgroundColor: 'rgb(255, 99, 132)',
-				pointBorderColor: '#fff',
-				pointHoverBackgroundColor: '#fff',
-				pointHoverBorderColor: 'rgb(255, 99, 132)',
-			},
-		],
+
+		datasets: datasets,
 	};
 
 	const config = {

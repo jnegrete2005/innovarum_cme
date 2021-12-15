@@ -35,6 +35,10 @@ header {
 	justify-content: flex-end;
 	align-items: center !important	;
 
+	.nav-item {
+		font-size: 14px;
+	}
+
 	ul {
 		*,
 		:not(:first-child) {
