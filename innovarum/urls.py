@@ -35,7 +35,7 @@ def admin_required(function=None):
 
 
 urlpatterns = [
-    path('', lambda request: redirect('cme:index', permanent=False)),
+    path('', lambda request: redirect('cme:index', permanent=True)),
     path('admin/', admin.site.urls),
     path('cme/', include('cme.urls')),
     path('pres/', include('presupuestos.urls')),

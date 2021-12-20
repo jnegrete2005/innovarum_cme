@@ -12,8 +12,9 @@ from django.contrib.auth.decorators import user_passes_test
 from django.conf import settings
 from django.db import IntegrityError
 from django.http.response import Http404, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+from django.views.decorators.http import require_safe
 
 from .models import Block, Bussines, Module, Question, Score, Survey, Type
 from .send_mail import check_email, send_mail
@@ -178,6 +179,36 @@ def graph(request: WSGIRequest, module: str, s_type: str):
 
 
 @user_passes_test(can_enter_cme, login_url=NOT_ALLOWED)
+@require_safe
+def specific_graph(request: WSGIRequest, id: int):
+  """
+  Will return the same view as a graph, but it will return a specific score
+  """
+  # Get the score
+  score = get_object_or_404(Score, id=id)
+
+  # Get survey
+  survey = score.survey
+
+  # Get blocks
+  blocks: List[str] = [block.name for block in survey.blocks.all()]
+  blocks_for_graph = copy.copy(blocks)
+  for i in range(len(blocks_for_graph)):
+    blocks_for_graph[i] = blocks_for_graph[i].replace(' de', '')
+    blocks_for_graph[i] = blocks_for_graph[i].replace(' por', '')
+    blocks_for_graph[i] = blocks_for_graph[i].split()
+
+  return render(request, 'cme/graph.html', {
+      'blocks': blocks,
+      'scores': [score.score],
+      'overall': sum(score.score),
+      'dates': [score.date.strftime("%d/%m/%Y")],
+      'survey': str(survey),
+      'blocks_for_graph': blocks_for_graph
+  })
+
+
+@user_passes_test(can_enter_cme, login_url=NOT_ALLOWED)
 def thanks(request: WSGIRequest):
   """
   The thanks view (Block 5).
@@ -271,6 +302,45 @@ def create_survey(request: WSGIRequest):
 
 
 # Log in and out views here
+
+@user_passes_test(can_enter_cme, login_url=NOT_ALLOWED)
+@require_safe
+def profile_view(request: WSGIRequest, id: int):
+  """
+  Will return the data of the user to be rendered in the template
+  """
+  # Get user
+  user = get_object_or_404(Bussines, id=int(id))
+
+  # Get the modules
+  modules = list(map(lambda modules: modules, Module.objects.all()))
+
+  filtered_scores = []
+
+  user_type = user.scores.first().survey.type
+  user_type = Type.objects.get(type=user_type)
+
+  # Append the scores for each module for the user
+  for module in modules:
+    try:
+      filtered_scores.append(list(map(
+          lambda score: (score.date.strftime("%d/%m/%Y"), score.id),
+          Score.objects.filter(
+              bussines=user,
+              survey=Survey.objects.get(
+                  module=module,
+                  type=user_type
+              )
+          )
+      )))
+    except:
+      filtered_scores.append(None)
+
+  return render(request, 'cme/profile.html', {
+      'user': user,
+      'modules': modules,
+      'filtered_scores': filtered_scores
+  })
 
 
 def login_view(request: WSGIRequest):

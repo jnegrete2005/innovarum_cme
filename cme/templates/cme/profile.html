@@ -1,0 +1,39 @@
+{% extends 'cme/layout.html' %} {% load static %}
+
+<!-- Title -->
+{% block title %} {{ user }} {% endblock title %}
+
+<!-- Tags -->
+{% load tags %}
+
+<!-- CSS -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'cme/css/profile.css' %}" />
+{% endblock css %}
+
+<!-- Main -->
+{% block main %}
+<div class="container">
+	{% if message %}
+	<div class="d-flex justify-content-center mt-3 mb-3">
+		<div class="alert alert-danger" style="width: fit-content">{{ message }}</div>
+	</div>
+	{% endif %}
+
+	<h1>Módulos</h1>
+	<div class="grid">
+		{% for module in modules %}
+		<div class="module">
+			<h3>{{ module }}</h3>
+			{% if not filtered_scores|get_item:forloop.counter0 %}
+			<div class="score">No ha completado autoevaluaciones en este módulo</div>
+			{% else %}
+			<!-- Iterate over the scores -->
+			{% for score in filtered_scores|get_item:forloop.counter0 %}
+			<a href="{% url 'cme:specific_graph' score.1 %}" class="score"> {{ score.0 }} </a>
+			{% endfor %} {% endif %}
+		</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock main %}

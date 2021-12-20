@@ -1,0 +1,46 @@
+@import 'colors';
+@import 'media_queries';
+
+h1 {
+	text-align: center;
+	margin: 1em;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+	justify-content: center;
+	gap: 1.5em 1.5em;
+
+	h3 {
+		font-size: 1em;
+	}
+	h4 {
+		font-size: 0.83em;
+	}
+
+	.module {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+
+		background: white;
+
+		border: 1px solid $contrast;
+		border-radius: 1em;
+
+		padding: 0.5em;
+
+		width: auto;
+		height: auto;
+
+		text-align: center;
+
+		transition: transform 200ms ease;
+
+		&:hover {
+			transform: scale(1.1);
+		}
+	}
+}
