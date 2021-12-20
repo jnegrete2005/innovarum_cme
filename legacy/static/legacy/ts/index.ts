@@ -4,6 +4,10 @@ import type { GetUserTriosCourses, courseModes } from './graphql';
 
 export const GRAPHQL_URL = '/graphql';
 
+const MEDIA_URL = '/static/legacy/media/';
+const COURSE_URL = MEDIA_URL + 'courses/';
+export const CLASS_URL = MEDIA_URL + 'classes/';
+
 async function getCourses(option: keyof courseModes) {
 	// Create the query and body
 	let query: string;
@@ -100,7 +104,7 @@ async function getCourses(option: keyof courseModes) {
 				// Create img
 				const img = document.createElement('div');
 				img.classList.add('card-image');
-				img.style.backgroundImage = `url('/media/${course.img}')`;
+				img.style.backgroundImage = `url('${COURSE_URL}${course.img}')`;
 
 				// Create text container
 				const text = document.createElement('div');

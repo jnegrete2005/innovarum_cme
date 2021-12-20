@@ -13,7 +13,7 @@ class Course(models.Model):
   It's contents will be stored in `Module`s
   """
   name = models.CharField(max_length=200, unique=True)
-  img = models.ImageField(upload_to='legacy/courses')
+  img = models.CharField(max_length=200, unique=True)
 
   def __str__(self) -> str:
     return f'{self.name}'
@@ -92,10 +92,12 @@ class Trio(models.Model):
   It will have a `file`, a `video` (which will be a URL to a YT video), and a `quiz`
   (which will be key to `Quiz`)
   """
-  file = models.FileField(upload_to='legacy/classes/', max_length=254)
+  file = models.CharField(max_length=200)
+
   """ FOR NOW QUIZ WILL BE A URL """
   quiz = models.URLField(null=True, blank=True)
   video = models.URLField()
+
   module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='trios')
   user = models.ManyToManyField('cme.Bussines', related_name='trios', through='UserTrio', through_fields=('trio', 'user'))
 

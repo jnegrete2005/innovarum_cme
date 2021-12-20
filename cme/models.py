@@ -12,7 +12,6 @@ class Module(models.Model):
   """
   name = models.CharField(max_length=50, unique=True)
   code = models.CharField(max_length=3, unique=True)
-  # description = models.CharField(max_length=200)
 
   def __str__(self) -> str:
     return self.name

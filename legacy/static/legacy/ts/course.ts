@@ -1,4 +1,4 @@
-import { displayError, getCookie, GRAPHQL_URL } from './index.js';
+import { displayError, getCookie, GRAPHQL_URL, CLASS_URL } from './index.js';
 import { updateUsertrio } from './trios.js';
 
 import type { GetCourse } from './graphql';
@@ -102,7 +102,7 @@ function fillCourse(data: GetCourse) {
 
 					// Get trio
 					const template_trio = [
-						createTrio(trio, `/media/${trio.file}`, trio.file.split('/')[2], '/static/legacy/icons/file.svg', 0),
+						createTrio(trio, `${CLASS_URL}${trio.file}`, trio.file, '/static/legacy/icons/file.svg', 0),
 						createTrio(trio, trio.video, trio.video, '/static/legacy/icons/play.svg', 1),
 						createTrio(trio, quiz_url, 'Autoevaluación', '/static/legacy/icons/pencil.svg', 2, true),
 					];
