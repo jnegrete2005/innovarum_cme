@@ -1,6 +1,6 @@
 import { displayError, getCookie, GRAPHQL_URL } from './index.js';
 
-export function updateUsertrio() {
+export function updateUserfile() {
 	// Select all the checkboxes
 	Array.from(<NodeListOf<HTMLInputElement>>document.querySelectorAll('input[type=checkbox]')).forEach((checkbox) => {
 		// Add event listener to individual checkbox
@@ -9,18 +9,18 @@ export function updateUsertrio() {
 			const wrapper = checkbox.parentElement.parentElement;
 
 			// Get trio checkboxes values
-			const done = getTrioValue(wrapper.querySelectorAll('input[type=checkbox'));
+			const done = checkbox.checked;
 
 			// Create query
 			const query = `
-        mutation UpdateUserTrio($trio_id: ID!, $user_id: ID!, $done: [Boolean]!) {
-          updateUsertrio(trioId: $trio_id, userId: $user_id, done: $done) {
-            trio {
-              id
-              done
-            }
-          }
-        }
+				mutation UpdateUserFile($file_id: ID!, $user_id: ID!, $done: Boolean!) {
+					updateUserfile(fileId: $file_id, userId: $user_id, done: $done) {
+						file {
+							id
+							done
+						}
+					}
+				}
       `;
 
 			// Get user
@@ -35,7 +35,7 @@ export function updateUsertrio() {
 			const body: BodyInit = JSON.stringify({
 				query,
 				variables: {
-					trio_id: wrapper.dataset.id,
+					file_id: wrapper.dataset.id,
 					user_id: user_id,
 					done: done,
 				},
@@ -60,14 +60,4 @@ export function updateUsertrio() {
 				});
 		});
 	});
-}
-
-function getTrioValue(trio: NodeListOf<Element>) {
-	let done: Array<boolean> = [];
-
-	Array.from(trio).forEach((el: HTMLInputElement) => {
-		done.push(el.checked);
-	});
-
-	return done;
 }

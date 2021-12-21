@@ -328,9 +328,6 @@ body {
   align-items: center;
   margin-bottom: 1em;
 }
-.modal .modal-content .modal-body .course-module-list .trios li:nth-child(3n) {
-  margin-bottom: 2em;
-}
 .modal .modal-content .modal-body .course-module-list .trios li div {
   display: flex;
   flex-direction: row;

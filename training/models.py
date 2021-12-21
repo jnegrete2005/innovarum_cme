@@ -32,9 +32,15 @@ class File(models.Model):
   """
   Represents a file url with the display name.
   """
+
+  class FileTypes(models.IntegerChoices):
+    FILE = 1, 'FILE'
+    VID = 2, 'VIDEO'
+
   name = models.CharField(max_length=200)
   url = models.URLField(max_length=240)
   module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='files')
+  file_type = models.PositiveSmallIntegerField(choices=FileTypes.choices)
   user = models.ManyToManyField('cme.Bussines', related_name='files', through='UserFile', through_fields=('file', 'user'))
 
   def __str__(self) -> str:

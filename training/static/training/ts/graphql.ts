@@ -1,23 +1,23 @@
-type GetUserTriosCourses = {
+type GetUserFileCourses = {
 	data: {
 		user?: {
-			usertrioSet: {
-				trio: {
+			userfileSet: {
+				file: {
 					module: {
 						course: {
 							id: string;
 						};
 					};
 				};
-				done: [boolean, boolean, boolean];
+				done: boolean;
 			}[];
 		};
-		courses: {
+		trainingCourses: {
 			id: number;
 			name: string;
 			img: string;
 			modules?: {
-				trios?: {
+				files?: {
 					id: string;
 				}[];
 			}[];
@@ -27,35 +27,36 @@ type GetUserTriosCourses = {
 
 type GetCourse = {
 	data: {
-		course: {
+		trainingCourse: {
 			id: string;
 			name: string;
 			modules?: {
-				trios?: {
-					usertrioSet:
+				name;
+				files?: {
+					userfileSet:
 						| null
 						| {
 								user: {
 									id: string;
 								};
-								done: [boolean, boolean, boolean];
+								done: boolean;
 						  }[];
 					id: string;
-					file: string;
-					video: string;
-					quiz: null | string;
+					name: string;
+					url: string;
+					fileType: 'A_1' | 'A_2';
 				}[];
 			}[];
 		};
 	};
 };
 
-type UpdateUserTrio = {
+type UpdateUserFile = {
 	data: {
-		updateUsertrio: {
-			trio: {
+		updateUserfile: {
+			file: {
 				id: string;
-				done: [boolean, boolean, boolean];
+				done: boolean;
 			};
 		};
 	};
@@ -68,4 +69,4 @@ interface courseModes {
 	initial: 'initial';
 }
 
-export type { GetUserTriosCourses, GetCourse, UpdateUserTrio, courseModes };
+export type { GetUserFileCourses, GetCourse, UpdateUserFile, courseModes };

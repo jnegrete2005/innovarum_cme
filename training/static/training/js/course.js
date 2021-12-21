@@ -1,24 +1,25 @@
-import { displayError, getCookie, GRAPHQL_URL, CLASS_URL, USER_ID } from './index.js';
-import { updateUsertrio } from './trios.js';
+import { displayError, getCookie, GRAPHQL_URL, USER_ID } from './index.js';
+import { updateUserfile } from './trios.js';
 const modal = document.getElementById('modal');
 const span = document.getElementsByClassName('close')[0];
 const query = `
 	query GetCourse($id: ID!) {
-		course(id: $id) {
+		trainingCourse(id: $id) {
 			id
 			name
 			modules {
-				trios {
-					usertrioSet {
+				name
+				files {
+					userfileSet {
 						user {
 							id
 						}
 						done
 					}
 					id
-					file
-					video
-					quiz
+					name
+					url
+					fileType
 				}
 			}
 		}
@@ -65,41 +66,36 @@ export function courseClick() {
 }
 // Will fill the modal with the course info
 function fillCourse(data) {
-    modal.dataset.id = data.data.course.id;
+    modal.dataset.id = data.data.trainingCourse.id;
     // Get the modal
     const mBody = modal.getElementsByClassName('modal-body')[0];
     // Get modal title
     const title = document.getElementById('modal-title');
-    title.innerText = data.data.course.name;
+    title.innerText = data.data.trainingCourse.name;
     // Create ul for modules
     const ml = mBody.getElementsByClassName('course-module-list')[0];
     // Create modules
-    if (data.data.course.modules) {
-        data.data.course.modules.forEach((module, i) => {
+    if (data.data.trainingCourse.modules) {
+        data.data.trainingCourse.modules.forEach((module, i) => {
             // Create li for module
             const li = document.createElement('li');
             // Create module heading
             const mT = document.createElement('h2');
-            mT.innerText = `Módulo ${i + 1}`;
+            mT.innerText = module.name;
             // If trios, create them
             // Create ul for trios
             const ul = document.createElement('ul');
             ul.classList.add('trios');
-            if (module.trios) {
-                module.trios.reverse();
-                module.trios.forEach((trio) => {
-                    const quiz_url = trio.quiz ? trio.quiz : '#';
-                    // Get trio
-                    const template_trio = [
-                        createTrio(trio, `${CLASS_URL}${trio.file}`, trio.file, '/static/legacy/icons/file.svg', 0),
-                        createTrio(trio, trio.video, trio.video, '/static/legacy/icons/play.svg', 1),
-                        createTrio(trio, quiz_url, 'Autoevaluación', '/static/legacy/icons/pencil.svg', 2, true),
-                    ];
+            if (module.files) {
+                module.files.reverse();
+                module.files.forEach((file) => {
+                    // Create file
+                    const file_el = createTrio(file);
                     // Create a wrapper div for trio
                     const wrapper_trio = document.createElement('div');
                     wrapper_trio.ariaRoleDescription = 'Wrap a trio';
-                    wrapper_trio.dataset.id = trio.id;
-                    wrapper_trio.append(...template_trio);
+                    wrapper_trio.dataset.id = file.id;
+                    wrapper_trio.append(file_el);
                     // Append wrapper
                     ul.append(wrapper_trio);
                 });
@@ -109,19 +105,19 @@ function fillCourse(data) {
             ml.append(li);
         });
     }
-    updateUsertrio();
+    updateUserfile();
 }
-function createTrio(trio, href, innerText, icon, i, new_tab = false) {
-    // Create li for trio
+function createTrio(file, new_tab = false) {
+    // Create li for file
     const tLi = document.createElement('li');
     // Create the link
     const a = document.createElement('a');
-    a.href = href;
-    a.innerText = innerText;
+    a.href = file.url;
+    a.innerText = file.name;
     a.target = new_tab ? '_blank' : a.target;
     // Create icon
     const svg = document.createElement('img');
-    svg.src = icon;
+    svg.src = `/static/legacy/icons/${file.fileType === 'A_1' ? 'file.svg' : 'play.svg'}`;
     svg.alt = 'Ícono';
     svg.setAttribute('aria-details', 'By fontawesome. https://fontawesome.com/license');
     // Create wrapper for icon and link
@@ -130,18 +126,18 @@ function createTrio(trio, href, innerText, icon, i, new_tab = false) {
     // Create the checkbox
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
-    checkbox.name = trio.id;
+    checkbox.name = file.id;
     // Check the checkbox
-    checkbox.checked = check(trio, i);
+    checkbox.checked = check(file);
     // Append the anchor tags to the li, and the li to the ul
     tLi.append(div, checkbox);
     return tLi;
 }
-function check(trio, i) {
+function check(file) {
     let answer = false;
-    trio.usertrioSet.forEach((usertrio) => {
-        if (parseInt(usertrio?.user.id) === USER_ID) {
-            answer = usertrio.done[i];
+    file.userfileSet.forEach((userfile) => {
+        if (parseInt(userfile?.user.id) === USER_ID) {
+            answer = userfile.done;
             return;
         }
     });

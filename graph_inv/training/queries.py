@@ -8,6 +8,8 @@ from graphql import GraphQLError
 
 class Query(graphene.ObjectType):
   training_courses = DjangoListField(TrainingCourseType, option=graphene.String(), id=graphene.ID(required=False))
+  training_course = graphene.Field(TrainingCourseType, id=graphene.ID())
+  user = graphene.Field(BusinessType, id=graphene.ID())
 
   def resolve_training_courses(root, info, option, id=None):
     """ Query for getting all courses """
@@ -24,7 +26,7 @@ class Query(graphene.ObjectType):
       u = Bussines.objects.get(id=id)
 
       course_list = []
-      files = u.trios.all()
+      files = u.files.all()
       modules = list(set(map(lambda file: file.module, files)))
       courses = list(set(map(lambda module: module.course, modules)))
 
@@ -49,7 +51,7 @@ class Query(graphene.ObjectType):
       u = Bussines.objects.get(id=id)
 
       course_list = []
-      files = u.trios.all()
+      files = u.files.all()
       modules = list(set(map(lambda file: file.module, files)))
       courses = list(set(map(lambda module: module.course, modules)))
 
@@ -68,3 +70,11 @@ class Query(graphene.ObjectType):
           course_list.append(course)
 
       return course_list
+
+  def resolve_training_course(root, info, id):
+    """ Query for getting specific course """
+    return Course.objects.get(pk=id)
+
+  def resolve_training_user(root, info, id):
+    """ Query for getting a user """
+    return Bussines.objects.get(pk=id)

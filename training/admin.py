@@ -16,7 +16,7 @@ class ModuleAdmin(ModelAdmin):
 
 @register(File)
 class FileAdmin(ModelAdmin):
-  list_display = ['name', 'url', 'module']
+  list_display = ['name', 'url', 'module', 'file_type']
 
 
 @register(UserFile)

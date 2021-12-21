@@ -1,12 +1,10 @@
 import { clearModal, courseClick } from './course.js';
 
-import type { GetUserTriosCourses, courseModes } from './graphql';
+import type { GetUserFileCourses, courseModes } from './graphql';
 
 export const GRAPHQL_URL = '/graphql';
 
 const MEDIA_URL = '/static/training/media/';
-const COURSE_URL = MEDIA_URL + 'courses/';
-export const CLASS_URL = MEDIA_URL + 'classes/';
 
 export let USER_ID: number | null;
 
@@ -28,46 +26,46 @@ async function getCourses(option: keyof courseModes) {
 
 	if (USER_ID) {
 		query = `
-				query GetUserTriosCourses($id: ID, $option: String!) {
-					user(id: $id) {
-						usertrioSet {
-							trio {
-								module {
-									course {
-										id 
-									}
+			query GetUserFileCourses($id: ID, $option: String!) {
+				user(id: $id) {
+					userfileSet {
+						file {
+							module {
+								course {
+									id
 								}
 							}
-							done
 						}
+						
+						done
 					}
-					
-					courses(id: $id, option: $option) {
-						id
-						name
-						img
-						modules {
-							trios {
-								id
-							}
+				}
+				
+				trainingCourses(option: $option, id: $id) {
+					id
+					name
+					img
+					modules {
+						files {
+							id
 						}
 					}
 				}
-			`;
+			}`;
 
 		body = JSON.stringify({ query, variables: { id: USER_ID, option: option } });
 	} else {
 		if (option !== 'all') return displayError('Error de sesión', 'Inicie sesión para acceder a los cursos.');
 		query = `
-			query GetCourses($option: String!) {
-				courses(option: $option) {
+			{
+				trainingCourses(option: "all") {
 					id
 					name
 					img
 				}
 			}
 		`;
-		body = JSON.stringify({ query, variables: { option: 'all' } });
+		body = JSON.stringify({ query });
 	}
 
 	// Fetch
@@ -85,18 +83,18 @@ async function getCourses(option: keyof courseModes) {
 			if (!response.ok) throw Error(`${response.statusText} - ${response.status}`);
 			return response.json();
 		})
-		.then((data: GetUserTriosCourses) => {
+		.then((data: GetUserFileCourses) => {
 			// Get the container
 			const container = document.querySelector('#index > div.container');
 			container.innerHTML = '';
 
-			if (data.data.courses.length === 0) {
+			if (data.data.trainingCourses.length === 0) {
 				displayError('No hay cursos', 'Te mandaremos a la página principal.');
 				return getCourses('all');
 			}
 
 			// Render each course
-			data.data.courses.forEach((course, i) => {
+			data.data.trainingCourses.forEach((course, i) => {
 				// Create card
 				const card = document.createElement('a');
 				card.dataset.id = course.id.toString();
@@ -105,7 +103,7 @@ async function getCourses(option: keyof courseModes) {
 				// Create img
 				const img = document.createElement('div');
 				img.classList.add('card-image');
-				img.style.backgroundImage = `url('${COURSE_URL}${course.img}')`;
+				img.style.backgroundImage = `url('${MEDIA_URL}${course.img}')`;
 
 				// Create text container
 				const text = document.createElement('div');
@@ -119,8 +117,8 @@ async function getCourses(option: keyof courseModes) {
 				// Set the progress bar
 				let max = 0;
 				if (course.modules) {
-					course.modules.forEach((trio, i) => {
-						max += trio.trios.length * 3;
+					course.modules.forEach((file, i) => {
+						max += file.files.length;
 					});
 				}
 				prog.max = max;
@@ -129,13 +127,9 @@ async function getCourses(option: keyof courseModes) {
 					prog.value = 0;
 				} else {
 					let value = 0;
-					data.data.user.usertrioSet.forEach((usertrio) => {
-						if (usertrio.trio.module.course.id == card.dataset.id) {
-							usertrio.done.forEach((val) => {
-								if (val) {
-									value++;
-								}
-							});
+					data.data.user.userfileSet.forEach((userfile) => {
+						if (userfile.file.module.course.id == card.dataset.id) {
+							if (userfile.done) value++;
 						}
 					});
 					prog.value = value;
