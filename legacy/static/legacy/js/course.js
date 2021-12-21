@@ -1,4 +1,4 @@
-import { displayError, getCookie, GRAPHQL_URL, CLASS_URL } from './index.js';
+import { displayError, getCookie, GRAPHQL_URL, CLASS_URL, USER_ID } from './index.js';
 import { updateUsertrio } from './trios.js';
 const modal = document.getElementById('modal');
 const span = document.getElementsByClassName('close')[0];
@@ -10,6 +10,9 @@ const query = `
 			modules {
 				trios {
 					usertrioSet {
+						user {
+							id
+						}
 						done
 					}
 					id
@@ -128,10 +131,21 @@ function createTrio(trio, href, innerText, icon, i, new_tab = false) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.name = trio.id;
-    checkbox.checked = trio.usertrioSet[0] ? trio.usertrioSet[0].done[i] : false;
+    // Check the checkbox
+    checkbox.checked = check(trio, i);
     // Append the anchor tags to the li, and the li to the ul
     tLi.append(div, checkbox);
     return tLi;
+}
+function check(trio, i) {
+    let answer = false;
+    trio.usertrioSet.forEach((usertrio) => {
+        if (parseInt(usertrio?.user.id) === USER_ID) {
+            answer = usertrio.done[i];
+            return;
+        }
+    });
+    return answer;
 }
 export function clearModal() {
     modal.style.display = 'none';

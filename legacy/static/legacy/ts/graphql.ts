@@ -35,6 +35,9 @@ type GetCourse = {
 					usertrioSet:
 						| null
 						| {
+								user: {
+									id: string;
+								};
 								done: [boolean, boolean, boolean];
 						  }[];
 					id: string;

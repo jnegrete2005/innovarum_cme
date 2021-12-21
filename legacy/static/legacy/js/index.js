@@ -3,22 +3,22 @@ export const GRAPHQL_URL = '/graphql';
 const MEDIA_URL = '/static/legacy/media/';
 const COURSE_URL = MEDIA_URL + 'courses/';
 export const CLASS_URL = MEDIA_URL + 'classes/';
+export let USER_ID;
 async function getCourses(option) {
     // Create the query and body
     let query;
     let body;
-    let user_id;
     try {
-        user_id = JSON.parse(document.getElementById('user_id').textContent);
+        USER_ID = JSON.parse(document.getElementById('user_id').textContent);
     }
     catch {
-        user_id = null;
+        USER_ID = null;
     }
     if ((window.location.href.split('/')[4] === '#done' || window.location.href.split('/')[4] === '#ongoing') && option === 'initial')
         option = window.location.href.split('/')[4].replace('#', '');
     if (option === 'initial')
         option = 'all';
-    if (user_id) {
+    if (USER_ID) {
         query = `
 				query GetUserTriosCourses($id: ID, $option: String!) {
 					user(id: $id) {
@@ -46,7 +46,7 @@ async function getCourses(option) {
 					}
 				}
 			`;
-        body = JSON.stringify({ query, variables: { id: user_id, option: option } });
+        body = JSON.stringify({ query, variables: { id: USER_ID, option: option } });
     }
     else {
         if (option !== 'all')

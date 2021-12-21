@@ -1,4 +1,4 @@
-import { displayError, getCookie, GRAPHQL_URL, CLASS_URL } from './index.js';
+import { displayError, getCookie, GRAPHQL_URL, CLASS_URL, USER_ID } from './index.js';
 import { updateUsertrio } from './trios.js';
 
 import type { GetCourse } from './graphql';
@@ -13,6 +13,9 @@ const query = `
 			modules {
 				trios {
 					usertrioSet {
+						user {
+							id
+						}
 						done
 					}
 					id
@@ -127,22 +130,7 @@ function fillCourse(data: GetCourse) {
 	updateUsertrio();
 }
 
-function createTrio(
-	trio: {
-		usertrioSet: {
-			done: [boolean, boolean, boolean];
-		}[];
-		id: string;
-		file: string;
-		video: string;
-		quiz: string;
-	},
-	href: string,
-	innerText: string,
-	icon: string,
-	i: number,
-	new_tab = false
-) {
+function createTrio(trio: Trio, href: string, innerText: string, icon: string, i: number, new_tab = false) {
 	// Create li for trio
 	const tLi = document.createElement('li');
 
@@ -166,11 +154,26 @@ function createTrio(
 	const checkbox = document.createElement('input');
 	checkbox.type = 'checkbox';
 	checkbox.name = trio.id;
-	checkbox.checked = trio.usertrioSet[0] ? trio.usertrioSet[0].done[i] : false;
+
+	// Check the checkbox
+	checkbox.checked = check(trio, i);
 
 	// Append the anchor tags to the li, and the li to the ul
 	tLi.append(div, checkbox);
 	return tLi;
+}
+
+function check(trio: Trio, i: number) {
+	let answer = false;
+
+	trio.usertrioSet.forEach((usertrio) => {
+		if (parseInt(usertrio?.user.id) === USER_ID) {
+			answer = usertrio.done[i];
+			return;
+		}
+	});
+
+	return answer;
 }
 
 export function clearModal() {
@@ -222,3 +225,18 @@ window.addEventListener('keydown', (event) => {
 		clearModal();
 	}
 });
+
+type Trio = {
+	usertrioSet:
+		| null
+		| {
+				user: {
+					id: string;
+				};
+				done: [boolean, boolean, boolean];
+		  }[];
+	id: string;
+	file: string;
+	video: string;
+	quiz: null | string;
+};

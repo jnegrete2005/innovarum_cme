@@ -56,7 +56,6 @@ body {
 	text-align: center;
 	text-decoration: none;
 	color: $text;
-
 	max-width: 300px;
 
 	.card-image {
@@ -64,9 +63,6 @@ body {
 		border-top-left-radius: 15px;
 		border-top-right-radius: 15px;
 		background-size: cover;
-
-		max-width: 300px;
-		max-height: 200px;
 	}
 
 	.card-text {

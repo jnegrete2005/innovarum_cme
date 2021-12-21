@@ -192,8 +192,6 @@ body {
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   background-size: cover;
-  max-width: 300px;
-  max-height: 200px;
 }
 .card .card-text {
   grid-area: progress;
