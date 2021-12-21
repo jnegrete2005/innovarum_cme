@@ -1,0 +1,278 @@
+@import 'colors';
+@import 'navbar';
+@import 'media_queries';
+
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap');
+:root {
+	font-size: 16px;
+	font-family: 'Open Sans';
+}
+
+body {
+	background-color: $background;
+	color: $text;
+	margin: 0;
+	padding: 0;
+}
+
+.title {
+	@include title();
+	font-size: 2.3em;
+}
+
+.container {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	gap: 3rem;
+
+	margin-top: 2rem;
+	padding-left: 1rem;
+	padding-right: 1rem;
+
+	@include md() {
+		flex-direction: column;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.card {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+	grid-template-rows: repeat(auto-fit, minmax(10rem, 1fr));
+	grid-template-areas: 'image' 'progress';
+
+	border-radius: 18px;
+	background: white;
+	box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
+
+	transition: 200ms ease;
+	cursor: pointer;
+
+	text-align: center;
+	text-decoration: none;
+	color: $text;
+	max-width: 300px;
+
+	.card-image {
+		grid-area: image;
+		border-top-left-radius: 15px;
+		border-top-right-radius: 15px;
+		background-size: cover;
+	}
+
+	.card-text {
+		grid-area: progress;
+		margin: 1.5em;
+
+		h2 {
+			margin: 0 0 0.5em;
+		}
+
+		progress {
+			width: 100%;
+		}
+	}
+
+	&:hover {
+		transform: scale(1.1);
+		box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
+	}
+}
+
+.btn-contrast {
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	border-radius: 500px;
+	transition-property: background-color, border-color, color, box-shadow, filter;
+	transition-duration: 0.3s;
+	border: 1px solid transparent;
+	letter-spacing: 1px;
+	min-width: 160px;
+	text-transform: uppercase;
+	white-space: normal;
+	font-weight: 700;
+	text-align: center;
+	padding: 1em 0.9em;
+	color: #fff;
+	background-color: $contrast;
+
+	-webkit-appearance: button;
+	-moz-appearance: button;
+	appearance: button;
+
+	text-decoration: none;
+
+	&:hover {
+		background-color: $contrast-darken;
+	}
+}
+
+/* Modals */
+.modal {
+	display: none; /* Hidden by default */
+
+	position: fixed; /* Stay in place */
+	z-index: 1; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+
+	background-color: rgb(0, 0, 0); /* Fallback color */
+	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+
+	.modal-content {
+		background-color: white;
+		box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+		animation-name: animatetop;
+		animation-duration: 0.4s;
+
+		position: relative;
+		width: 50%;
+		max-height: calc(100% - 10rem);
+		overflow-y: auto; /* Enable scroll if needed */
+		overflow-x: hidden;
+
+		top: 5rem;
+		left: 4rem;
+		margin: auto auto auto auto;
+		padding: 0;
+
+		border: 1px solid #888;
+		border-radius: 1rem;
+
+		@include md() {
+			width: 95%;
+			top: 5%;
+			left: 0;
+		}
+
+		.modal-header {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+
+			padding: 2px 16px;
+
+			background-color: $contrast;
+			color: white;
+
+			h2 {
+				margin: 0.4em 0;
+			}
+
+			.close {
+				color: #666666;
+				float: right;
+				font-size: 28px;
+				font-weight: bold;
+
+				&:hover,
+				&:focus {
+					color: black;
+					text-decoration: none;
+					cursor: pointer;
+				}
+			}
+		}
+
+		.modal-body {
+			padding: 2px 16px;
+
+			.modal-error-text {
+				display: block;
+				font-size: larger;
+				margin-top: 1em;
+			}
+
+			.course-module-list {
+				list-style: none;
+				padding: 0;
+
+				h2 {
+					margin-bottom: 1em;
+				}
+
+				.trios {
+					padding: 0;
+
+					li {
+						display: flex;
+						flex-direction: row;
+						justify-content: space-between;
+						align-items: center;
+
+						margin-bottom: 1em;
+
+						&:nth-child(3n) {
+							margin-bottom: 2em;
+						}
+
+						div {
+							display: flex;
+							flex-direction: row;
+							justify-content: space-between;
+							align-items: center;
+
+							overflow: hidden;
+
+							img {
+								width: 24px;
+								height: 24px;
+
+								margin-right: 0.7em;
+							}
+
+							a {
+								text-overflow: ellipsis;
+								text-decoration: none;
+								white-space: nowrap;
+								color: $main;
+
+								overflow: hidden;
+							}
+						}
+
+						input[type='checkbox'] {
+							min-width: 21px;
+							min-height: 21px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// Animate modals
+@keyframes animatetop {
+	from {
+		top: -300px;
+		opacity: 0;
+	}
+	to {
+		top: 5rem;
+		opacity: 1;
+	}
+}
+
+@include md() {
+	@keyframes animatetop {
+		from {
+			top: -300px;
+			opacity: 0;
+		}
+		to {
+			top: 5%;
+			opacity: 1;
+		}
+	}
+}

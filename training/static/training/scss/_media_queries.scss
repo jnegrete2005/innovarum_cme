@@ -1,0 +1,39 @@
+// Small tablets and large smartphones (landscape view)
+$screen-sm-max: 576px;
+
+// Small tablets (portrait view)
+$screen-md-max: 768px;
+
+// Tablets and small desktops
+$screen-lg-max: 992px;
+
+// Large tablets and desktops
+$screen-xl-max: 1200px;
+
+// Small devices
+@mixin sm {
+	@media only screen and (max-width: #{$screen-sm-max}) {
+		@content;
+	}
+}
+
+// Medium devices
+@mixin md {
+	@media only screen and (max-width: #{$screen-md-max}) {
+		@content;
+	}
+}
+
+// Large devices
+@mixin lg {
+	@media only screen and (max-width: #{$screen-lg-max}) {
+		@content;
+	}
+}
+
+// Extra large devices
+@mixin xl {
+	@media only screen and (max-width: #{$screen-xl-max}) {
+		@content;
+	}
+}

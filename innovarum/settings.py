@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'presupuestos',
     'legacy',
     'graphene_django',
+    'training',
 ]
 
 MIDDLEWARE = [

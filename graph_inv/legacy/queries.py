@@ -1,4 +1,4 @@
-from ..types import CourseType, Course, BusinessType, Bussines, UserTrio, Trio
+from ..legacy_types import CourseType, Course, BusinessType, Bussines, UserTrio, Trio
 from graphene_django import DjangoListField
 
 import graphene

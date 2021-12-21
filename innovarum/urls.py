@@ -40,6 +40,8 @@ urlpatterns = [
     path('cme/', include('cme.urls')),
     path('pres/', include('presupuestos.urls')),
     path('legacy/', include('legacy.urls')),
+    path('training/', include('training.urls')),
+
     path('graphql', GraphQLView.as_view(graphiql=False)),
     path('graphiql', admin_required(GraphQLView.as_view(graphiql=True))),
 ]

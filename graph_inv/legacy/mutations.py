@@ -1,5 +1,5 @@
 from typing import List
-from ..types import UserTrioType, UserTrio, Trio, Bussines
+from ..legacy_types import UserTrioType, UserTrio, Trio, Bussines
 
 import graphene
 
