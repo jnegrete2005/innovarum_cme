@@ -103,9 +103,9 @@ async function getCourses(option: keyof courseModes) {
 				card.classList.add('card');
 
 				// Create img
-				const img = document.createElement('div');
+				const img = document.createElement('img');
 				img.classList.add('card-image');
-				img.style.backgroundImage = `url('${COURSE_URL}${course.img}')`;
+				img.style.content = `url('${COURSE_URL}${course.img}')`;
 
 				// Create text container
 				const text = document.createElement('div');
