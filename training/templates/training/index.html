@@ -163,7 +163,7 @@
 				<!-- Log in/out -->
 				<li class="nav-item">
 					{% if user.is_authenticated %}
-					<a href="{% url 'legacy:logout' %}" class="nav-link">
+					<a href="{% url 'training:logout' %}" class="nav-link">
 						<svg
 							aria-hidden="true"
 							focusable="false"
@@ -183,7 +183,7 @@
 						<span class="link-text">Cerrar sesión</span>
 					</a>
 					{% else %}
-					<a href="{% url 'legacy:login' %}" class="nav-link">
+					<a href="{% url 'training:login' %}" class="nav-link">
 						<svg
 							aria-hidden="true"
 							focusable="false"

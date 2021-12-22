@@ -1,0 +1,37 @@
+{% extends 'legacy/index.html' %} {% block js %} {% endblock js %}
+
+<!-- Main -->
+{% block main %}
+<article itemscope itemtype="https://schema.org/RegisterAction">
+	<div class="form-container">
+		<h1 class="title">Iniciar Sesión</h1>
+
+		{% if message %} {{ message|json_script:'message' }}
+		<script>
+			alert(JSON.parse(document.getElementById('message').textContent));
+		</script>
+		{% endif %}
+
+		<form action="{% url 'training:login' %}" method="post" class="form">
+			{% csrf_token %}
+			<div class="form_group field">
+				<input class="form_field" type="email" name="email" placeholder="Email" id="emailInput" required />
+				<label class="form_label" for="emailInput">Email</label>
+			</div>
+
+			<div class="form_group field">
+				<input class="form_field" type="password" name="password" placeholder="Contraseña" id="passwordInput" required />
+				<label class="form_label" for="passwordInput">Contraseña</label>
+			</div>
+
+			<div>
+				<input type="submit" value="Iniciar Sesión" class="btn-contrast" />
+			</div>
+
+			<div class="end-text">
+				<span> ¿Todavía no te has registrado? <a href="{% url 'training:register' %}">Resgistrate aquí</a> </span>
+			</div>
+		</form>
+	</div>
+</article>
+{% endblock main %}

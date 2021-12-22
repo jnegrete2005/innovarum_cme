@@ -1,0 +1,55 @@
+{% extends 'legacy/index.html' %} {% load static %} {% block js %} {% endblock js %}
+
+<!-- CSS -->
+{% block css %} <link rel="stylesheet" href="{% static 'legacy/css/forms.css' %}" /> {% endblock css %}
+
+<!-- Main -->
+{% block main %}
+<article itemscope itemtype="https://schema.org/RegisterAction">
+	<div class="form-container">
+		<h1 class="title">Registrarse</h1>
+
+		{% if message %} {{ message|json_script:'message' }}
+		<script>
+			alert(JSON.parse(document.getElementById('message').textContent));
+		</script>
+		{% endif %}
+
+		<form action="{% url 'training:register' %}" method="post" class="form">
+			{% csrf_token %}
+			<div class="form_group field">
+				<input class="form_field" id="emailInput" type="email" name="email" placeholder="Email" required />
+				<label class="form_label" for="emailInput">Email</label>
+			</div>
+
+			<div class="form_group field">
+				<input class="form_field" id="nameInput" type="text" name="name" placeholder="Nombre" required minlength="2" maxlength="150" />
+				<label class="form_label" for="nameInput">Nombre</label>
+			</div>
+
+			<div class="form_group field">
+				<input class="form_field" id="lastInput" type="text" name="last" placeholder="Apellido" required minlength="2" maxlength="150" />
+				<label class="form_label" for="lastInput">Apellido</label>
+			</div>
+
+			<div class="form_group field">
+				<input class="form_field" id="roleInput" type="text" name="role" placeholder="Cargo en Empresa" required minlength="2" maxlength="300" />
+				<label class="form_label" for="roleInput">Cargo en Empresa</label>
+			</div>
+
+			<div class="form_group field">
+				<input class="form_field" id="passwordInput" type="password" name="password" placeholder="Contraseña" required minlength="5" maxlength="100" />
+				<label class="form_label" for="passwordInput">Contraseña</label>
+			</div>
+
+			<div>
+				<input type="submit" value="Registrarse" class="btn-contrast" />
+			</div>
+
+			<div class="end-text">
+				<span> ¿Ya tienes una cuenta? <a href="{% url 'training:login' %}">Iniciar sesión</a> </span>
+			</div>
+		</form>
+	</div>
+</article>
+{% endblock main %}

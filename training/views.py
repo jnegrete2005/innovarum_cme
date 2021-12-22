@@ -70,13 +70,13 @@ def login_view(request: WSGIRequest):
       login(request, user)
       return redirect('training:index')
 
-    return render(request, 'legacy/login.html', {
+    return render(request, 'training/login.html', {
         'message': 'Email o contraseña inválidos'
     })
 
   # User just entered the page
   else:
-    return render(request, 'legacy/login.html')
+    return render(request, 'training/login.html')
 
 
 @require_GET
@@ -97,20 +97,20 @@ def register_view(request: WSGIRequest):
     password = str(request.POST.get('password', None)).strip()
 
     if not validate_fields(email, first, last, role, password):
-      return render(request, 'legacy/register.html', {'message': 'No has llenado uno de los campos.'})
+      return render(request, 'training/register.html', {'message': 'No has llenado uno de los campos.'})
 
     # Attempt to create user
     try:
       User = get_user_model()
       user = User.objects.create_user(email, first, last, role, password, cme_access=True, is_superuser=False, is_staff=False)
     except IntegrityError:
-      return render(request, 'legacy/register.html', {'message': 'Ese mail ya ha sido usado.'})
+      return render(request, 'training/register.html', {'message': 'Ese mail ya ha sido usado.'})
 
     login(request, user)
     return redirect('training:index')
 
   else:
-    return render(request, 'legacy/register.html')
+    return render(request, 'training/register.html')
 
 
 def validate_fields(**fields) -> bool:
