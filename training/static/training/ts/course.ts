@@ -99,8 +99,6 @@ function fillCourse(data: GetCourse) {
 			const ul = document.createElement('ul');
 			ul.classList.add('trios');
 			if (module.files) {
-				module.files.reverse();
-
 				module.files.forEach((file) => {
 					// Create file
 					const file_el = createTrio(file);
