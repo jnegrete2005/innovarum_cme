@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 class Course(models.Model):
   """
-  Represents a Course for Legacy.
+  Represents a Course for Training.
 
   It's contents will be stored in `Module`s
   """

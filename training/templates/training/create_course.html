@@ -1,8 +1,8 @@
-{% extends 'legacy/index.html' %} {% load static %}
+{% extends 'training/index.html' %} {% load static %}
 
 <!-- JS -->
 {% block js %}
-<script src="{% static 'legacy/js/create_course.js' %}" type="module"></script>
+<script src="{% static 'training/js/create_course.js' %}" type="module"></script>
 {% endblock js %}
 
 <!-- Main -->
@@ -16,7 +16,7 @@
 	</script>
 	{% endif %}
 
-	<form action="{% url 'legacy:create_course' %}" method="post" enctype="multipart/form-data">
+	<form action="{% url 'training:create' %}" method="post">
 		{% csrf_token %}
 
 		<!-- Course -->
@@ -26,8 +26,9 @@
 			<label class="form_label" for="courseInput">Nombre</label>
 		</div>
 
-		<div class="wrapper field">
-			<input type="file" class="browse" name="course-img" required />
+		<div class="form_group field">
+			<input class="form_field" type="text" name="course_img" id="courseImgInput" placeholder="Nombre del archivo de imagen" />
+			<label class="form_label" for="courseImgInput">Nombre del archivo de imagen</label>
 		</div>
 
 		<div class="modules-container">
@@ -42,35 +43,42 @@
 			<!-- Modules -->
 			<div class="modules">
 				<div class="module" data-index="1">
-					<input type="text" class="readonly" name="module" value="Módulo 1" placeholder="Módulo 1" readonly aria-readonly="true" />
+					<div class="form_group field">
+						<input class="form_field" type="text" name="module" id="module-1-Input" placeholder="Módulo 1" />
+						<label class="form_label" for="module-1-Input">Módulo 1</label>
+					</div>
 
-					<!-- Trios -->
+					<!-- Files -->
 					<div class="trio-container">
 						<div class="add-remove">
-							<h4>Tríos</h4>
+							<h4>Archivos</h4>
 							<div>
 								<span class="add">&plus;</span>
 								<span class="remove disabled">&minus;</span>
 							</div>
 						</div>
 
-						<!-- Trio -->
-						<div class="trio" data-index="1">
-							<!-- File -->
-							<div class="wrapper field">
-								<input type="file" class="browse" name="trio-1" required />
+						<!-- File -->
+						<div class="file" data-index="1">
+							<!-- Name -->
+							<div class="form_group field">
+								<input class="form_field" type="text" name="name-1" id="name-1-1-input" placeholder="Nombre" />
+								<label class="form_label" for="name-1-1-input">Nombre</label>
 							</div>
 
-							<!-- Video -->
+							<!-- URL -->
 							<div class="form_group field">
-								<input class="form_field" type="url" name="trio-1" id="trio-1-1-input" placeholder="Video" />
-								<label class="form_label" for="trio-1-1-input">Video</label>
+								<input class="form_field" type="url" name="file-1" id="file-1-1-input" placeholder="URL" />
+								<label class="form_label" for="file-1-1-input">URL</label>
 							</div>
 
-							<!-- Quiz -->
-							<div class="form_group field">
-								<input class="form_field" type="url" name="trio-1" id="trio-1-1-input" placeholder="Quiz" />
-								<label class="form_label" for="trio-1-1-input">Quiz</label>
+							<!-- Type -->
+							<div class="form_group">
+								<select name="type-1" class="form_field">
+									<option>Tipo de archivo</option>
+									<option value="1">PDF/Texto</option>
+									<option value="2">Video</option>
+								</select>
 							</div>
 						</div>
 					</div>

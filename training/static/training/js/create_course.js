@@ -38,23 +38,27 @@ function addTrio(el) {
     const i = parseInt(trio_container.parentElement.dataset.index);
     // Get the index of the last trio
     const j = parseInt(trio_container.children[trio_container.children.length - 1].dataset.index);
-    trio_container.insertAdjacentHTML('beforeend', `<!-- Trio -->
-		<div class="trio" data-index="${j + 1}">
-			<!-- File -->
-			<div class="wrapper field">
-				<input type="file" class="browse" name="trio-${i}" />
+    trio_container.insertAdjacentHTML('beforeend', `<!-- File -->
+		<div class="file" data-index="${j + 1}">
+			<!-- Name -->
+			<div class="form_group field">
+				<input class="form_field" type="text" name="name-${i}" id="name-${i}-${j + 1}1-input" placeholder="Nombre" />
+				<label class="form_label" for="name-${i}-${j + 1}-input">Nombre</label>
 			</div>
 
-			<!-- Video -->
+			<!-- URL -->
 			<div class="form_group field">
-				<input class="form_field" type="url" name="trio-${i}" id="trio-${i}-${j + 1}-input" placeholder="Video" />
-				<label class="form_label" for="trio-${i}-${j + 1}-input">Video</label>
+				<input class="form_field" type="url" name="file-${i}" id="file-${i}-${j + 1}-input" placeholder="URL" />
+				<label class="form_label" for="file-${i}-${j + 1}-input">URL</label>
 			</div>
 
-			<!-- Quiz -->
-			<div class="form_group field">
-				<input class="form_field" type="url" name="trio-${i}" id="trio-${i}-${j + 1}-input" placeholder="Quiz" />
-				<label class="form_label" for="trio-${i}-${j + 1}-input">Quiz</label>
+			<!-- Type -->
+			<div class="form_group">
+				<select name="type-${i}" class="form_field">
+					<option>Tipo de archivo</option>
+					<option value="1">PDF/Texto</option>
+					<option value="2">Video</option>
+				</select>
 			</div>
 		</div>`);
     // Check (for validation) if there is more that 1 trio to remove .disabled
@@ -70,35 +74,42 @@ function addModule(el) {
     const i = parseInt(last_module.dataset.index);
     // Append to it
     module_container.insertAdjacentHTML('beforeend', `<div class="module" data-index="${i + 1}">
-			<input type="text" class="readonly" name="module" value="Módulo ${i + 1}" placeholder="Módulo ${i + 1}" readonly disabled aria-readonly="true" />
+			<div class="form_group field">
+				<input class="form_field" type="text" name="module" id="module-${i + 1}-Input" placeholder="Módulo ${i + 1}" />
+				<label class="form_label" for="module-${i + 1}-Input">Módulo ${i + 1}</label>
+			</div>
 
-			<!-- Trios -->
+			<!-- Files -->
 			<div class="trio-container">
 				<div class="add-remove">
-					<h4>Tríos</h4>
+					<h4>Archivos</h4>
 					<div>
 						<span class="add">&plus;</span>
 						<span class="remove disabled">&minus;</span>
 					</div>
 				</div>
 
-				<!-- Trio -->
-				<div class="trio" data-index="1">
-					<!-- File -->
-					<div class="wrapper field">
-						<input type="file" class="browse" name="trio-${i + 1}" />
+				<!-- File -->
+				<div class="file" data-index="1">
+					<!-- Name -->
+					<div class="form_group field">
+						<input class="form_field" type="text" name="name-${i + 1}" id="name-${i + 1}-1-input" placeholder="Nombre" />
+						<label class="form_label" for="name-${i + 1}-1-input">Nombre</label>
 					</div>
 
-					<!-- Video -->
+					<!-- URL -->
 					<div class="form_group field">
-						<input class="form_field" type="url" name="trio-${i + 1}" id="trio-${i + 1}-1-input" placeholder="Video" />
-						<label class="form_label" for="trio-${i + 1}-1-input">Video</label>
+						<input class="form_field" type="url" name="file-${i + 1}" id="file-${i + 1}-1-input" placeholder="URL" />
+						<label class="form_label" for="file-${i + 1}-1-input">URL</label>
 					</div>
 
-					<!-- Quiz -->
-					<div class="form_group field">
-						<input class="form_field" type="url" name="trio-${i + 1}" id="trio-${i + 1}-1-input" placeholder="Quiz" />
-						<label class="form_label" for="trio-${i + 1}-1-input">Quiz</label>
+					<!-- Type -->
+					<div class="form_group">
+						<select name="type-${i + 1}" class="form_field">
+							<option>Tipo de archivo</option>
+							<option value="1">PDF/Texto</option>
+							<option value="2">Video</option>
+						</select>
 					</div>
 				</div>
 			</div>
