@@ -68,7 +68,7 @@ export function courseClick() {
 function fillCourse(data) {
     modal.dataset.id = data.data.trainingCourse.id;
     data.data.trainingCourse.modules.forEach((module) => {
-        module.files.sort((a, b) => (a.id > b.id ? 1 : b.id > a.id ? -1 : 0));
+        module.files.sort((a, b) => (parseInt(a.id) > parseInt(b.id) ? 1 : parseInt(b.id) > parseInt(a.id) ? -1 : 0));
     });
     // Get the modal
     const mBody = modal.getElementsByClassName('modal-body')[0];
