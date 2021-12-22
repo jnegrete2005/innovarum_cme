@@ -31,7 +31,7 @@ type GetCourse = {
 			id: string;
 			name: string;
 			modules?: {
-				name;
+				name: string;
 				files?: {
 					userfileSet:
 						| null

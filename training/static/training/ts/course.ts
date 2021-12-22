@@ -74,6 +74,10 @@ export function courseClick() {
 function fillCourse(data: GetCourse) {
 	modal.dataset.id = data.data.trainingCourse.id;
 
+	data.data.trainingCourse.modules.forEach((module) => {
+		module.files.sort((a, b) => (a.id > b.id ? 1 : -1));
+	});
+
 	// Get the modal
 	const mBody = modal.getElementsByClassName('modal-body')[0];
 

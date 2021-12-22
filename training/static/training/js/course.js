@@ -67,6 +67,9 @@ export function courseClick() {
 // Will fill the modal with the course info
 function fillCourse(data) {
     modal.dataset.id = data.data.trainingCourse.id;
+    data.data.trainingCourse.modules.forEach((module) => {
+        module.files.sort((a, b) => (a.id > b.id ? 1 : -1));
+    });
     // Get the modal
     const mBody = modal.getElementsByClassName('modal-body')[0];
     // Get modal title
