@@ -401,12 +401,12 @@ def register(request: WSGIRequest):
     msg = f"""\
       Buenas.
 
-      Hemos validado su solicitud para acceder al Coeficiente de Madurez Empresarial, y ha sido aprovada.
+      Hemos validado su solicitud para acceder al Coeficiente de Madurez Empresarial, y ha sido aprobada.
       Podrá entrar con los siguientes datos:
       Su email: {email}
       Contraseña segura asignada: {password}
       """
-    send_mail(email, cleandoc(msg), 'Solicitud de acceso al CME aprovada.')
+    send_mail(email, cleandoc(msg), 'Solicitud de acceso al CME aprobada.')
 
     return HttpResponseRedirect(reverse('cme:index'))
 
