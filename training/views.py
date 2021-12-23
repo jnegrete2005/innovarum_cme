@@ -113,7 +113,7 @@ def register_view(request: WSGIRequest):
     return render(request, 'training/register.html')
 
 
-def validate_fields(**fields) -> bool:
+def validate_fields(*fields) -> bool:
   """
   Function to validate fields.
   Will return false if any of the fields are 'None' or empty.
