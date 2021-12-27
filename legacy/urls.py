@@ -17,5 +17,5 @@ urlpatterns = [
     # User URLs
     path('login', views.login_view, name='login'),
     path('logout', views.logout_view, name='logout'),
-    path('solicitar/', views.ask, name='ask')
+    path('solicitar/', views.ask, name='ask'),
 ]
