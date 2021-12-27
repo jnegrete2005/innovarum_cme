@@ -2,18 +2,26 @@ from .send_mail import send_mail
 from .models import Course, Module, File
 
 from django.contrib.auth import authenticate, login, logout, get_user_model
-from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
 from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_GET, require_http_methods, require_safe
+from django.contrib.auth.decorators import user_passes_test
 
 from inspect import cleandoc
 import os
 
+
+NOT_ALLOWED = 'training:ask'
+
+
+def can_enter_training(user) -> bool:
+  return user.training_access
+
+
 # Create your views here.
 
-
+@user_passes_test(can_enter_training, login_url=NOT_ALLOWED)
 @require_safe
 def index(request: WSGIRequest):
   """

@@ -6,13 +6,22 @@ from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_GET, require_http_methods, require_safe
+from django.contrib.auth.decorators import user_passes_test
 
 from inspect import cleandoc
 import os
 
+
+NOT_ALLOWED = 'legacy:ask'
+
+
+def can_enter_legacy(user) -> bool:
+  return user.legacy_access
+
 # Create your views here.
 
 
+@user_passes_test(can_enter_legacy, login_url=NOT_ALLOWED)
 @require_safe
 def index(request: WSGIRequest):
   """

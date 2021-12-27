@@ -4,7 +4,6 @@ import copy
 import os
 import json
 from inspect import cleandoc
-from secrets import token_hex
 
 from django.core.handlers.wsgi import WSGIRequest
 from django.contrib.auth import authenticate, login, logout
