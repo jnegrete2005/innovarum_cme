@@ -92,7 +92,7 @@ async function getCourses(option) {
             // Create img
             const img = document.createElement('img');
             img.classList.add('card-image');
-            img.style.content = `url('${course.img}')`;
+            img.style.content = `url(${course.img})`;
             // Create text container
             const text = document.createElement('div');
             text.classList.add('card-text');
