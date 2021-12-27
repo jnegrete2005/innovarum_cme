@@ -32,7 +32,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
 @admin.register(Bussines)
 class BussinesAdmin(admin.ModelAdmin):
-  list_display = ['email', 'first', 'last', 'is_staff', 'is_superuser', 'role', 'cme_access']
+  list_display = ['email', 'first', 'last', 'is_staff', 'is_superuser', 'role', 'cme_access', 'legacy_access', 'training_access']
 
 
 @admin.register(Score)

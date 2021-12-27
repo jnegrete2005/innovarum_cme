@@ -12,9 +12,9 @@ from django.contrib.auth.decorators import user_passes_test
 from django.conf import settings
 from django.db import IntegrityError
 from django.http.response import Http404, HttpResponseBadRequest, HttpResponseRedirect, JsonResponse, HttpResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.views.decorators.http import require_safe
+from django.views.decorators.http import require_http_methods, require_safe
 
 from .models import Block, Bussines, Module, Question, Score, Survey, Type
 from .send_mail import check_email, send_mail
@@ -379,26 +379,38 @@ def logout_view(request: WSGIRequest):
   return HttpResponseRedirect(reverse('cme:index'))
 
 
+@require_http_methods(['GET', 'POST'])
 def register(request: WSGIRequest):
+  """ View to register """
   if request.method == 'POST':
-    email = request.POST['email']
-    first = request.POST['first']
-    last = request.POST['last']
-    role = request.POST['role']
-    password = token_hex(3)
-    is_staff = request.POST.get('is_staff', 'False') == 'True'
-    is_admin = request.POST.get('is_admin', 'False') == 'True'
+    email = str(request.POST.get('email', None)).strip()
+    first = str(request.POST.get('first', None)).strip()
+    last = str(request.POST.get('last', None)).strip()
+    role = str(request.POST.get('role', None)).strip()
+    password = str(request.POST.get('password', None)).strip()
+    is_staff = request.POST.get('is_staff', False) == 'True'
+    is_admin = request.POST.get('is_admin', False) == 'True'
+    cme_access = request.POST.get('cme_access', False) == 'True'
+    legacy_access = request.POST.get('legacy_access', False) == 'True'
+    training_access = request.POST.get('training_access', False) == 'True'
 
-    # Attempt to create new user
+    if not validate_fields(email, first, last, role, password):
+      return render(request, 'cme/register.html', {'message': 'No has llenado uno de los campos.'})
+
+    # Attempt to create user
     try:
       if is_admin:
-        Bussines.objects.create_superuser(email, first, last, role, password, cme_access=True, is_superuser=is_admin, is_staff=is_staff)
+        Bussines.objects.create_superuser(email, first, last, role, password, cme_access=True, legacy_access=True, training_access=True, is_superuser=True, is_staff=True)
       else:
-        Bussines.objects.create_user(email, first, last, role, password, cme_access=True, is_superuser=is_admin, is_staff=is_staff)
+        Bussines.objects.create_user(email, first, last, role, password, cme_access=cme_access, legacy_access=legacy_access,
+                                     training_access=training_access, is_superuser=False, is_staff=is_staff)
+
     except IntegrityError:
       return render(request, 'cme/register.html', {'message': 'Ese mail ya ha sido usado.'})
 
-    msg = f"""\
+    # Send email if the user has access to CME
+    if cme_access:
+      msg = f"""\
       Buenas.
 
       Hemos validado su solicitud para acceder al Coeficiente de Madurez Empresarial, y ha sido aprobada.
@@ -406,9 +418,57 @@ def register(request: WSGIRequest):
       Su email: {email}
       Contraseña segura asignada: {password}
       """
-    send_mail(email, cleandoc(msg), 'Solicitud de acceso al CME aprobada.')
 
-    return HttpResponseRedirect(reverse('cme:index'))
+      send_mail(email, cleandoc(msg), 'Solicitud de acceso al CME aprobada.')
 
-  elif request.method == 'GET':
+    return redirect('cme:register')
+
+  else:
     return render(request, 'cme/register.html')
+
+
+def validate_fields(*fields) -> bool:
+  """
+  Function to validate fields.
+  Will return false if any of the fields are 'None' or empty.
+  """
+  for field in fields:
+    if field == 'None' or field == '':
+      return False
+
+  return True
+
+
+# def register(request: WSGIRequest):
+#   if request.method == 'POST':
+#     email = request.POST['email']
+#     first = request.POST['first']
+#     last = request.POST['last']
+#     role = request.POST['role']
+#     password = token_hex(3)
+#     is_staff = request.POST.get('is_staff', False) == 'True'
+#     is_admin = request.POST.get('is_admin', False) == 'True'
+
+#     # Attempt to create new user
+#     try:
+#       if is_admin:
+#         Bussines.objects.create_superuser(email, first, last, role, password, cme_access=True, is_superuser=is_admin, is_staff=is_staff)
+#       else:
+#         Bussines.objects.create_user(email, first, last, role, password, cme_access=True, is_superuser=is_admin, is_staff=is_staff)
+#     except IntegrityError:
+#       return render(request, 'cme/register.html', {'message': 'Ese mail ya ha sido usado.'})
+
+#     msg = f"""\
+#       Buenas.
+
+#       Hemos validado su solicitud para acceder al Coeficiente de Madurez Empresarial, y ha sido aprobada.
+#       Podrá entrar con los siguientes datos:
+#       Su email: {email}
+#       Contraseña segura asignada: {password}
+#       """
+#     send_mail(email, cleandoc(msg), 'Solicitud de acceso al CME aprobada.')
+
+#     return HttpResponseRedirect(reverse('cme:index'))
+
+#   elif request.method == 'GET':
+#     return render(request, 'cme/register.html')

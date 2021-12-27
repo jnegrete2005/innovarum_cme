@@ -94,6 +94,8 @@ class CustomAccountManager(BaseUserManager):
     other_fields.setdefault('is_staff', True)
     other_fields.setdefault('is_active', True)
     other_fields.setdefault('cme_access', True)
+    other_fields.setdefault('legacy_access', True)
+    other_fields.setdefault('training_access', True)
 
     if other_fields.get('is_superuser') is not True:
       raise ValueError('Superuser must be assigned to is_superuser=True.')
@@ -103,6 +105,10 @@ class CustomAccountManager(BaseUserManager):
       raise ValueError('Superuser must be assigned to is_active=True.')
     if other_fields.get('cme_access') is not True:
       raise ValueError('Superuser must be assigned to cme_access=True.')
+    if other_fields.get('legacy_access') is not True:
+      raise ValueError('Superuser must be assigned to legacy_access=True.')
+    if other_fields.get('training_access') is not True:
+      raise ValueError('Superuser must be assigned to training_access=True.')
 
     return self.create_user(email, first, last, role, password, **other_fields)
 
@@ -118,7 +124,10 @@ class Bussines(AbstractBaseUser, PermissionsMixin):
   is_active = models.BooleanField(default=True)
   role = models.CharField(max_length=300)
 
+  # Access to each app
   cme_access = models.BooleanField(default=False)
+  legacy_access = models.BooleanField(default=False)
+  training_access = models.BooleanField(default=False)
 
   USERNAME_FIELD = 'email'
   REQUIRED_FIELDS = ['first', 'last', 'role']

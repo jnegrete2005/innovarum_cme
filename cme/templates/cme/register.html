@@ -10,6 +10,14 @@
 
 <!-- Main -->
 {% block main %}
+
+<!-- Message -->
+{% if message %} {{ message|json_script:'message' }}
+<script>
+	alert(JSON.parse(document.getElementById('message').textContent));
+</script>
+{% endif %}
+
 <div id="container">
 	<h1>Registrar usuario nuevo</h1>
 
@@ -37,6 +45,11 @@
 			<label class="form_label" for="roleInput">Puesto de trabajo</label>
 		</div>
 
+		<div class="form_group">
+			<input class="form_field" type="text" name="password" placeholder="Contraseña" id="passwordInput" required />
+			<label class="form_label" for="passwordInput">Contraseña</label>
+		</div>
+
 		<div>
 			<input type="checkbox" name="is_staff" value="True" placeholder="¿Es Staff?" id="staffInput" />
 			<label for="staffInput">¿Es Staff?</label>
@@ -45,6 +58,21 @@
 		<div>
 			<input type="checkbox" name="is_admin" value="True" placeholder="¿Es Admin?" id="adminInput" />
 			<label for="adminInput">¿Es Admin?</label>
+		</div>
+
+		<div>
+			<input type="checkbox" name="cme_access" value="True" placeholder="¿Acceso al CME?" id="cmeInput" />
+			<label for="cmeInput">¿Acceso al CME?</label>
+		</div>
+
+		<div>
+			<input type="checkbox" name="legacy_access" value="True" placeholder="¿Acceso a Legacy?" id="legacyInput" />
+			<label for="legacyInput">¿Acceso a Legacy?</label>
+		</div>
+
+		<div>
+			<input type="checkbox" name="training_access" value="True" placeholder="¿Acceso a Training?" id="trainingInput" />
+			<label for="trainingInput">¿Acceso a Training?</label>
 		</div>
 
 		<div>

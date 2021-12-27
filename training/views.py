@@ -86,40 +86,40 @@ def logout_view(request: WSGIRequest):
   return redirect('training:index')
 
 
-@require_http_methods(['GET', 'POST'])
-def register_view(request: WSGIRequest):
-  """ View to register """
-  if request.method == 'POST':
-    email = str(request.POST.get('email', None)).strip()
-    first = str(request.POST.get('first', None)).strip()
-    last = str(request.POST.get('last', None)).strip()
-    role = str(request.POST.get('role', None)).strip()
-    password = str(request.POST.get('password', None)).strip()
+# @require_http_methods(['GET', 'POST'])
+# def register_view(request: WSGIRequest):
+#   """ View to register """
+#   if request.method == 'POST':
+#     email = str(request.POST.get('email', None)).strip()
+#     first = str(request.POST.get('first', None)).strip()
+#     last = str(request.POST.get('last', None)).strip()
+#     role = str(request.POST.get('role', None)).strip()
+#     password = str(request.POST.get('password', None)).strip()
 
-    if not validate_fields(email, first, last, role, password):
-      return render(request, 'training/register.html', {'message': 'No has llenado uno de los campos.'})
+#     if not validate_fields(email, first, last, role, password):
+#       return render(request, 'training/register.html', {'message': 'No has llenado uno de los campos.'})
 
-    # Attempt to create user
-    try:
-      User = get_user_model()
-      user = User.objects.create_user(email, first, last, role, password, cme_access=True, is_superuser=False, is_staff=False)
-    except IntegrityError:
-      return render(request, 'training/register.html', {'message': 'Ese mail ya ha sido usado.'})
+#     # Attempt to create user
+#     try:
+#       User = get_user_model()
+#       user = User.objects.create_user(email, first, last, role, password, cme_access=True, is_superuser=False, is_staff=False)
+#     except IntegrityError:
+#       return render(request, 'training/register.html', {'message': 'Ese mail ya ha sido usado.'})
 
-    login(request, user)
-    return redirect('training:index')
+#     login(request, user)
+#     return redirect('training:index')
 
-  else:
-    return render(request, 'training/register.html')
+#   else:
+#     return render(request, 'training/register.html')
 
 
-def validate_fields(*fields) -> bool:
-  """
-  Function to validate fields.
-  Will return false if any of the fields are 'None' or empty.
-  """
-  for field in fields:
-    if field == 'None' or field == '':
-      return False
+# def validate_fields(*fields) -> bool:
+#   """
+#   Function to validate fields.
+#   Will return false if any of the fields are 'None' or empty.
+#   """
+#   for field in fields:
+#     if field == 'None' or field == '':
+#       return False
 
-  return True
+#   return True
