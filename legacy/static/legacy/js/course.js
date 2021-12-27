@@ -1,4 +1,4 @@
-import { displayError, getCookie, GRAPHQL_URL, CLASS_URL, USER_ID } from './index.js';
+import { displayError, getCookie, GRAPHQL_URL, USER_ID } from './index.js';
 import { updateUsertrio } from './trios.js';
 const modal = document.getElementById('modal');
 const span = document.getElementsByClassName('close')[0];
@@ -17,6 +17,7 @@ const query = `
 					}
 					id
 					file
+					fileUrl
 					video
 					quiz
 				}
@@ -91,7 +92,7 @@ function fillCourse(data) {
                     const quiz_url = trio.quiz ? trio.quiz : '#';
                     // Get trio
                     const template_trio = [
-                        createTrio(trio, `${CLASS_URL}${trio.file}`, trio.file, '/static/legacy/icons/file.svg', 0),
+                        createTrio(trio, trio.fileUrl, trio.file, '/static/legacy/icons/file.svg', 0),
                         createTrio(trio, trio.video, trio.video, '/static/legacy/icons/play.svg', 1),
                         createTrio(trio, quiz_url, 'Autoevaluación', '/static/legacy/icons/pencil.svg', 2, true),
                     ];

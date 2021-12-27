@@ -93,6 +93,7 @@ class Trio(models.Model):
   (which will be key to `Quiz`)
   """
   file = models.CharField(max_length=200)
+  file_url = models.URLField()
 
   """ FOR NOW QUIZ WILL BE A URL """
   quiz = models.URLField(null=True, blank=True)
