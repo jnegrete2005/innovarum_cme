@@ -23,6 +23,7 @@ class Module(models.Model):
   """
   name = models.CharField(max_length=200)
   course = models.ForeignKey(Course, on_delete=models.PROTECT, related_name='modules')
+  index = models.PositiveSmallIntegerField()
 
   def __str__(self) -> str:
     return self.name

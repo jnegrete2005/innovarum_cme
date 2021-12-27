@@ -11,7 +11,7 @@ class CourseAdmin(ModelAdmin):
 
 @register(Module)
 class ModuleAdmin(ModelAdmin):
-  list_display = ['name', 'course']
+  list_display = ['index', 'name', 'course']
 
 
 @register(File)

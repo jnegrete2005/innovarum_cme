@@ -11,6 +11,7 @@ const query = `
 			id
 			name
 			modules {
+				index
 				name
 				files {
 					userfileSet {
@@ -74,6 +75,10 @@ export function courseClick() {
 function fillCourse(data: GetCourse) {
 	modal.dataset.id = data.data.trainingCourse.id;
 
+	// Sort modules
+	data.data.trainingCourse.modules.sort((a, b) => (a.index > b.index ? 1 : b.index > a.index ? -1 : 0));
+
+	// Sort files
 	data.data.trainingCourse.modules.forEach((module) => {
 		module.files.sort((a, b) => (parseInt(a.id) > parseInt(b.id) ? 1 : parseInt(b.id) > parseInt(a.id) ? -1 : 0));
 	});
