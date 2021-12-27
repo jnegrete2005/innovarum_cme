@@ -13,7 +13,7 @@ class Course(models.Model):
   It's contents will be stored in `Module`s
   """
   name = models.CharField(max_length=200, unique=True)
-  img = models.URLField()
+  img = models.URLField(max_length=500)
 
   def __str__(self) -> str:
     return f'{self.name}'
