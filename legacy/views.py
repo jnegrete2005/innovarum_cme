@@ -1,14 +1,18 @@
+from .send_mail import send_mail
 from .models import Course, Module, Quiz, Question, Answer, Trio
 
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import authenticate, login, logout
 from django.core.files.storage import default_storage
 from django.core.handlers.wsgi import WSGIRequest
-from django.db import IntegrityError
 from django.shortcuts import redirect, render
 from django.views.decorators.http import require_GET, require_http_methods, require_safe
 
+from inspect import cleandoc
+import os
 
 # Create your views here.
+
+
 @require_safe
 def index(request: WSGIRequest):
   """
@@ -169,40 +173,43 @@ def logout_view(request: WSGIRequest):
   return redirect('legacy:index')
 
 
-# @require_http_methods(['GET', 'POST'])
-# def register_view(request: WSGIRequest):
-#   """ View to register """
-#   if request.method == 'POST':
-#     email = str(request.POST.get('email', None)).strip()
-#     first = str(request.POST.get('first', None)).strip()
-#     last = str(request.POST.get('last', None)).strip()
-#     role = str(request.POST.get('role', None)).strip()
-#     password = str(request.POST.get('password', None)).strip()
+@require_http_methods(['POST', 'GET'])
+def ask(request: WSGIRequest):
+  """ Ask permission to enter Legacy """
+  if request.method == 'GET':
+    return render(request, 'legacy/ask.html')
 
-#     if not validate_fields(email, first, last, role, password):
-#       return render(request, 'legacy/register.html', {'message': 'No has llenado uno de los campos.'})
+  email = str(request.POST.get('email', None)).strip()
+  first = str(request.POST.get('first', None)).strip()
+  last = str(request.POST.get('last', None)).strip()
+  role = str(request.POST.get('role', None)).strip()
+  company = str(request.POST.get('company', None)).strip()
 
-#     # Attempt to create user
-#     try:
-#       User = get_user_model()
-#       user = User.objects.create_user(email, first, last, role, password, cme_access=False, is_superuser=False, is_staff=False)
-#     except IntegrityError:
-#       return render(request, 'legacy/register.html', {'message': 'Ese mail ya ha sido usado.'})
+  if not validate_fields(email, first, last, role, company):
+    return render(request, 'legacy/ask.html', {'message': 'No has llenado uno de los campos.'})
 
-#     login(request, user)
-#     return redirect('legacy:index')
+  msg = f"""\
+    Buenos días/tardes.
 
-#   else:
-#     return render(request, 'legacy/register.html')
+    Una persona ha solicitado acceso a Legacy. Aquí envío los datos:
+    Nombre: {first}
+    Apellido: {last}
+    Email: {email}
+    Puesto de trabajo: {role}
+    Compañía: {company}
+    """
+
+  send_mail(os.environ.get('PABLO_EMAIL'), cleandoc(msg), 'Información de usuario.')
+  return render(request, 'legacy/ask.html')
 
 
-# def validate_fields(*fields) -> bool:
-#   """
-#   Function to validate fields.
-#   Will return false if any of the fields are 'None' or empty.
-#   """
-#   for field in fields:
-#     if field == 'None' or field == '':
-#       return False
+def validate_fields(*fields) -> bool:
+  """
+  Function to validate fields.
+  Will return false if any of the fields are 'None' or empty.
+  """
+  for field in fields:
+    if field == 'None' or field == '':
+      return False
 
-#   return True
+  return True
