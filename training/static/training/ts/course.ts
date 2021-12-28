@@ -114,7 +114,7 @@ function fillCourse(data: GetCourse) {
 
 					// Create a wrapper div for trio
 					const wrapper_trio = document.createElement('div');
-					wrapper_trio.ariaRoleDescription = 'Wrap a trio';
+					wrapper_trio.ariaRoleDescription = 'Wrap a file';
 					wrapper_trio.dataset.id = file.id;
 					wrapper_trio.append(file_el);
 

@@ -1,6 +1,5 @@
 import { clearModal, courseClick } from './course.js';
 export const GRAPHQL_URL = '/graphql';
-const MEDIA_URL = '/static/training/media/';
 export let USER_ID;
 async function getCourses(option) {
     // Create the query and body
@@ -93,7 +92,7 @@ async function getCourses(option) {
             // Create img
             const img = document.createElement('img');
             img.classList.add('card-image');
-            img.style.content = `url('${MEDIA_URL}${course.img}')`;
+            img.style.content = `url('${course.img}')`;
             // Create text container
             const text = document.createElement('div');
             text.classList.add('card-text');
