@@ -26,8 +26,10 @@
 			<label class="form_label" for="courseInput">Nombre</label>
 		</div>
 
-		<div class="wrapper field">
-			<input type="file" class="browse" name="course-img" required />
+		<!-- Course img -->
+		<div class="form_group field">
+			<input class="form_field" type="url" name="course-img" id="imgInput" placeholder="URL de la imagen" />
+			<label class="form_label" for="imgInput">URL de la imagen</label>
 		</div>
 
 		<div class="modules-container">
@@ -57,19 +59,25 @@
 						<!-- Trio -->
 						<div class="trio" data-index="1">
 							<!-- File -->
-							<div class="wrapper field">
-								<input type="file" class="browse" name="trio-1" required />
+							<div class="form_group field">
+								<input class="form_field" type="text" name="file-1" id="trio-1-1-input" placeholder="Nombre del archivo" />
+								<label class="form_label" for="trio-1-1-input">Nombre del archivo</label>
+							</div>
+
+							<div class="form_group field">
+								<input class="form_field" type="url" name="file-url-1" id="trio-1-1-input" placeholder="URL del archivo" />
+								<label class="form_label" for="trio-1-1-input">URL del archivo</label>
 							</div>
 
 							<!-- Video -->
 							<div class="form_group field">
-								<input class="form_field" type="url" name="trio-1" id="trio-1-1-input" placeholder="Video" />
+								<input class="form_field" type="url" name="video-1" id="trio-1-1-input" placeholder="Video" />
 								<label class="form_label" for="trio-1-1-input">Video</label>
 							</div>
 
 							<!-- Quiz -->
 							<div class="form_group field">
-								<input class="form_field" type="url" name="trio-1" id="trio-1-1-input" placeholder="Quiz" />
+								<input class="form_field" type="url" name="quiz-1" id="trio-1-1-input" placeholder="Quiz" />
 								<label class="form_label" for="trio-1-1-input">Quiz</label>
 							</div>
 						</div>

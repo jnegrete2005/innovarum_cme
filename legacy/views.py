@@ -113,11 +113,10 @@ def create_course(request: WSGIRequest):
   course = request.POST.get('course').strip()
 
   # Get the file for course
-  course_img = request.FILES.get('course-img')
-  img_name = default_storage.save(f'legacy/courses/{course_img.name}', course_img)
+  course_img = request.POST.get('course-img')
 
   # Save course
-  course = Course.objects.create(name=course, img=img_name)
+  course = Course.objects.create(name=course, img=course_img)
 
   # Get the modules
   modules = request.POST.getlist('module', None)
@@ -128,23 +127,15 @@ def create_course(request: WSGIRequest):
     module = Module.objects.create(index=i + 1, course=course)
 
     # Get trios
-    trios = request.POST.getlist(f'trio-{i + 1}')
+    files = request.POST.getlist(f'file-{i + 1}')
+    fileUrls = request.POST.getlist(f'file-url-{i + 1}')
+    videos = request.POST.getlist(f'video-{i + 1}')
+    quizes = request.POST.getlist(f'quiz-{i + 1}')
 
     # Create a trio every 2 elements
-    for j in range(len(trios)):
-      if j % 2 != 0:
-        continue
-
-      # Get file
-      t_file = request.FILES.getlist(f'trio-{i + 1}')[int(j / 2)]
-      t_filename = default_storage.save(f'legacy/classes/{t_file}', t_file)
-
-      # Get other elements
-      vid = trios[j]
-      quiz = trios[j + 1]
-
+    for j in range(len(files)):
       # Create the trio
-      Trio.objects.create(file=t_filename, quiz=quiz, video=vid, module=module)
+      Trio.objects.create(file=files[j], file_url=fileUrls[j], quiz=quizes[j], video=videos[j], module=module)
 
   return redirect('legacy:index')
 

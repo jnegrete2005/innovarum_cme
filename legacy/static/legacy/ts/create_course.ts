@@ -55,19 +55,25 @@ function addTrio(el: HTMLElement) {
 		`<!-- Trio -->
 		<div class="trio" data-index="${j + 1}">
 			<!-- File -->
-			<div class="wrapper field">
-				<input type="file" class="browse" name="trio-${i}" />
+			<div class="form_group field">
+				<input class="form_field" type="text" name="file-${i}" id="trio-${i}-${j + 1}-input" placeholder="Nombre del archivo" />
+				<label class="form_label" for="trio-${i}-${j + 1}-input">Nombre del archivo</label>
+			</div>
+
+			<div class="form_group field">
+				<input class="form_field" type="url" name="file-url-${i}" id="trio-${i}-${j + 1}-input" placeholder="URL del archivo" />
+				<label class="form_label" for="trio-${i}-${j + 1}-input">URL del archivo</label>
 			</div>
 
 			<!-- Video -->
 			<div class="form_group field">
-				<input class="form_field" type="url" name="trio-${i}" id="trio-${i}-${j + 1}-input" placeholder="Video" />
+				<input class="form_field" type="url" name="video-${i}" id="trio-${i}-${j + 1}-input" placeholder="Video" />
 				<label class="form_label" for="trio-${i}-${j + 1}-input">Video</label>
 			</div>
 
 			<!-- Quiz -->
 			<div class="form_group field">
-				<input class="form_field" type="url" name="trio-${i}" id="trio-${i}-${j + 1}-input" placeholder="Quiz" />
+				<input class="form_field" type="url" name="quiz-${i}" id="trio-${i}-${j + 1}-input" placeholder="Quiz" />
 				<label class="form_label" for="trio-${i}-${j + 1}-input">Quiz</label>
 			</div>
 		</div>`
@@ -106,19 +112,25 @@ function addModule(el: HTMLElement) {
 				<!-- Trio -->
 				<div class="trio" data-index="1">
 					<!-- File -->
-					<div class="wrapper field">
-						<input type="file" class="browse" name="trio-${i + 1}" />
+					<div class="form_group field">
+						<input class="form_field" type="text" name="file-${i + 1}" id="trio-${i + 1}-1-input" placeholder="Nombre del archivo" />
+						<label class="form_label" for="trio-${i + 1}-1-input">Nombre del archivo</label>
+					</div>
+
+					<div class="form_group field">
+						<input class="form_field" type="url" name="file-url-1" id="trio-${i + 1}-1-input" placeholder="URL del archivo" />
+						<label class="form_label" for="trio-${i + 1}-1-input">URL del archivo</label>
 					</div>
 
 					<!-- Video -->
 					<div class="form_group field">
-						<input class="form_field" type="url" name="trio-${i + 1}" id="trio-${i + 1}-1-input" placeholder="Video" />
+						<input class="form_field" type="url" name="video-${i + 1}" id="trio-${i + 1}-1-input" placeholder="Video" />
 						<label class="form_label" for="trio-${i + 1}-1-input">Video</label>
 					</div>
 
 					<!-- Quiz -->
 					<div class="form_group field">
-						<input class="form_field" type="url" name="trio-${i + 1}" id="trio-${i + 1}-1-input" placeholder="Quiz" />
+						<input class="form_field" type="url" name="quiz-${i + 1}" id="trio-${i + 1}-1-input" placeholder="Quiz" />
 						<label class="form_label" for="trio-${i + 1}-1-input">Quiz</label>
 					</div>
 				</div>
