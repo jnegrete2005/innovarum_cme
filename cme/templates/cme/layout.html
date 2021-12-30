@@ -57,9 +57,6 @@
 								<a href="{% url 'cme:logout' %}" class="btn-transparent">Cerrar Sesión</a>
 							</li>
 							<li class="nav-item mb-4 mb-xl-0">
-								<a href="{% url 'legacy:index' %}" class="btn-transparent">Legacy</a>
-							</li>
-							<li class="nav-item mb-4 mb-xl-0">
 								<a href="{% url 'cme:profile' user.id %}" class="btn-transparent">{{ user.first }} {{ user.last }}</a>
 							</li>
 							{% endif %}
